@@ -11,4 +11,5 @@ public class SLogin {
         VAccount vAccount = this.eAccount.getAccount(ID,PW);   //eAccount에게 해당하는 id를 가져와 달라 요청함
         return vAccount;
     }
+
 }

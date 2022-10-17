@@ -1,38 +1,25 @@
 package Submit;
 
-import java.io.IOException;
-import java.util.Scanner;
+import Ex.SLogin;
+import Ex.VAccount;
 
 public class PLogin {
-    SLogin sLogin;
-    VAccount vAccount;
-
-    public PLogin() throws IOException {
-        this.vAccount=new VAccount();
-        this.sLogin=new SLogin();
+    private Ex.SLogin sLogin;//sLogin(controller)은 화면에 나타내는 데이터를 중간에 가공해서 주는 것.
+    public PLogin(){
+        sLogin = new SLogin();
     }
-    public void login() throws IOException {    //로그인 초기화면
-        Scanner scn = new Scanner(System.in);
-        while(true){
-            System.out.print(this.vAccount.printAllVAccount());
-            System.out.print("ID : ");
-            String id = scn.next();
-            System.out.print("Password : ");
-            String password = scn.next();
-            //id가 있는지 없는지 컨트롤러한테 체크해봐야 함.
-            //지금은 같은 컴퓨터에 존재, 데이터베이스 또한 내 컴퓨터에 존재한다 여기고 프로그램 짤 것
+    public Ex.VAccount login(String ID, String PW){
+        //System.out.print("아이디를 입력하세요 : ");
+        //Scanner scn = new Scanner(System.in);   //인풋값을 내가 원하는 형태로 변형해주는 것. System.in은 키보드를 뜻함. 즉, 키보드를 연결해놓고 데이터를 우리가 원하는 형태로 변형시킬 수 있는 객체
+        //String id = scn.next();//next()는 띄어쓰기 한 곳까지 읽음. space, enter까지 읽어버림. space를 아무리 쳐도 id엔 들어가지 않음.
 
-            //account service
-            //sLogin(controller)은 화면에 나타내는 데이터를 중간에 가공해서 주는 것.
-            if (this.vAccount.match(id)) {
-                System.out.println("Success Login !!!");
-                System.out.println("User's Account");
-            //    this.sLogin.login(id, password);//sLogin는 얘의 account 정보를 리턴 시켜 줌.
-            }
-            else if(id=="X"|id=="x")
-                return;
-            else
-                System.out.println("입력하신 정보와 일치하는 사용자가 존재하지 않습니다.\n다시 입력해주세요.");
-        }
+        //id가 있는지 없는지 컨트롤러한테 체크해봐야 함.
+        //지금은 같은 컴퓨터에 존재, 데이터베이스 또한 내 컴퓨터에 존재한다 여기고 프로그램 짤 것
+        //account service
+        VAccount vAccount = sLogin.login(ID,PW); //sLogin는 얘의 account 정보를 리턴 시켜 줌.
+
+
+        //scn.close();
+        return vAccount;    //mainframe
     }
 }

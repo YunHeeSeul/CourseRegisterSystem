@@ -1,4 +1,4 @@
-package Ex;
+package Submit;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,10 +11,9 @@ public class ImagePanel extends JPanel {//JPanel 상속 받기
         this.img=img;   //이미지를 받아서 객체 변수에 넣어주고
         this.setSize(img.getWidth(null),img.getHeight(null));//이 패널의 사이즈 정해주기
         this.setLayout(new BorderLayout());
-        //this.setOpaque(true);
     }
 
     public void paintComponent(Graphics g){//백그라운드 이미지를 그리기 위해서는 painComponent 메소드로 오버라이트 해주면 됨
-        g.drawImage(img,0,0,null);//Graphics를 이용해서 drawImage를 하면 위치하는 곳에서 0,0 좌표부터 그려주라는 의미
+        g.drawImage(img,200,0,null);//Graphics를 이용해서 drawImage를 하면 위치하는 곳에서 0,0 좌표부터 그려주라는 의미
     }
 }

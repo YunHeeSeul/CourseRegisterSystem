@@ -9,26 +9,8 @@ public class EAccount {
     private String password;
     private String name;
 
+    public EAccount(){}
 
-    public EAccount(){
-    }
-    /*
-    public EAccount(){
-        try {
-            File file = new File("data/account");
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            this.accountList = new ArrayList<>();
-            while(br.ready()){
-                String accountInfo = br.readLine();
-                if (!accountInfo.equals("")) this.accountList.add(accountInfo);
-            }
-            br.close();
-        } catch (IOException e) {
-            //   throw new RuntimeException(e);
-            e.printStackTrace();
-        }
-    }
-     */
     private boolean read(String ID, String PW){//file read. id를 주고 account파일에 해당하는 id를 읽어올 것
         boolean found=false; //찾았냐 못찾았냐
         //값을 채워서
