@@ -1,8 +1,6 @@
 package Ex;
 
 public class VAccount {
-
-
     private String id;
     private String password;
     private String name;

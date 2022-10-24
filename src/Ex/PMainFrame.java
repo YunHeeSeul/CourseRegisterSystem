@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-public class PMainFrame extends JFrame {
+public class PMainFrame extends JFrame implements ActionListener{
     //로그인 되었습니다. 비밀번호가 틀렸습니다 다시 입력하세요 등. 작성
     //components
     private PLogin pLogin;
@@ -67,13 +67,7 @@ public class PMainFrame extends JFrame {
         loginBt.setBounds(600,460,100,30);
 
         //button에 기능 추가
-        loginBt.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {//로그인 버튼 액션 설정하는 메소드
-                if(e.getActionCommand().equals("Login")){   //로그인 버튼 눌렀을 때
-                    run();
-                }
-            }
-        });
+        loginBt.addActionListener(this);
 
         //컴포넌트 등록
         c.add(LIntro);c.add(LID);c.add(LPW);
@@ -82,6 +76,13 @@ public class PMainFrame extends JFrame {
 
         this.pLogin =new PLogin();
     }
+    @Override
+    public void actionPerformed(ActionEvent e) {//로그인 버튼 액션 설정하는 메소드
+        if(e.getActionCommand().equals("Login")){   //로그인 버튼 눌렀을 때
+            run();
+        }
+    }
+
     public void run(){
         String ID = TID.getText();
         String PW = new String((TPW.getPassword()));
@@ -94,6 +95,8 @@ public class PMainFrame extends JFrame {
         else
             JOptionPane.showMessageDialog(null,"로그인에 성공하였습니다.");
     }
+
+
 
     public class WindowHandler implements WindowListener{
         @Override

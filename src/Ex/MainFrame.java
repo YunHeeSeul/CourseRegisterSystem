@@ -22,8 +22,11 @@ public class MainFrame extends JFrame {
         this.setLayout(new BorderLayout(50,50));
 
         //그림을 그릴 수 있는 패널 생성.
-        LoginPanel loginPanel = new LoginPanel();
-        this.add(loginPanel);
+//        LoginPanel loginPanel = new LoginPanel();
+//        this.add(loginPanel);
+        LoginDialog loginDialog = new LoginDialog(this); //MainFrame을 부모로 주는 것
+        //다른 패널들과 달리 얘는 부모에 등록하지 않고 독립적으로 함
+        loginDialog.setVisible(true);
 
         SugangSincheongPanel sugangSincheongPanel = new SugangSincheongPanel();
         //this.add(sugangSincheongPanel);

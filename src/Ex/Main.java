@@ -16,7 +16,5 @@ public class Main {
         //pMainFrame.run();
         //PMainframe에 패널 붙이기
         //mainFrame.add(imagePanel);
-
-            }
-
+    }
 }
