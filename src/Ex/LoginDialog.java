@@ -1,11 +1,13 @@
 package Ex;
 
 import javax.swing.*;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class LoginDialog extends JDialog{//JDialog를 확장했다는 것
+
     //components
     private SLogin sLogin;
     private VAccount vAccount;
@@ -17,12 +19,14 @@ public class LoginDialog extends JDialog{//JDialog를 확장했다는 것
     private ImageIcon imageIcon;
     public LoginDialog(JFrame parent){//JDialog를 상속받음. 확장한 것임. 그리고 필요한 기능 추가한 것
         super(parent);//원래 JDialog의 constructor를 불러주는 것
-
+        this.setModal(true);    //내가 내 부모를 블락킹 해버리는 것
         this.setLayout(new BorderLayout(50,50));
         this.setSize(900,900);
         this.setLocation(178,0);
+        this.setBackground(Color.getHSBColor((222f/360),0.14f, 0.87f));
 
         imageLabel = new JLabel();
+        imageLabel.setBackground(Color.getHSBColor((222f/360),0.14f, 0.87f));
         imageIcon = new ImageIcon("image/title.jpg");
         imageLabel.setIcon(imageIcon);
         this.add(imageLabel,BorderLayout.NORTH);
@@ -33,8 +37,12 @@ public class LoginDialog extends JDialog{//JDialog를 확장했다는 것
         buttonPanel = new JPanel(); //버튼을 담은 패널
 
         loginPanel.setLayout(new GridLayout(2,2,50,10));
+        loginPanel.setBackground(Color.getHSBColor((222f/360),0.14f, 0.87f));
+
         innerPanel2.setLayout(new FlowLayout(FlowLayout.CENTER,500,50));
+        innerPanel2.setBackground(Color.getHSBColor((222f/360),0.14f, 0.87f));
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER,500,10));
+        buttonPanel.setBackground(Color.getHSBColor((222f/360),0.14f, 0.87f));
 
         //라벨 만들기
         Font f1 = new Font("나눔고딕",Font.BOLD,30);
@@ -99,9 +107,9 @@ public class LoginDialog extends JDialog{//JDialog를 확장했다는 것
     private class ActionHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {//로그인 버튼 액션 설정하는 메소드
-                if(e.getActionCommand().equals("Login")){   //로그인 버튼 눌렀을 때
-                    login();
-                }
+            if(e.getActionCommand().equals("Login")){   //로그인 버튼 눌렀을 때
+                login();
+            }
         };
     }
 }
