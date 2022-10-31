@@ -1,7 +1,6 @@
 package Submit;
 
 import Ex.ImagePanel;
-import Ex.PMainFrame;
 
 import javax.swing.*;
 

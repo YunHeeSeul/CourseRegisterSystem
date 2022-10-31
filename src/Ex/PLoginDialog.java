@@ -1,12 +1,11 @@
 package Ex;
 
 import javax.swing.*;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class LoginDialog extends JDialog{//JDialog를 확장했다는 것
+public class PLoginDialog extends JDialog{//JDialog를 확장했다는 것
 
     //components
     private SLogin sLogin;
@@ -17,7 +16,7 @@ public class LoginDialog extends JDialog{//JDialog를 확장했다는 것
     private JButton loginBt;
     private JPanel loginPanel, innerPanel2, buttonPanel;
     private ImageIcon imageIcon;
-    public LoginDialog(JFrame parent){//JDialog를 상속받음. 확장한 것임. 그리고 필요한 기능 추가한 것
+    public PLoginDialog(JFrame parent){//JDialog를 상속받음. 확장한 것임. 그리고 필요한 기능 추가한 것
         super(parent);//원래 JDialog의 constructor를 불러주는 것
         this.setModal(true);    //내가 내 부모를 블락킹 해버리는 것
         this.setLayout(new BorderLayout(50,50));
@@ -100,8 +99,10 @@ public class LoginDialog extends JDialog{//JDialog를 확장했다는 것
         if(vAccount==null){//id가 없거나 비밀번호가 틀린 경우
             JOptionPane.showMessageDialog(null,"아이디나 비밀번호를 잘못 입력하셨습니다.");
         }
-        else
-            JOptionPane.showMessageDialog(null,vAccount.getName()+"님 로그인에 성공하였습니다.");
+        else {
+            JOptionPane.showMessageDialog(null, vAccount.getName() + "님 로그인에 성공하였습니다.");
+
+        }
     }
 
     private class ActionHandler implements ActionListener {
