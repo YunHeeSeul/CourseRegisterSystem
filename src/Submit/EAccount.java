@@ -1,7 +1,5 @@
 package Submit;
 
-import Ex.VAccount;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -11,26 +9,8 @@ public class EAccount {
     private String password;
     private String name;
 
+    public EAccount(){}
 
-    public EAccount(){
-    }
-    /*
-    public EAccount(){
-        try {
-            File file = new File("data/account");
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            this.accountList = new ArrayList<>();
-            while(br.ready()){
-                String accountInfo = br.readLine();
-                if (!accountInfo.equals("")) this.accountList.add(accountInfo);
-            }
-            br.close();
-        } catch (IOException e) {
-            //   throw new RuntimeException(e);
-            e.printStackTrace();
-        }
-    }
-     */
     private boolean read(String ID, String PW){//file read. id를 주고 account파일에 해당하는 id를 읽어올 것
         boolean found=false; //찾았냐 못찾았냐
         //값을 채워서
@@ -55,8 +35,8 @@ public class EAccount {
         return found;
     }
 
-    public Ex.VAccount getAccount(String ID, String PW){    //value오브젝트를 리턴해줬으면 좋겠음
-        Ex.VAccount vAccount=null;
+    public VAccount getAccount(String ID, String PW){    //value오브젝트를 리턴해줬으면 좋겠음
+        VAccount vAccount=null;
         boolean found = this.read(ID,PW);
         //못찾으면 null 리턴하고 찾으면 값을 채워서 리턴
         if(found){ //found면 account를 만들어서 채워줘야 함

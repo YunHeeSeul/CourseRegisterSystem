@@ -1,36 +1,51 @@
-package Ex;
+package Submit;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class LoginPanel extends JPanel{
+public class PLoginDialog extends JDialog{//JDialog를 확장했다는 것
+
+    private static final long serialVersionUID = 1L;
+
     //components
     private SLogin sLogin;
-    private VAccount vAccount;
     private JLabel LIntro,LID,LPW,imageLabel;
     private JTextField TID;
     private JPasswordField TPW;
     private JButton loginBt;
     private JPanel loginPanel, innerPanel2, buttonPanel;
     private ImageIcon imageIcon;
-    public LoginPanel(){
-        this.setLayout(new BorderLayout(50,50));
+
+    public PLoginDialog(JFrame parent){//JDialog를 상속받음. 확장한 것임. 그리고 필요한 기능 추가한 것
+        super(parent);//원래 JDialog의 constructor를 불러주는 것
+        this.setBackground(Color.BLACK);
+        this.setLayout(new BorderLayout(0,10));
+        this.setSize(900,900);
+        this.setLocation(178,0);
+//        this.setBackground(Color.getHSBColor((222f/360),0.14f, 0.87f));
+
 
         imageLabel = new JLabel();
+        imageLabel.setBackground(Color.getHSBColor((222f/360),0.14f, 0.87f));
         imageIcon = new ImageIcon("image/title.jpg");
         imageLabel.setIcon(imageIcon);
+        imageLabel.setOpaque(true);
+        imageLabel.setHorizontalAlignment(JLabel.CENTER);   //이미지 중앙 정렬
         this.add(imageLabel,BorderLayout.NORTH);
-        imageLabel.setHorizontalAlignment(SwingConstants.CENTER);   //이미지 중앙 정렬
 
         loginPanel = new JPanel(); //login, password, 라벨과 입력창을 담은 패널
         innerPanel2 = new JPanel(); //Intro라벨과 loginPanel을 담은 패널
         buttonPanel = new JPanel(); //버튼을 담은 패널
 
         loginPanel.setLayout(new GridLayout(2,2,50,10));
+        loginPanel.setBackground(Color.getHSBColor((222f/360),0.14f, 0.87f));
+
         innerPanel2.setLayout(new FlowLayout(FlowLayout.CENTER,500,50));
+        innerPanel2.setBackground(Color.getHSBColor((222f/360),0.14f, 0.87f));
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER,500,10));
+        buttonPanel.setBackground(Color.getHSBColor((222f/360),0.14f, 0.87f));
 
         //라벨 만들기
         Font f1 = new Font("나눔고딕",Font.BOLD,30);
@@ -70,28 +85,33 @@ public class LoginPanel extends JPanel{
         innerPanel2.add(buttonPanel);
         this.add(innerPanel2,BorderLayout.CENTER);
 
+        ActionHandler actionHandler = new ActionHandler();
         //button에 기능 추가
-        loginBt.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {//로그인 버튼 액션 설정하는 메소드
-                if(e.getActionCommand().equals("Login")){   //로그인 버튼 눌렀을 때
-                    login();
-                }
-            }
-        });
+        loginBt.addActionListener(actionHandler);
+
         this.sLogin =new SLogin();
-        this.vAccount =new VAccount();
     }
     public void login(){
+        //id가 있는지 없는지 컨트롤러한테 체크해봐야 함.
         String ID = TID.getText();
         String PW = new String((TPW.getPassword()));
 
-        VAccount vAccount=this.sLogin.login(ID,PW);
+        VAccount vAccount=this.sLogin.login(ID,PW);//sLogin는 얘의 account 정보를 리턴 시켜 줌.
 
         if(vAccount==null){//id가 없거나 비밀번호가 틀린 경우
             JOptionPane.showMessageDialog(null,"아이디나 비밀번호를 잘못 입력하셨습니다.");
         }
         else
             JOptionPane.showMessageDialog(null,vAccount.getName()+"님 로그인에 성공하였습니다.");
+    }
+
+    private class ActionHandler implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {//로그인 버튼 액션 설정하는 메소드
+            if(e.getActionCommand().equals("Login")){   //로그인 버튼 눌렀을 때
+                login();
+            }
+        };
     }
 }
 
