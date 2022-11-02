@@ -4,43 +4,42 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.IOException;
 
 public class PSignUpDialog extends JDialog{//JDialog를 확장했다는 것
 
+    private static final long serialVersionUID = 1L;
+
     //components
     private SLogin sLogin;
     private VAccount vAccount;
-    private EAccount eAccount;
-    private JLabel LIntro,LID,LPW,imageLabel,LName, LEmail,LFaculty,LMajor, LStatus, LPhoneNum, LSex, LGrade;
+    //    private EAccount eAccount;
+    private JLabel LIntro,LID,LPW,LName, LEmail,LFaculty,LMajor, LStatus, LPhoneNum, LSex, LGrade;
     private JTextField TID, TName, TEmail, TPhoneNum;
     private JPasswordField TPW;
     private JButton signUpBt, cancelBt, checkBt;
-    private JPanel signUpPanel, innerPanel1, innerPanel2, buttonPanel;
+    private JPanel signUpPanel, innerPanel2, buttonPanel;
     private JComboBox gradeBox, sexBox, facultyBox,majorBox;
     private PLoginDialog pLoginDialog;
     private JFrame parent;
+    private WindowHandler windowHandler;
 
-    public PSignUpDialog(JFrame parent) throws IOException {//JDialog를 상속받음. 확장한 것임. 그리고 필요한 기능 추가한 것
+    public PSignUpDialog(JFrame parent) throws IOException{//JDialog를 상속받음. 확장한 것임. 그리고 필요한 기능 추가한 것
         super(parent);//원래 JDialog의 constructor를 불러주는 것
         this.setModal(true);//부모를 블라킹
         this.setBackground(Color.BLACK);
         this.setLayout(new BorderLayout(0,10));
         this.setSize(900,900);
         this.setLocation(178,0);
-//        this.setBackground(Color.getHSBColor((222f/360),0.14f, 0.87f));
+        this.windowHandler=new WindowHandler();
+        this.addWindowListener(windowHandler);
 
-
-//        imageLabel = new JLabel();
-//        imageLabel.setBackground(Color.getHSBColor((222f/360),0.14f, 0.87f));
-//        imageIcon = new ImageIcon("image/title.jpg");
-//        imageLabel.setIcon(imageIcon);
-//        imageLabel.setOpaque(true);
-//        imageLabel.setHorizontalAlignment(JLabel.CENTER);   //이미지 중앙 정렬
-//        this.add(imageLabel,BorderLayout.NORTH);
+        Font f1 = new Font("나눔고딕",Font.BOLD,30);
+        Font f2 = new Font("나눔고딕",Font.BOLD,15);
 
         signUpPanel = new JPanel();
-        innerPanel1 = new JPanel();
         innerPanel2 = new JPanel(); //Intro라벨과 loginPanel을 담은 패널
         buttonPanel = new JPanel(); //버튼을 담은 패널
 
@@ -50,10 +49,6 @@ public class PSignUpDialog extends JDialog{//JDialog를 확장했다는 것
         innerPanel2.setBackground(Color.getHSBColor((222f/360),0.14f, 0.87f));
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER,500,10));
         buttonPanel.setBackground(Color.getHSBColor((222f/360),0.14f, 0.87f));
-
-        //라벨 만들기
-        Font f1 = new Font("나눔고딕",Font.BOLD,30);
-        Font f2 = new Font("serif",Font.BOLD,15);
 
         LIntro = new JLabel("명지대학교 학생 등록",JLabel.CENTER);
         LIntro.setHorizontalAlignment(SwingConstants.CENTER);
@@ -69,9 +64,10 @@ public class PSignUpDialog extends JDialog{//JDialog를 확장했다는 것
         TID.setSize(50,30);
         signUpPanel.add(TID);
 
-        LStatus = new JLabel();
+        LStatus = new JLabel("");
         LStatus.setFont(f2);
         LStatus.setSize(80,30);
+        LStatus.setForeground(Color.BLUE);
         signUpPanel.add(LStatus);
         checkBt = new JButton("중복 확인");
         checkBt.setFont(f2);
@@ -82,7 +78,6 @@ public class PSignUpDialog extends JDialog{//JDialog를 확장했다는 것
         LPW.setFont(f2);
         LPW.setSize(50,30);
         signUpPanel.add(LPW);
-        //입력 내용이 표시되지 않음
         TPW = new JPasswordField(10);
         TPW.setSize(50,30);
         signUpPanel.add(TPW);
@@ -183,11 +178,12 @@ public class PSignUpDialog extends JDialog{//JDialog를 확장했다는 것
         //button에 기능 추가
         signUpBt.addActionListener(actionHandler);
         cancelBt.addActionListener(actionHandler);
+        checkBt.addActionListener(actionHandler);
 
         this.sLogin =new SLogin();
-        //this.vAccount =new VAccount();
+        this.vAccount =new VAccount();
     }
-    public void signUp() throws IOException {
+    public void signUp() throws IOException{
         String ID = TID.getText();
         String PW = new String((TPW.getPassword()));
         String name = TName.getText();
@@ -217,30 +213,44 @@ public class PSignUpDialog extends JDialog{//JDialog를 확장했다는 것
 
     public void checkID() {
         String ID = TID.getText();
-        if(this.sLogin.match(ID)) LStatus.setText("이미 등록된 학생입니다.");
-        else LStatus.setText("계정 생성이 가능합니다.");
+        if(this.sLogin.match(ID)) {LStatus.setText("계정 생성이 가능합니다.");System.out.print("계정 생성 가능");}
+        else LStatus.setText("이미 등록된 학생입니다.");
     }
 
     private class ActionHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {// 회원가입 버튼 액션 설정하는 메소드
             if(e.getActionCommand().equals("SignUp")){//가입 버튼 눌렀을 때
-                try {
-                    signUp();
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-            } else if (e.getActionCommand().equals("중복 확인")) {
-                checkID();
+                try {signUp();}
+                catch (IOException e1) {e1.printStackTrace();}
+            } else if (e.getActionCommand().equals("중복 확인")) {System.out.print("중복 확인"); checkID();
             } else if (e.getActionCommand().equals("취소")) {
-                try {
-                    pLoginDialog=new PLoginDialog(parent);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
+                try {pLoginDialog=new PLoginDialog(parent);}
+                catch (IOException e1) {e1.printStackTrace();}
                 pLoginDialog.setVisible(true);
             }
-        };
+        }
+    }
+
+    public class WindowHandler implements WindowListener{
+        @Override
+        public void windowOpened(WindowEvent e) {}
+        @Override
+        public void windowClosing(WindowEvent e) {
+            int a= JOptionPane.showConfirmDialog(null, "계정 생성을 종료하시겠습니까?","계정 생성 종료",JOptionPane.OK_CANCEL_OPTION);
+            if(a==JOptionPane.OK_OPTION) { JOptionPane.showMessageDialog(null, "로그인 화면으로 돌아갑니다.") ;dispose();}
+            else if(a==JOptionPane.CANCEL_OPTION) setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        }
+        @Override
+        public void windowClosed(WindowEvent e) {}
+        @Override
+        public void windowIconified(WindowEvent e) {}
+        @Override
+        public void windowDeiconified(WindowEvent e) {}
+        @Override
+        public void windowActivated(WindowEvent e) {}
+        @Override
+        public void windowDeactivated(WindowEvent e) {}
     }
 }
 

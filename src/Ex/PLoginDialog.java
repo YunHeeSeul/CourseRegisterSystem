@@ -12,7 +12,6 @@ import java.io.IOException;
 public class PLoginDialog extends JDialog{//JDialog를 확장했다는 것
 
     private static final long serialVersionUID = 1L;
-
     //components
     private WindowHandler windowHandler;
     private SLogin sLogin;
@@ -55,7 +54,6 @@ public class PLoginDialog extends JDialog{//JDialog를 확장했다는 것
         buttonPanel.setLayout(new GridLayout(1,2,50,10));
         buttonPanel.setBackground(Color.getHSBColor((222f/360),0.14f, 0.87f));
 
-        //라벨 만들기
         Font f1 = new Font("나눔고딕",Font.BOLD,30);
         Font f2 = new Font("serif",Font.BOLD,15);
 
@@ -93,7 +91,6 @@ public class PLoginDialog extends JDialog{//JDialog를 확장했다는 것
         signUpBt.setSize(100,50);
         buttonPanel.add(signUpBt);
 
-
         innerPanel2.add(loginPanel);
         innerPanel2.add(buttonPanel);
         this.add(innerPanel2,BorderLayout.CENTER);
@@ -106,7 +103,6 @@ public class PLoginDialog extends JDialog{//JDialog를 확장했다는 것
 
         this.sLogin =new SLogin();
         this.pSignUpDialog = new PSignUpDialog(parent);
-        //setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
     }
 
@@ -125,7 +121,7 @@ public class PLoginDialog extends JDialog{//JDialog를 확장했다는 것
                 new PLoginDialog(parent);
                 this.setVisible(true);
             } else{
-                option = JOptionPane.showConfirmDialog(null, "수강 신청 시스템을 종료하시겠습니까?","프로그램 종료",JOptionPane.YES_NO_OPTION);
+                option = JOptionPane.showConfirmDialog(null, "수강 신청 시스템을 종료하시겠습니까?");
                 if(option==JOptionPane.NO_OPTION){//확인 버튼을 누른 경우
                     this.TID.setText("");
                     this.TPW.setText("");
@@ -148,41 +144,22 @@ public class PLoginDialog extends JDialog{//JDialog를 확장했다는 것
             }
         }
         else if(this.sLogin.login(ID,PW).equals("correct")){ //로그인에 성공한 경우
-            JOptionPane.showMessageDialog(null, v.getName() + "님 로그인에 성공하였습니다."); //,"로그인 성공",JOptionPane.OK_OPTION
+            JOptionPane.showMessageDialog(null, v.getName() + "님 로그인에 성공하였습니다.","로그인 성공",JOptionPane.PLAIN_MESSAGE); //,"로그인 성공",JOptionPane.OK_OPTION
             retVal=v.getName();
-            this.dispose();
-        }
-        else{
-            int option = JOptionPane.showConfirmDialog(null,"프로그램을 종료하시겠습니까?", "프로그램 종료",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-            if(option==JOptionPane.YES_OPTION){//확인 버튼을 누른 경우
-                System.exit(0);
-            } else{
-                this.TID.setText("");
-                this.TPW.setText("");
-                new PLoginDialog(parent);
-                this.setVisible(true);
-            }
-        }
-        return retVal;
+            dispose();
+        }return retVal;
     }
 
     private class ActionHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {//로그인 버튼 액션 설정하는 메소드
             if(e.getActionCommand().equals("Login")){   //로그인 버튼 눌렀을 때
-                try {
-                    login();
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
+                try {login();}
+                catch (IOException ex) {throw new RuntimeException(ex);}
             }
             else if(e.getActionCommand().equals("SignUp")){// 회원가입 버튼 눌렀을 때
-                try {
-                    new PSignUpDialog(parent);
-                } catch (IOException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                }
+                try {new PSignUpDialog(parent);}
+                catch (IOException e1) {e1.printStackTrace();}
                 pSignUpDialog.setVisible(true);  //다른 패널들과 달리 얘는 부모에 등록하지 않고 독립적으로 함
             }
         }
@@ -193,8 +170,9 @@ public class PLoginDialog extends JDialog{//JDialog를 확장했다는 것
         public void windowOpened(WindowEvent e) {}
         @Override
         public void windowClosing(WindowEvent e) {
-            JOptionPane.showMessageDialog(null,"프로그램을 종료합니다.");
-            System.exit(0);
+            int a= JOptionPane.showConfirmDialog(null, "프로그램을 종료하시겠습니까?","프로그램 종료",JOptionPane.OK_CANCEL_OPTION);
+            if(a==JOptionPane.OK_OPTION) System.exit(0);
+            else if(a==JOptionPane.CANCEL_OPTION) setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
         }
         @Override
         public void windowClosed(WindowEvent e) {}
