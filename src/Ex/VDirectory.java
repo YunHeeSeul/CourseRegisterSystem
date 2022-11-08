@@ -1,27 +1,33 @@
 package Ex;
 
-import java.io.Serial;
 import java.io.Serializable;
+import java.util.Scanner;
 import java.util.StringTokenizer;
 
-public class VDirectory implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class VDirectory implements Serializable{
+    //value object의 형식은 항상 이런 식
+    private String id;
+    private String name;
+    private String fileName;
+    public String getId() {return id;}
+    public String getName() {return name;}
+    public String getFileName() {return fileName;}
+    public void setFileName(String fileName) {this.fileName = fileName;}
 
-    public VDirectory(){}
-    public VDirectory(String rootInfo){
-        StringTokenizer st = new StringTokenizer(rootInfo);
-        this.cNum = st.nextToken();
-        this.cName = st.nextToken();
+    public VDirectory(String fileInfo) {
+        StringTokenizer st = new StringTokenizer(fileInfo);
+        this.id = st.nextToken();
+        this.name = st.nextToken();
+        this.fileName = st.nextToken();
     }
-    private String cName;
-    private String cNum;
-    public String getCName() {return cName;}
-    public void setCNameID(String cName) {this.cName = cName;}
-    public String getcNum() {return cNum;}
-    public void setPW(String cNum) {this.cNum = cNum;}
 
-    public String toString() {
-        String returnString = this.cName + " " + this.cNum;
-        return returnString+"\n";
+    public void read(Scanner scanner) {
+        this.id = scanner.next();
+        this.name = scanner.next();
+        this.fileName = scanner.next();
+    }
+
+    public boolean matchFile(String fileName) {
+        return this.fileName.equals(fileName);
     }
 }
