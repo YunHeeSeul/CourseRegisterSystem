@@ -8,7 +8,7 @@ public class EAccount {
     protected ArrayList<VAccount> accountList;
 
     public EAccount() throws IOException {
-        BufferedReader accountFile = new BufferedReader(new FileReader("data/account"));
+        BufferedReader accountFile = new BufferedReader(new FileReader("directory/account"));
         this.accountList = new ArrayList<VAccount>();
         while (accountFile.ready()){
             String accountInfo = accountFile.readLine();

@@ -4,12 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.IOException;
 
 public class MainFrame extends JFrame {
     private WindowHandler windowHandler;
 
     //constructor
-    public MainFrame() {    //컴포넌트 생성
+    public MainFrame() throws IOException {    //컴포넌트 생성
         //본인의 속성은 본인이 지정하도록 해야함 외부에서(Main) 하는 것이 아닌.
         this.setTitle("명지대학교 수강신청시스템"); //JFrame을 상속받은 것이 PMainFrame이니까 this 사용
         this.setSize(1000, 600);//창의 크기
