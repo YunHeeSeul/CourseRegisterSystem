@@ -3,14 +3,22 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.Vector;
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
 public class PDirectoryPanel extends JPanel {
     private static final long serialVersionUID = 1L;
-    private PDirectory campusTable, collegeTable, departmentTable, lectureTable;
+    private PDirectory campusTable, collegeTable, departmentTable;
+    private PLectureTable lectureTable;
     private JScrollPane scrollPane1, scrollPane2, scrollPane3, scrollPane4;
     private SDirectory sDirectory;
+//    private ListSelectionListener listSelectionListener;
+    private ListSelectionModel listSelectionModel;
     private JPanel upPanel, downPanel, leftPanel, downPanel2;
+    private String selectName; //선택값
     VDirectory vDirectory;
     EDirectory eDirectory;
 
@@ -22,20 +30,20 @@ public class PDirectoryPanel extends JPanel {
         //campus/college/department table을 담은 상위 패널
 //        upPanel = new JPanel(new BoxLayout(upPanel,BoxLayout.X_AXIS)); //campus, college, department가 들어갈 서브패널 1
         upPanel = new JPanel();
-        layoutManager = new BoxLayout(this,BoxLayout.X_AXIS);
+        layoutManager = new BoxLayout(upPanel,BoxLayout.X_AXIS);
         upPanel.setLayout(layoutManager);
 
-        this.campusTable = new PDirectory();
+        this.campusTable = new PDirectory("캠퍼스");
         scrollPane1 = new JScrollPane(this.campusTable,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER); //scrollpane 안에 campustable을 붙인 것
         scrollPane1.setViewportView(this.campusTable);
         upPanel.add(scrollPane1);
 
-        this.collegeTable = new PDirectory();
+        this.collegeTable = new PDirectory("대학");
         scrollPane2 = new JScrollPane(this.collegeTable,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER); //scrollpane 안에 campustable을 붙인 것
         scrollPane2.setViewportView(this.collegeTable);
         upPanel.add(scrollPane2);
 
-        this.departmentTable = new PDirectory();
+        this.departmentTable = new PDirectory("학과");
         scrollPane3 = new JScrollPane(this.departmentTable,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER); //scrollpane 안에 campustable을 붙인 것
         scrollPane3.setViewportView(this.departmentTable);
         upPanel.add(scrollPane3);
@@ -45,10 +53,10 @@ public class PDirectoryPanel extends JPanel {
         //lecture 테이블을 담은 하위 패널
 //        downPanel = new JPanel(new FlowLayout());
         downPanel = new JPanel();
-        layoutManager = new BoxLayout(this,BoxLayout.X_AXIS);
+        layoutManager = new BoxLayout(downPanel,BoxLayout.X_AXIS);
         downPanel.setLayout(layoutManager);
 
-        this.lectureTable = new PDirectory();
+        this.lectureTable = new PLectureTable();
         scrollPane4 = new JScrollPane(this.lectureTable,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER); //scrollpane 안에 campustable을 붙인 것
         scrollPane4.setViewportView(this.lectureTable);
         downPanel.add(scrollPane4);
@@ -60,30 +68,47 @@ public class PDirectoryPanel extends JPanel {
         fileName = this.campusTable.setData(fileName);
         fileName = this.collegeTable.setData(fileName);
         fileName = this.departmentTable.setData(fileName);
-        this.lectureTable.setData(fileName);
+        this.lectureTable.setLData(fileName);
     }
 
     private class PDirectory extends JTable{
         private static final long serialVersionUID = 1L;
-
+        //private PDirectory pDirectory;
         private DefaultTableModel tableModel;
-        public PDirectory(){
+        public PDirectory(String head) {
             Vector<String> header = new Vector<String>();
-            header.add("Test"); //column 이름
+            header.add(head); //column 이름
             this.tableModel = new DefaultTableModel(header, 0);//테이블모델 생성
             this.setModel(this.tableModel);//테이블모델 등록
+            this.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+                @Override
+                public void valueChanged(ListSelectionEvent e) {
+                    String data = null;
+                    int[] row = getSelectedRows();
+                    int[] col = getSelectedColumns();
+                    for (int i = 0; i < row.length; i++) {
+                        for (int j = 0; j < col.length; j++) {
+                            data = (String) getValueAt(row[i], col[j]);
+                        }
+                    }
+                    selectName = data;
+                }
+            });
         }
+        
         public String setData(String fileName) throws IOException {
             SDirectory sDirectory = new SDirectory(); //데이터를 가져오려면 SDirectory 필요
             Vector<VDirectory> vDirectories = sDirectory.getDirectories(fileName); //n개의 vdirectory를 받아옴
-
-            for(VDirectory vDirectory : vDirectories){
+            int index = 0;
+//            for(VDirectory vDirectory : vDirectories){
+            for(int i=0; i<vDirectories.size(); i++){
+                if(vDirectories.get(i).getName()==selectName) index = i;
                 Vector<String> row = new Vector<String>();
-                row.add(vDirectory.getName()); //파일에서 읽어온 데이터를 넣어줘야 함
+                row.add(vDirectories.get(i).getName()); //파일에서 읽어온 데이터를 넣어줘야 함
                 this.tableModel.addRow(row);
             }
             this.setRowSelectionInterval(0,0); //맨 처음 것을 선택하도록
-            return vDirectories.get(0).getFileName(); //0번이 선택한 것에 해당하는 파일네임을 가져오는 것
+            return vDirectories.get(index).getFileName(); //0번이 선택한 것에 해당하는 파일네임을 가져오는 것
         }
     }
 
@@ -93,17 +118,14 @@ public class PDirectoryPanel extends JPanel {
 
         public PLectureTable() {
             Vector<String> header = new Vector<String>();
-            header.add("Test"); //column 이름
-            header.add("Test"); //column 이름
-            header.add("Test"); //column 이름
-            header.add("Test"); //column 이름
-            header.add("Test"); //column 이름
+            String[] hValue = {"강좌번호", "강좌명", "담당교수", "학점", "시간"};
+            for(int i=0; i<hValue.length; i++) header.add(hValue[i]);
 
             this.tableModel = new DefaultTableModel(header, 0);//테이블모델 생성
             this.setModel(this.tableModel);//테이블모델 등록
         }
 
-        public void setData(String fileName) {
+        public void setLData(String fileName) {
             SLecture sLecture = new SLecture(); //데이터를 가져오려면 SDirectory 필요
             Vector<VLecture> vLectures = sLecture.getLectures(fileName); //n개의 vdirectory를 받아옴
 

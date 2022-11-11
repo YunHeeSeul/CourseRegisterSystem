@@ -1,6 +1,7 @@
 package Ex;
 
 import java.util.Scanner;
+import java.util.StringTokenizer;
 
 public class VLecture {
     //value object의 형식은 항상 이런 식
@@ -21,5 +22,14 @@ public class VLecture {
         this.professor = scanner.next();
         this.credit = scanner.next();
         this.time = scanner.next();
+    }
+
+    public VLecture(String fileInfo){
+        StringTokenizer st = new StringTokenizer(fileInfo);
+        this.id = st.nextToken();
+        this.name = st.nextToken();
+        this.professor = st.nextToken();
+        this.credit = st.nextToken();
+        this.time = st.nextToken();
     }
 }
