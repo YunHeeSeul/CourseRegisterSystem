@@ -28,10 +28,10 @@ public class EDirectory {
         return vDirectories;
     }
 
-    public boolean match(String fileName) {
+    public String match(String name) {
         for(VDirectory v : this.vDirectories)
-            if(v.matchFile(fileName)) return true;
-        return false;
+            if(v.getName().equals(name)) return v.matchFile(name);
+        return "";
     }
 
 }

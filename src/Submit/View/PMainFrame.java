@@ -7,7 +7,6 @@ import java.awt.event.WindowListener;
 import java.io.IOException;
 
 public class PMainFrame extends JFrame {
-
     private static final long serialVersionUID = 1L;
     private WindowHandler windowHandler;
     private PLoginDialog loginDialog;

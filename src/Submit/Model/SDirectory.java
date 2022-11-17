@@ -17,9 +17,8 @@ public class SDirectory {
         return this.eDirectory.getDirectories(fileName);
     }
 
-    public boolean match(String fileName) {
-        if(this.eDirectory.match(fileName)) return true;
-        return false;
+    public String match(String name) {
+        return eDirectory.match(name);
     }
 
     public String getFileName(){

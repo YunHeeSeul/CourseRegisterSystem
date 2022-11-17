@@ -11,15 +11,11 @@ import java.util.Vector;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 public class PDirectoryPanel extends JPanel {
     private static final long serialVersionUID = 1L;
     private ListSelectionHandler listSelectionHandler;
-    private DefaultTableModel tableModel;
-    private PDirectoryPanel pDirectoryPanel;
     private PDirectory campusTable, collegeTable, departmentTable;
     private PLectureTable lectureTable;
     private JScrollPane scrollPane1, scrollPane2, scrollPane3, scrollPane4;
@@ -70,77 +66,61 @@ public class PDirectoryPanel extends JPanel {
 
         this.add(downPanel);
 
-        //데이터를 가져오는 부분
-        String fileName = "root";
-        this.campusTable.setData(fileName);
-//        fileName = this.collegeTable.setData(fileName);
-//        fileName = this.departmentTable.setData(fileName);
-//        this.lectureTable.setData(fileName);
-    }
-
-    public void initialize() {
-        this.campusTable.initialize();
-        this.collegeTable.initialize();
-        this.departmentTable.initialize();
-        this.lectureTable.initialize();
+        this.updateTable(null, 0);
     }
 
     private class ListSelectionHandler implements ListSelectionListener {
-        private Object previous;
-        private int firstIndex, lastIndex;
-        private PDirectory pDirectory;
-        private PLectureTable pLectureTable;
-        private SDirectory sDirectory;
-        private VDirectory vDirectory;
-        private String name, fileName;
-        Vector<VDirectory> vDirectories;
 
-        public ListSelectionHandler() throws IOException {
-            this.previous = null;
-            this.firstIndex = -1;
-            this.lastIndex = -1;
-            this.pDirectory = new PDirectory();
-            this.pLectureTable = new PLectureTable();
-            this.sDirectory = new SDirectory();
-            this.fileName = "root";
-            this.vDirectories = sDirectory.getDirectories(fileName);
-
-//            this.name = vDirectories.get(0).getName();
-
-        }
+        public ListSelectionHandler(){}
 
         @Override
         public void valueChanged(ListSelectionEvent e) { //마우스 클릭이 일어나면 valueChanged 발생.
             ListSelectionModel lsm = (ListSelectionModel) e.getSource();
-
-            if (this.previous != e.getSource() || this.firstIndex != e.getFirstIndex()) { //다음에 들어온 이벤트가 이전에 발생했던 곳에서 발생했다면 하지 않음.
-                System.out.println(e.getSource().toString()); //이벤트 발생한 애가 누군지 가져오는. tostring하면 클래스 이름이 나옴
+            if(!e.getValueIsAdjusting()){
+                System.out.println(lsm.toString());
+                int selectedRow = lsm.getLeadSelectionIndex();
+                try {updateTable(lsm, selectedRow);}
+                catch (IOException ex) {ex.printStackTrace();}
             }
-            this.previous = e.getSource(); // 지금 들어온 이벤트 저장하고
-            this.firstIndex = e.getFirstIndex();
-            this.lastIndex = e.getLastIndex();
-//
-//            try {
-//                this.vDirectories = sDirectory.getDirectories(fileName);
-//            } catch (IOException ex) {
-//                throw new RuntimeException(ex);
-//            }
-//            name = vDirectories.get(this.firstIndex).getName();
-//            fileName = sDirectory.match(name);
+        }
+    }
 
-                try {
-
-                    fileName = pDirectory.setData(this.vDirectories.get(this.firstIndex).getFileName());
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
+    private void updateTable(Object source, int selectedRow) throws IOException {
+        //데이터를 가져오는 부분
+        String fileName = null;
+        if(source == null){
+            fileName = "root";
+            fileName=this.campusTable.setData(fileName);
+            fileName = this.collegeTable.setData(fileName);
+            fileName = this.departmentTable.setData(fileName);
+            this.lectureTable.setData(fileName);
+        }
+        else if(source == this.campusTable.getSelectionModel()){
+            fileName=this.campusTable.getVDirectory().get(selectedRow).getFileName();
+            fileName = this.collegeTable.setData(fileName);
+            fileName = this.departmentTable.setData(fileName);
+            this.lectureTable.setData(fileName);
+        }
+        else if(source == this.collegeTable.getSelectionModel()){
+            fileName=this.collegeTable.getVDirectory().get(selectedRow).getFileName();
+            fileName = this.departmentTable.setData(fileName);
+            this.lectureTable.setData(fileName);
+        }
+        else if(source == this.departmentTable.getSelectionModel()){
+            fileName=this.departmentTable.getVDirectory().get(selectedRow).getFileName();
+            this.lectureTable.setData(fileName);
+        }
+        else if(source == this.lectureTable.getSelectionModel()){
+            fileName=this.lectureTable.getVLecture().get(selectedRow).toString();
+            //this.miridamgiTable.setData(fileName);
         }
     }
 
     public class PDirectory extends JTable {
         private static final long serialVersionUID = 1L;
-
         private DefaultTableModel tableModel;
+        private SDirectory sDirectory;
+        private Vector<VDirectory> vDirectories;
 
         public PDirectory() {
             Vector<String> header = new Vector<String>();
@@ -148,36 +128,35 @@ public class PDirectoryPanel extends JPanel {
             int cnt = 0;
             header.add(s[cnt]); //column 이름
             cnt++;
-            tableModel = new DefaultTableModel(header, 0);//테이블모델 생성
+            tableModel = new DefaultTableModel(header, 10);//테이블모델 생성
             this.setModel(tableModel);//테이블모델 등록
         }
-        public DefaultTableModel getModel(){return this.tableModel;}
+        @Override
+        public boolean isCellEditable(int row, int col){return false;}
 
         public String setData(String fileName) throws IOException {
-            SDirectory sDirectory = new SDirectory(); //데이터를 가져오려면 SDirectory 필요
-            Vector<VDirectory> vDirectories = sDirectory.getDirectories(fileName); //n개의 vdirectory를 받아옴
+            this.sDirectory = new SDirectory(); //데이터를 가져오려면 SDirectory 필요
+            this.vDirectories = this.sDirectory.getDirectories(fileName); //n개의 vdirectory를 받아옴
+            this.tableModel.setNumRows(0);
 
-            for (VDirectory vDirectory : vDirectories) {
+            for (VDirectory vDirectory : this.vDirectories) {
                 Vector<String> row = new Vector<String>();
                 row.add(vDirectory.getName()); //파일에서 읽어온 데이터를 넣어줘야 함
-                tableModel.addRow(row);
+                this.tableModel.addRow(row);
             }
-            this.setRowSelectionInterval(0, 0); //맨 처음 것을 선택하도록
-            this.updateUI();
-
-            return vDirectories.get(0).getFileName(); //0번이 선택한 것에 해당하는 파일네임을 가져오는 것
+            //this.setRowSelectionInterval(0, 0); //맨 처음 것을 선택하도록
+//            this.updateUI();
+            return this.vDirectories.get(0).getFileName(); //0번이 선택한 것에 해당하는 파일네임을 가져오는 것
         }
-
-        public void initialize() {
-            tableModel.setNumRows(0);
-        }
-
+        public Vector<VDirectory> getVDirectory() { return this.vDirectories;}
     }
 
 
     public class PLectureTable extends JTable {
         private static final long serialVersionUID = 1L;
         private DefaultTableModel tableModel;
+        private SLecture sLecture;
+        private Vector<VLecture> vLectures;
 
         public PLectureTable() {
             Vector<String> header = new Vector<String>();
@@ -187,13 +166,14 @@ public class PDirectoryPanel extends JPanel {
             header.add("학점"); //column 이름
             header.add("시간"); //column 이름
 
-            tableModel = new DefaultTableModel(header, 0);//테이블모델 생성
+            tableModel = new DefaultTableModel(header, 10);//테이블모델 생성
             this.setModel(tableModel);//테이블모델 등록
         }
 
         public void setData(String fileName) {
-            SLecture sLecture = new SLecture(); //데이터를 가져오려면 SDirectory 필요
-            Vector<VLecture> vLectures = sLecture.getLectures(fileName); //n개의 vdirectory를 받아옴
+            this.sLecture = new SLecture(); //데이터를 가져오려면 SDirectory 필요
+            this.vLectures = sLecture.getLectures(fileName); //n개의 vdirectory를 받아옴
+            this.tableModel.setNumRows(0);
 
             for (VLecture vLecture : vLectures) {
                 Vector<String> row = new Vector<String>();
@@ -202,15 +182,11 @@ public class PDirectoryPanel extends JPanel {
                 row.add(vLecture.getProfessor()); //파일에서 읽어온 데이터를 넣어줘야 함
                 row.add(vLecture.getCredit()); //파일에서 읽어온 데이터를 넣어줘야 함
                 row.add(vLecture.getTime()); //파일에서 읽어온 데이터를 넣어줘야 함
-                tableModel.addRow(row);
+                this.tableModel.addRow(row);
             }
-            this.setRowSelectionInterval(0, 0); //맨 처음 것을 선택하도록
-            this.updateUI();
-
+            //this.setRowSelectionInterval(0, 0); //맨 처음 것을 선택하도록
+//            this.updateUI();
         }
-
-        public void initialize() {
-            tableModel.setNumRows(0);
-        }
+         private Vector<VLecture> getVLecture(){return this.vLectures;}
     }
 }
