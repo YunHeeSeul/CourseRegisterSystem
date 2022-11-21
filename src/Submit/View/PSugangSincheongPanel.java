@@ -7,9 +7,13 @@ import java.io.IOException;
 public class PSugangSincheongPanel extends JPanel {
 
     private PDirectoryPanel pDirectoryPanel;
+    private PControlPanel pControlPanel;
     public PSugangSincheongPanel() throws IOException {
-        this.pDirectoryPanel=new PDirectoryPanel();
         this.setLayout(new GridLayout(1,2,10,10));
+
+        this.pDirectoryPanel=new PDirectoryPanel();
         this.add(pDirectoryPanel);
+
+        this.pControlPanel=new PControlPanel();
     }
 }

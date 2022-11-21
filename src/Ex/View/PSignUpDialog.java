@@ -15,6 +15,7 @@ public class PSignUpDialog extends JDialog{//JDialog를 확장했다는 것
 
     private static final long serialVersionUID = 1L;
 
+    public Main main;
     //components
     private SLogin sLogin;
     private VAccount vAccount;
@@ -29,8 +30,8 @@ public class PSignUpDialog extends JDialog{//JDialog를 확장했다는 것
     private JFrame parent;
     private WindowHandler windowHandler;
 
-    public PSignUpDialog(JFrame parent) throws IOException{//JDialog를 상속받음. 확장한 것임. 그리고 필요한 기능 추가한 것
-        super(parent);//원래 JDialog의 constructor를 불러주는 것
+    public PSignUpDialog() throws IOException{//JDialog를 상속받음. 확장한 것임. 그리고 필요한 기능 추가한 것
+//        super(parent);//원래 JDialog의 constructor를 불러주는 것
         this.setModal(true);//부모를 블라킹
         this.setBackground(Color.BLACK);
         this.setLayout(new BorderLayout(0,10));
@@ -41,6 +42,8 @@ public class PSignUpDialog extends JDialog{//JDialog를 확장했다는 것
 
         Font f1 = new Font("나눔고딕",Font.BOLD,30);
         Font f2 = new Font("나눔고딕",Font.BOLD,15);
+
+        main = new Main();
 
         signUpPanel = new JPanel();
         innerPanel2 = new JPanel(); //Intro라벨과 loginPanel을 담은 패널
@@ -205,12 +208,12 @@ public class PSignUpDialog extends JDialog{//JDialog를 확장했다는 것
                 this.dispose();
             }else {
                 JOptionPane.showMessageDialog(null, "계정 생성에 실패하셨습니다.");
-                new PSignUpDialog(parent);
+                new PSignUpDialog();
             }
         }
         else {
             JOptionPane.showMessageDialog(null, "이미 존재하는 계정입니다.\n로그인 화면으로 돌아갑니다.");
-            new PLoginDialog(parent);
+            new PLoginDialog(main.actionHandler);
         }
     }
 
@@ -228,7 +231,7 @@ public class PSignUpDialog extends JDialog{//JDialog를 확장했다는 것
                 catch (IOException e1) {e1.printStackTrace();}
             } else if (e.getActionCommand().equals("중복 확인")) {System.out.print("중복 확인"); checkID();
             } else if (e.getActionCommand().equals("취소")) {
-                try {pLoginDialog=new PLoginDialog(parent);}
+                try {pLoginDialog=new PLoginDialog(main.actionHandler);}
                 catch (IOException e1) {e1.printStackTrace();}
                 pLoginDialog.setVisible(true);
             }
