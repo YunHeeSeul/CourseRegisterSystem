@@ -28,8 +28,9 @@ public class Main {
                 catch (IOException ex) {throw new RuntimeException(ex);}
             }
             else if(e.getActionCommand().equals("SignUp")){// 회원가입 버튼 눌렀을 때
-                try {new PSignUpDialog();}
+                try {new PSignUpDialog(); }
                 catch (IOException e1) {e1.printStackTrace();}
+                loginDialog.dispose();
                 pSignUpDialog.setVisible(true);  //다른 패널들과 달리 얘는 부모에 등록하지 않고 독립적으로 함
             }
         }
@@ -50,9 +51,5 @@ public class Main {
         main.initialize();
         main.run();
         main.finish();
-
-//        PMainFrame mainFrame = new PMainFrame();
-//        mainFrame.initialize();
-//        mainFrame.setVisible(true);
     }
 }

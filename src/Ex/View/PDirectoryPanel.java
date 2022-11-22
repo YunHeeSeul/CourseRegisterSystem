@@ -19,6 +19,7 @@ public class PDirectoryPanel extends JPanel {
     private PLectureTable lectureTable;
     private JScrollPane scrollPane1, scrollPane2, scrollPane3, scrollPane4;
     private JPanel upPanel, downPanel;
+    private int cnt = 0;
     public PDirectoryPanel() throws IOException {
         LayoutManager layoutManager = new BoxLayout(this, BoxLayout.Y_AXIS);
         this.setLayout(layoutManager);
@@ -81,15 +82,18 @@ public class PDirectoryPanel extends JPanel {
             this.lectureTable.setData(fileName);
         } else if(source == this.campusTable.getSelectionModel()){
             fileName=this.campusTable.getVDirectory().get(selectedRow).getFileName();
+            System.out.println("campusTable index : "+selectedRow);
             fileName = this.collegeTable.setData(fileName);
             fileName = this.departmentTable.setData(fileName);
             this.lectureTable.setData(fileName);
         } else if(source == this.collegeTable.getSelectionModel()){
             fileName=this.collegeTable.getVDirectory().get(selectedRow).getFileName();
+            System.out.println("collegeTable index : "+selectedRow);
             fileName = this.departmentTable.setData(fileName);
             this.lectureTable.setData(fileName);
         } else if(source == this.departmentTable.getSelectionModel()){
             fileName=this.departmentTable.getVDirectory().get(selectedRow).getFileName();
+            System.out.println("departmentTable index : "+selectedRow);
             this.lectureTable.setData(fileName);
         }
         else if(source == this.lectureTable.getSelectionModel()){
@@ -118,7 +122,6 @@ public class PDirectoryPanel extends JPanel {
         public PDirectory() {
             Vector<String> header = new Vector<String>();
             String[] s = {"캠퍼스", "대학", "과목"};
-            int cnt = 0;
             header.add(s[cnt]); //column 이름
             cnt++;
             this.tableModel = new DefaultTableModel(header, 0);//테이블모델 생성

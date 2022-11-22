@@ -67,6 +67,10 @@ public class VAccount implements Serializable {
         String returnString = "학생 ID : " + this.ID + "  |  학생 PW : " + this.PW + "  |  학생 이름 : " +this.name + "  |  번호 : " + this.phoneNum+ "  |  메일 : " + this.eMail+ "  |  학부 : " + this.faculty+ "  |  전공 : " + this.major+ "  |  학년 : " + this.grade+ "  |  성별 : " + this.sex;
         return returnString+"\n";
     }
+    public String toString() {
+        String returnString = this.ID + "  " + this.PW + "  " +this.name + "  " + this.phoneNum+ "  " + this.eMail+ "  " + this.faculty+ "  " + this.major+ "  " + this.grade+ "  " + this.sex;
+        return returnString+"\n";
+    }
 }
 
 

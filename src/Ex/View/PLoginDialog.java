@@ -59,7 +59,7 @@ public class PLoginDialog extends JDialog{//JDialog를 확장했다는 것
         buttonPanel.setBackground(Color.getHSBColor((220f/360),0.65f, 0.42f));
 
         Font f1 = new Font("돋움",Font.BOLD,30);
-        Font f2 = new Font("serif",Font.BOLD,20);
+        Font f2 = new Font("serif",Font.BOLD,15);
 
         LIntro = new JLabel("명지대학교 수강신청시스템",JLabel.CENTER);
         LIntro.setHorizontalAlignment(SwingConstants.CENTER);
@@ -123,41 +123,43 @@ public class PLoginDialog extends JDialog{//JDialog를 확장했다는 것
 
         VAccount v = this.sLogin.read(ID,PW);//sLogin는 account 정보를 리턴 시켜 줌.
 
-        if(this.sLogin.login(ID,PW).equals("wrong")){//id나 비밀번호가 틀린 경우
-            int option = JOptionPane.showConfirmDialog(null,"아이디나 비밀번호를 잘못 입력하셨습니다.\n로그인을 다시 시도하시겠습니까?", "로그인",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-            if(option==JOptionPane.YES_OPTION){//확인 버튼을 누른 경우
-                this.TID.setText("");
-                this.TPW.setText("");
-                new PLoginDialog(main.actionHandler);
-                this.setVisible(true);
-            } else{
-                option = JOptionPane.showConfirmDialog(null, "수강 신청 시스템을 종료하시겠습니까?");
-                if(option==JOptionPane.NO_OPTION){//확인 버튼을 누른 경우
+        if(ID !="" && PW != "") {
+
+            if (this.sLogin.login(ID, PW).equals("wrong")) {//id나 비밀번호가 틀린 경우
+                int option = JOptionPane.showConfirmDialog(null, "아이디나 비밀번호를 잘못 입력하셨습니다.\n로그인을 다시 시도하시겠습니까?", "로그인", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if (option == JOptionPane.YES_OPTION) {//확인 버튼을 누른 경우
                     this.TID.setText("");
                     this.TPW.setText("");
                     new PLoginDialog(main.actionHandler);
                     this.setVisible(true);
-                }else System.exit(0);
+                } else {
+                    option = JOptionPane.showConfirmDialog(null, "수강 신청 시스템을 종료하시겠습니까?");
+                    if (option == JOptionPane.NO_OPTION) {//확인 버튼을 누른 경우
+                        this.TID.setText("");
+                        this.TPW.setText("");
+                        new PLoginDialog(main.actionHandler);
+                        this.setVisible(true);
+                    } else System.exit(0);
+                }
+            } else if (this.sLogin.login(ID, PW).equals("null")) {//계정이 없는 경우
+                int result = JOptionPane.showConfirmDialog(null, "존재하지 않는 계정입니다.\n계정 생성 하시겠습니까?", "로그인", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if (result == JOptionPane.YES_OPTION) {//확인 버튼을 누른 경우
+                    new PSignUpDialog();
+                    pSignUpDialog.setVisible(true);  //다른 패널들과 달리 얘는 부모에 등록하지 않고 독립적으로 함
+                } else {
+                    JOptionPane.showMessageDialog(null, "로그인 화면으로 돌아갑니다.");
+                    this.TID.setText("");
+                    this.TPW.setText("");
+                    new PLoginDialog(main.actionHandler);
+                    this.setVisible(true);
+                }
+            } else if (this.sLogin.login(ID, PW).equals("correct")) { //로그인에 성공한 경우
+                JOptionPane.showMessageDialog(null, v.getName() + "님 로그인에 성공하였습니다.", "로그인 성공", JOptionPane.PLAIN_MESSAGE); //,"로그인 성공",JOptionPane.OK_OPTION
+                retVal = v.getName();
+                dispose();
             }
         }
-        else if(this.sLogin.login(ID,PW).equals("null")) {//계정이 없는 경우
-            int result = JOptionPane.showConfirmDialog(null, "존재하지 않는 계정입니다.\n계정 생성 하시겠습니까?", "로그인", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-            if (result == JOptionPane.YES_OPTION) {//확인 버튼을 누른 경우
-                new PSignUpDialog();
-                pSignUpDialog.setVisible(true);  //다른 패널들과 달리 얘는 부모에 등록하지 않고 독립적으로 함
-            } else {
-                JOptionPane.showMessageDialog(null, "로그인 화면으로 돌아갑니다.");
-                this.TID.setText("");
-                this.TPW.setText("");
-                new PLoginDialog(main.actionHandler);
-                this.setVisible(true);
-            }
-        }
-        else if(this.sLogin.login(ID,PW).equals("correct")){ //로그인에 성공한 경우
-            JOptionPane.showMessageDialog(null, v.getName() + "님 로그인에 성공하였습니다.","로그인 성공",JOptionPane.PLAIN_MESSAGE); //,"로그인 성공",JOptionPane.OK_OPTION
-            retVal=v.getName();
-            dispose();
-        }return retVal;
+        return retVal;
     }
 
 //    private class ActionHandler implements ActionListener {

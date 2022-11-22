@@ -33,7 +33,7 @@ public class SLogin {
         if(this.eAccount.isRegistered(ID)) return true;//등록되어있지 않은
         return false;
     }
-    public boolean signUp(String info){
+    public boolean signUp(String info) throws IOException {
         if(this.eAccount.signUp(info)) return true;
         return false;
     }

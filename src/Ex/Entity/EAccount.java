@@ -6,11 +6,12 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class EAccount {
+    public static final String FILENAME = "directory/account";
     VAccount vAccount;
     protected ArrayList<VAccount> accountList;
 
     public EAccount() throws IOException {
-        BufferedReader accountFile = new BufferedReader(new FileReader("directory/account"));
+        BufferedReader accountFile = new BufferedReader(new FileReader(FILENAME));
         this.accountList = new ArrayList<VAccount>();
         while (accountFile.ready()){
             String accountInfo = accountFile.readLine();
@@ -43,8 +44,8 @@ public class EAccount {
         }return retVal;
     }
 
-    public boolean signUp(String info){
-        if(this.accountList.add(new VAccount(info))) return true;
+    public boolean signUp(String info) throws IOException {
+        if(this.accountList.add(new VAccount(info)) && this.saveSignUp(this.accountList)) return true;
         return false;
     }
 
@@ -55,6 +56,16 @@ public class EAccount {
                 if (v.getID().equals(ID)) return v;
             }
         }return null;
+    }
+
+    public boolean saveSignUp(ArrayList<VAccount> accountList) throws IOException {
+        BufferedWriter bw = new BufferedWriter(new FileWriter(FILENAME));
+        for(VAccount v : this.accountList){
+            bw.write(v.toString());
+            bw.newLine();
+        }
+        bw.close();
+        return true;
     }
 }
 
