@@ -99,6 +99,14 @@ public class PDirectoryPanel extends JPanel {
         else if(source == this.lectureTable.getSelectionModel()){
         }
     }
+
+    public Vector<VLecture> getSelectedLectures() {
+        return null;
+    }
+
+    public void addLectures(Vector<VLecture> vLectures) {
+    }
+
     private class ListSelectionHandler implements ListSelectionListener {
         @Override
         public void valueChanged(ListSelectionEvent e) { //마우스 클릭이 일어나면 valueChanged 발생.

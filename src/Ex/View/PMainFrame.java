@@ -1,5 +1,7 @@
 package Ex.View;
 
+import Ex.ValueObject.VAccount;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
@@ -13,9 +15,13 @@ public class PMainFrame extends JFrame {
     private Main main;
     private PAccountPanel accountPanel;
     private PSugangSincheongPanel sugangSincheongPanel;
+    private VAccount vAccount;
+
+    public void setVAccount(VAccount vAccount){this.vAccount = vAccount;}
 
     //constructor
-    public PMainFrame(String name) throws IOException {    //컴포넌트 생성
+    //public PMainFrame(String name) throws IOException {    //컴포넌트 생성
+        public PMainFrame(VAccount vAccount) throws IOException {    //컴포넌트 생성
         //attribute
         //본인의 속성은 본인이 지정하도록 해야함 외부에서(Main) 하는 것이 아닌.
         //this.setTitle("명지대학교 수강신청시스템"); //JFrame을 상속받은 것이 PMainFrame이니까 this 사용
@@ -31,8 +37,10 @@ public class PMainFrame extends JFrame {
         //그림을 그릴 수 있는 패널 생성.
         this.setLayout(new BorderLayout(50,50));
 
+        this.vAccount=vAccount;
+        this.accountPanel=new PAccountPanel(this.vAccount);
 //        String name = this.loginDialog.login();
-        this.accountPanel = new PAccountPanel(name);
+//        this.accountPanel = new PAccountPanel(name);
         this.add(this.accountPanel, BorderLayout.NORTH);
 
         this.sugangSincheongPanel = new PSugangSincheongPanel();

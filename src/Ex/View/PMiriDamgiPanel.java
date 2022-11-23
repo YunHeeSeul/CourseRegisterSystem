@@ -13,6 +13,13 @@ public class PMiriDamgiPanel extends PLectureTable{
     public PMiriDamgiPanel(){
         JScrollPane jScrollPane1 = new JScrollPane();
     }
+
+    public void addLectures(Vector<VLecture> vLectures) {
+    }
+
+    public Vector<VLecture> getSelectedLectures() {
+        return null;
+    }
 //    private ListSelectionHandler listSelectionHandler;
 //    private JTable pMiriDamgiTable;
 //
