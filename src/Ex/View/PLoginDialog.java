@@ -25,7 +25,6 @@ public class PLoginDialog extends JDialog{//JDialog를 확장했다는 것
     private JButton loginBt, signUpBt;
     private JPanel loginPanel, innerPanel2, buttonPanel;
     private ImageIcon imageIcon;
-    private Main main;
 
     public PLoginDialog(Main.ActionHandler actionHandler) throws IOException{//JDialog를 상속받음. 확장한 것임. 그리고 필요한 기능 추가한 것
 //        super(parent);//원래 JDialog의 constructor를 불러주는 것
@@ -37,138 +36,136 @@ public class PLoginDialog extends JDialog{//JDialog를 확장했다는 것
         this.windowHandler = new WindowHandler();
         this.addWindowListener(windowHandler);
 
-        imageLabel = new JLabel();
-        imageLabel.setBackground(Color.getHSBColor((222f/360),0.14f, 0.87f));
-        //imageLabel.setBackground(Color.lightGray);
-        imageIcon = new ImageIcon("image/title.jpg");
-        imageLabel.setIcon(imageIcon);
-        imageLabel.setOpaque(true);
-        imageLabel.setHorizontalAlignment(JLabel.CENTER);   //이미지 중앙 정렬
+        this.imageLabel = new JLabel();
+        this.imageLabel.setBackground(Color.getHSBColor((222f/360),0.14f, 0.87f));
+        this.imageIcon = new ImageIcon("image/title.jpg");
+        this.imageLabel.setIcon(this.imageIcon);
+        this.imageLabel.setOpaque(true);
+        this.imageLabel.setHorizontalAlignment(JLabel.CENTER);   //이미지 중앙 정렬
         this.add(imageLabel,BorderLayout.NORTH);
 
-        loginPanel = new JPanel(); //login, password, 라벨과 입력창을 담은 패널
-        innerPanel2 = new JPanel(); //Intro라벨과 loginPanel을 담은 패널
-        buttonPanel = new JPanel(); //버튼을 담은 패널
+        this.loginPanel = new JPanel(); //login, password, 라벨과 입력창을 담은 패널
+        this.innerPanel2 = new JPanel(); //Intro라벨과 loginPanel을 담은 패널
+        this.buttonPanel = new JPanel(); //버튼을 담은 패널
 
-        loginPanel.setLayout(new GridLayout(2,2,30,10));
-        loginPanel.setBackground(Color.getHSBColor((220f/360),0.65f, 0.42f));
+        this.loginPanel.setLayout(new GridLayout(2,2,30,10));
+        this.loginPanel.setBackground(Color.getHSBColor((220f/360),0.65f, 0.42f));
 
-        innerPanel2.setLayout(new FlowLayout(FlowLayout.CENTER,500,50));
-        innerPanel2.setBackground(Color.getHSBColor((220f/360),0.65f, 0.42f));
-        buttonPanel.setLayout(new GridLayout(1,2,50,10));
-        buttonPanel.setBackground(Color.getHSBColor((220f/360),0.65f, 0.42f));
+        this.innerPanel2.setLayout(new FlowLayout(FlowLayout.CENTER,500,50));
+        this.innerPanel2.setBackground(Color.getHSBColor((220f/360),0.65f, 0.42f));
+        this.buttonPanel.setLayout(new GridLayout(1,2,50,10));
+        this.buttonPanel.setBackground(Color.getHSBColor((220f/360),0.65f, 0.42f));
 
         Font f1 = new Font("돋움",Font.BOLD,30);
         Font f2 = new Font("serif",Font.BOLD,15);
 
-        LIntro = new JLabel("명지대학교 수강신청시스템",JLabel.CENTER);
-        LIntro.setHorizontalAlignment(SwingConstants.CENTER);
-        LIntro.setForeground(Color.WHITE);
-        LIntro.setFont(f1);
-        innerPanel2.add(LIntro);
+        this.LIntro = new JLabel("명지대학교 수강신청시스템",JLabel.CENTER);
+        this.LIntro.setHorizontalAlignment(SwingConstants.CENTER);
+        this.LIntro.setForeground(Color.WHITE);
+        this.LIntro.setFont(f1);
+        this.innerPanel2.add(this.LIntro);
 
-        LID = new JLabel("ID",JLabel.CENTER);
-        LID.setFont(f2);
-        LID.setForeground(Color.WHITE);
-        LID.setSize(50,30);
-        loginPanel.add(LID);
+        this.LID = new JLabel("ID",JLabel.CENTER);
+        this.LID.setFont(f2);
+        this.LID.setForeground(Color.WHITE);
+        this.LID.setSize(50,30);
+        this.loginPanel.add(this.LID);
 
-        TID = new JTextField(10);
-        TID.setFont(f2);
-        TID.setSize(50,30);
-        loginPanel.add(TID);
+        this.TID = new JTextField(10);
+        this.TID.setFont(f2);
+        this.TID.setSize(50,30);
+        this.loginPanel.add(this.TID);
 
-        LPW = new JLabel("PW",JLabel.CENTER);
-        LPW.setFont(f2);
-        LPW.setForeground(Color.WHITE);
-        LPW.setSize(50,30);
-        loginPanel.add(LPW);
+        this.LPW = new JLabel("PW",JLabel.CENTER);
+        this.LPW.setFont(f2);
+        this.LPW.setForeground(Color.WHITE);
+        this.LPW.setSize(50,30);
+        this.loginPanel.add(this.LPW);
 
         //입력 내용이 표시되지 않음
-        TPW = new JPasswordField(10);
-        TPW.setSize(50,30);
-        loginPanel.add(TPW);
+        this.TPW = new JPasswordField(10);
+        this.TPW.setSize(50,30);
+        this.loginPanel.add(this.TPW);
 
         //button 만들기
-        loginBt = new JButton("Login");
-        loginBt.setSize(100,50);
-        loginBt.setFont(f2);
-        loginBt.setBackground(Color.getHSBColor((222f/360),0.14f, 0.87f));
-        buttonPanel.add(loginBt);
+        this.loginBt = new JButton("Login");
+        this.loginBt.setSize(100,50);
+        this.loginBt.setFont(f2);
+        this.loginBt.setBackground(Color.getHSBColor((222f/360),0.14f, 0.87f));
+        this.buttonPanel.add(this.loginBt);
 
-        signUpBt = new JButton("SignUp");
-        signUpBt.setSize(100,50);
-        signUpBt.setFont(f2);
-        signUpBt.setBackground(Color.getHSBColor((222f/360),0.14f, 0.87f));
-        buttonPanel.add(signUpBt);
+        this.signUpBt = new JButton("SignUp");
+        this.signUpBt.setSize(100,50);
+        this.signUpBt.setFont(f2);
+        this.signUpBt.setBackground(Color.getHSBColor((222f/360),0.14f, 0.87f));
+        this.buttonPanel.add(this.signUpBt);
 
-        innerPanel2.add(loginPanel);
-        innerPanel2.add(buttonPanel);
+        this.innerPanel2.add(this.loginPanel);
+        this.innerPanel2.add(this.buttonPanel);
         this.add(innerPanel2,BorderLayout.CENTER);
+        this.add(this.innerPanel2);
 
 
         //button에 기능 추가
-        loginBt.addActionListener(actionHandler);
-        signUpBt.addActionListener(actionHandler);
+        this.loginBt.addActionListener(actionHandler);
+        this.signUpBt.addActionListener(actionHandler);
 
         this.sLogin =new SLogin();
         this.pSignUpDialog = new PSignUpDialog();
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
     }
 
-//    public String login() throws IOException { //id가 있는지 없는지 컨트롤러한테 체크해봐야 함.
-//        String retVal = "";
-//        String ID = TID.getText();
-//        String PW = new String((TPW.getPassword()));
-//
-//        VAccount v = this.sLogin.read(ID,PW);//sLogin는 account 정보를 리턴 시켜 줌.
-//
-//        if(ID !="" && PW != "") {
-//
-//            if (this.sLogin.login(ID, PW).equals("wrong")) {//id나 비밀번호가 틀린 경우
-//                int option = JOptionPane.showConfirmDialog(null, "아이디나 비밀번호를 잘못 입력하셨습니다.\n로그인을 다시 시도하시겠습니까?", "로그인", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-//                if (option == JOptionPane.YES_OPTION) {//확인 버튼을 누른 경우
-//                    this.TID.setText("");
-//                    this.TPW.setText("");
-//                    new PLoginDialog(main.actionHandler);
-//                    this.setVisible(true);
-//                } else {
-//                    option = JOptionPane.showConfirmDialog(null, "수강 신청 시스템을 종료하시겠습니까?");
-//                    if (option == JOptionPane.NO_OPTION) {//확인 버튼을 누른 경우
-//                        this.TID.setText("");
-//                        this.TPW.setText("");
-//                        new PLoginDialog(main.actionHandler);
-//                        this.setVisible(true);
-//                    } else System.exit(0);
-//                }
-//            } else if (this.sLogin.login(ID, PW).equals("null")) {//계정이 없는 경우
-//                int result = JOptionPane.showConfirmDialog(null, "존재하지 않는 계정입니다.\n계정 생성 하시겠습니까?", "로그인", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-//                if (result == JOptionPane.YES_OPTION) {//확인 버튼을 누른 경우
-//                    new PSignUpDialog();
-//                    pSignUpDialog.setVisible(true);  //다른 패널들과 달리 얘는 부모에 등록하지 않고 독립적으로 함
-//                } else {
-//                    JOptionPane.showMessageDialog(null, "로그인 화면으로 돌아갑니다.");
-//                    this.TID.setText("");
-//                    this.TPW.setText("");
-//                    new PLoginDialog(main.actionHandler);
-//                    this.setVisible(true);
-//                }
-//            } else if (this.sLogin.login(ID, PW).equals("correct")) { //로그인에 성공한 경우
-//                JOptionPane.showMessageDialog(null, v.getName() + "님 로그인에 성공하였습니다.", "로그인 성공", JOptionPane.PLAIN_MESSAGE); //,"로그인 성공",JOptionPane.OK_OPTION
-//                retVal = v.getName();
-//                this.dispose();
-//            }
-//        }
-//        ///this.dispose();
-//        return retVal;
-//    }
-
-    public VAccount login() throws IOException {
+    public VAccount login() throws IOException { //id가 있는지 없는지 컨트롤러한테 체크해봐야 함.
+        String retVal = "";
         String ID = TID.getText();
         String PW = new String((TPW.getPassword()));
+
         VAccount v = this.sLogin.read(ID,PW);//sLogin는 account 정보를 리턴 시켜 줌.
-        return  v;
+        Main main = new Main();
+
+        if (this.sLogin.login(ID, PW).equals("wrong")) {//id나 비밀번호가 틀린 경우
+            int option = JOptionPane.showConfirmDialog(null, "아이디나 비밀번호를 잘못 입력하셨습니다.\n로그인을 다시 시도하시겠습니까?", "로그인", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (option == JOptionPane.YES_OPTION) {//확인 버튼을 누른 경우
+                this.TID.setText("");
+                this.TPW.setText("");
+                new PLoginDialog(main.actionHandler);
+                this.setVisible(true);
+            } else {
+                option = JOptionPane.showConfirmDialog(null, "수강 신청 시스템을 종료하시겠습니까?");
+                if (option == JOptionPane.NO_OPTION) {//확인 버튼을 누른 경우
+                    this.TID.setText("");
+                    this.TPW.setText("");
+                    new PLoginDialog(main.actionHandler);
+                    this.setVisible(true);
+                } else System.exit(0);
+            }
+        } else if (this.sLogin.login(ID, PW).equals("none")) {//계정이 없는 경우
+            int result = JOptionPane.showConfirmDialog(null, "존재하지 않는 계정입니다.\n계정 생성 하시겠습니까?", "로그인", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (result == JOptionPane.YES_OPTION) {//확인 버튼을 누른 경우
+                new PSignUpDialog();
+                pSignUpDialog.setVisible(true);  //다른 패널들과 달리 얘는 부모에 등록하지 않고 독립적으로 함
+            } else {
+                JOptionPane.showMessageDialog(null, "로그인 화면으로 돌아갑니다.");
+                this.TID.setText("");
+                this.TPW.setText("");
+                new PLoginDialog(main.actionHandler);
+                this.setVisible(true);
+            }
+        } else if (this.sLogin.login(ID, PW).equals("correct")) { //로그인에 성공한 경우
+                JOptionPane.showMessageDialog(null, v.getName() + "님 로그인에 성공하였습니다.", "로그인 성공", JOptionPane.PLAIN_MESSAGE); //,"로그인 성공",JOptionPane.OK_OPTION
+            this.dispose();
+        }return v;
     }
+
+//    public VAccount login() throws IOException {
+//        String ID = TID.getText();
+//        String PW = new String((TPW.getPassword()));
+//        VAccount v = this.sLogin.read(ID,PW);//sLogin는 account 정보를 리턴 시켜 줌.
+//
+//
+//
+//        return  v;
+//    }
 
 //    private class ActionHandler implements ActionListener {
 //        @Override

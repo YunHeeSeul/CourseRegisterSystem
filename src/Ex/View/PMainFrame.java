@@ -24,12 +24,10 @@ public class PMainFrame extends JFrame {
         public PMainFrame(VAccount vAccount) throws IOException {    //컴포넌트 생성
         //attribute
         //본인의 속성은 본인이 지정하도록 해야함 외부에서(Main) 하는 것이 아닌.
-        //this.setTitle("명지대학교 수강신청시스템"); //JFrame을 상속받은 것이 PMainFrame이니까 this 사용
         this.setSize(1000, 600);//창의 크기
         this.setBackground(Color.lightGray);
-        //this.setForeground(Color.WHITE);
 
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    //창닫기 누르면 아무것도 안함
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.windowHandler = new WindowHandler();
         this.addWindowListener(windowHandler);
 

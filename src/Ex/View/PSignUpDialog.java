@@ -14,26 +14,23 @@ import java.util.Vector;
 public class PSignUpDialog extends JDialog{//JDialog를 확장했다는 것
 
     private static final long serialVersionUID = 1L;
-
-    public Main main = new Main();
     //components
     private SLogin sLogin;
     private VAccount vAccount;
-    //    private EAccount eAccount;
     private JLabel LIntro,LID,LPW,LName, LEmail,LFaculty,LMajor, LStatus, LPhoneNum, LSex, LGrade, LCampus;
     private JTextField TID, TName, TEmail, TPhoneNum;
     private JPasswordField TPW;
     private JButton signUpBt, cancelBt, checkBt;
     private JPanel signUpPanel, innerPanel2, buttonPanel;
     private PComboBox gradeBox, sexBox, facultyBox,majorBox,campusBox;
-    private PLoginDialog pLoginDialog;
+
     private JFrame parent;
     private WindowHandler windowHandler;
     private ItemHandler itemHandler;
 
     public PSignUpDialog() throws IOException{//JDialog를 상속받음. 확장한 것임. 그리고 필요한 기능 추가한 것
 //        super(parent);//원래 JDialog의 constructor를 불러주는 것
-        this.setModal(true);//부모를 블라킹
+        //this.setModal(true);//부모를 블라킹
         this.setBackground(Color.BLACK);
         this.setLayout(new BorderLayout(0,10));
         this.setSize(900,900);
@@ -44,7 +41,6 @@ public class PSignUpDialog extends JDialog{//JDialog를 확장했다는 것
         Font f1 = new Font("나눔고딕",Font.BOLD,30);
         Font f2 = new Font("나눔고딕",Font.BOLD,15);
 
-        Main main = new Main();
         this.itemHandler = new ItemHandler() {};
 
         signUpPanel = new JPanel();
@@ -207,9 +203,9 @@ public class PSignUpDialog extends JDialog{//JDialog를 확장했다는 것
         this.sLogin =new SLogin();
         this.vAccount =new VAccount();
 
-        this.updateComboBox(null,0);
+        this.updateComboBox(null,null);
     }
-    public void updateComboBox(Object o, int selectedRow) throws IOException {
+    public void updateComboBox(Object o, Object selectedItem) throws IOException {
         //데이터를 가져오는 부분
         String fileName = null;
 
@@ -218,31 +214,32 @@ public class PSignUpDialog extends JDialog{//JDialog를 확장했다는 것
             fileName = this.campusBox.setData(fileName);
             fileName = this.facultyBox.setData(fileName);
             this.majorBox.setData(fileName);
-        } else if(o == this.campusBox.getSelectedItem()){
-            fileName=this.campusBox.getVDirectory().get(selectedRow).getFileName();
-            System.out.println("campusTable index : "+selectedRow);
+        } else if(o == this.campusBox.getModel()){
+            fileName=this.campusBox.getVDirectory(selectedItem);
+            System.out.println("campusTable item : "+selectedItem);
             fileName = this.facultyBox.setData(fileName);
             this.majorBox.setData(fileName);
-        } else if(o == this.facultyBox.getSelectedItem()){
-            fileName=this.facultyBox.getVDirectory().get(selectedRow).getFileName();
-            System.out.println("collegeTable index : "+selectedRow);
+        } else if(o == this.facultyBox.getModel()){
+            fileName=this.facultyBox.getVDirectory(selectedItem);
+            System.out.println("collegeTable item : "+selectedItem);
             this.majorBox.setData(fileName);
-        } else if(o == this.majorBox.getSelectedItem()){
-            this.majorBox.getVDirectory().get(selectedRow).getFileName();
-            System.out.println("departmentTable index : "+selectedRow);
+        } else if(o == this.majorBox.getModel()){
+            this.majorBox.getVDirectory(selectedItem);
+            System.out.println("departmentTable item : "+selectedItem);
         }
 
     }
     public void signUp() throws IOException{
+        Main main = new Main();
         String ID = TID.getText();
         String PW = new String((TPW.getPassword()));
         String name = TName.getText();
         String phoneNum = TPhoneNum.getText();
         String eMain = TEmail.getText();
-        String faculty = String.valueOf(facultyBox.getModel());
-        String major = String.valueOf(majorBox.getModel());
-        String grade = String.valueOf(gradeBox.getModel());
-        String sex = String.valueOf(sexBox.getModel());
+        String faculty = (String) facultyBox.getSelectedItem();
+        String major = (String) majorBox.getSelectedItem();
+        String grade = (String) gradeBox.getSelectedItem();
+        String sex = (String) sexBox.getSelectedItem();
 
         String info = ID+" "+PW+" "+name+" "+phoneNum+" "+eMain+" "+faculty+" "+major+" "+grade+" "+sex;
 
@@ -250,6 +247,7 @@ public class PSignUpDialog extends JDialog{//JDialog를 확장했다는 것
             if(this.sLogin.signUp(info)) {
                 JOptionPane.showMessageDialog(null, "계정 생성에 성공하셨습니다.");
                 this.dispose();
+                new PLoginDialog(main.actionHandler);
             }else {
                 JOptionPane.showMessageDialog(null, "계정 생성에 실패하셨습니다.");
                 new PSignUpDialog();
@@ -261,7 +259,7 @@ public class PSignUpDialog extends JDialog{//JDialog를 확장했다는 것
         }
     }
 
-    public class PComboBox extends JComboBox{
+    private class PComboBox extends JComboBox{
         private DefaultComboBoxModel comboBoxModel;
         private SDirectory sDirectory;
         private Vector<VDirectory> vDirectories;
@@ -271,12 +269,18 @@ public class PSignUpDialog extends JDialog{//JDialog를 확장했다는 것
             this.setModel(this.comboBoxModel);
         }
 
-        public Vector<VDirectory> getVDirectory() { return this.vDirectories;}
+        public String getVDirectory(Object selectedItem) {
+            for(VDirectory v : this.vDirectories){
+                if(v.getName().equals(selectedItem)) return v.getFileName();
+            }
+            return null;
+        }
 
         public String setData(String fileName) throws IOException {
             this.sDirectory = new SDirectory(); //데이터를 가져오려면 SDirectory 필요
             this.vDirectories = this.sDirectory.getDirectories(fileName); //n개의 vdirectory를 받아옴
 
+            this.comboBoxModel.setSelectedItem(0);
             for (VDirectory vDirectory : this.vDirectories) {
                 Vector<String> row = new Vector<String>();
                 row.add(vDirectory.getName()); //파일에서 읽어온 데이터를 넣어줘야 함
@@ -293,6 +297,8 @@ public class PSignUpDialog extends JDialog{//JDialog를 확장했다는 것
     }
 
     private class ActionHandler implements ActionListener {
+        private PLoginDialog pLoginDialog;
+        private Main main=new Main();
         @Override
         public void actionPerformed(ActionEvent e) {// 회원가입 버튼 액션 설정하는 메소드
             if(e.getActionCommand().equals("SignUp")){//가입 버튼 눌렀을 때
@@ -300,21 +306,34 @@ public class PSignUpDialog extends JDialog{//JDialog를 확장했다는 것
                 catch (IOException e1) {e1.printStackTrace();}
             } else if (e.getActionCommand().equals("중복 확인")) {System.out.print("중복 확인"); checkID();
             } else if (e.getActionCommand().equals("취소")) {
-                try {pLoginDialog=new PLoginDialog(main.actionHandler);}
+                try {this.pLoginDialog=new PLoginDialog(main.actionHandler);}
                 catch (IOException e1) {e1.printStackTrace();}
-                dispose();
-                pLoginDialog.setVisible(true);
+                disposeSignup();
+                this.pLoginDialog.setVisible(true);
             }
         }
     }
+    public void disposeSignup(){
+        this.dispose();
+    }
+    public void initialize() {
+        this.setVisible(true);
+    }
 
     public class WindowHandler implements WindowListener{
+        private Main main = new Main();
+        private PLoginDialog pLoginDialog;
         @Override
         public void windowOpened(WindowEvent e) {}
         @Override
         public void windowClosing(WindowEvent e) {
             int a= JOptionPane.showConfirmDialog(null, "계정 생성을 종료하시겠습니까?","계정 생성 종료",JOptionPane.OK_CANCEL_OPTION);
-            if(a==JOptionPane.OK_OPTION) { JOptionPane.showMessageDialog(null, "로그인 화면으로 돌아갑니다.") ;dispose();}
+            if(a==JOptionPane.OK_OPTION) { JOptionPane.showMessageDialog(null, "로그인 화면으로 돌아갑니다.") ;dispose();
+                try {pLoginDialog = new PLoginDialog(main.actionHandler);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
             else if(a==JOptionPane.CANCEL_OPTION) setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
         }
         @Override
@@ -330,13 +349,14 @@ public class PSignUpDialog extends JDialog{//JDialog를 확장했다는 것
     }
 
     private class ItemHandler implements ItemListener{
+
         @Override
         public void itemStateChanged(ItemEvent e) {
-            JComboBox comboBox = (JComboBox) e.getSource();
+
             if(e.getStateChange()==ItemEvent.SELECTED){
                 System.out.println(e.getSource().toString());//확인용
-                int selected = comboBox.getSelectedIndex();
-                try {updateComboBox(e.getSource(), selected);}
+                Object selectedItem= e.getItem();
+                try {updateComboBox(e.getSource(), selectedItem);}
                 catch (IOException ex) {ex.printStackTrace();                }
             }
         }

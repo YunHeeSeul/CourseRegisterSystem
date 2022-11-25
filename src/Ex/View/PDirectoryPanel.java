@@ -98,6 +98,7 @@ public class PDirectoryPanel extends JPanel {
         }
         else if(source == this.lectureTable.getSelectionModel()){
         }
+
     }
 
     public Vector<VLecture> getSelectedLectures() {
@@ -108,13 +109,13 @@ public class PDirectoryPanel extends JPanel {
     }
 
     private class ListSelectionHandler implements ListSelectionListener {
+        int selectedRow=0;
         @Override
         public void valueChanged(ListSelectionEvent e) { //마우스 클릭이 일어나면 valueChanged 발생.
             ListSelectionModel lsm = (ListSelectionModel) e.getSource();
             if(!e.getValueIsAdjusting()){
                 System.out.println(e.getSource().toString());
-                int selectedRow = lsm.getLeadSelectionIndex();
-//                int selectedRow = e.getLastIndex();
+                selectedRow = lsm.getAnchorSelectionIndex();
                 try {updateTable(e.getSource(), selectedRow);}
                 catch (IOException ex) {ex.printStackTrace();}
             }
