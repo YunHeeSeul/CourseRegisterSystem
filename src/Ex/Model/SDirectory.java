@@ -11,15 +11,9 @@ public class SDirectory {
 
     public SDirectory(){
         this.eDirectory = new EDirectory();
+        this.vDirectory = new VDirectory();
     }
-
-    public Vector<VDirectory> getDirectories(String fileName) throws IOException{
-        return this.eDirectory.getDirectories(fileName);
-    }
-
-    public String match(String name) {
-        return eDirectory.match(name);
-    }
+    public Vector<VDirectory> getDirectories(String fileName) throws IOException{return this.eDirectory.getDirectories(fileName);}
 
     public String getFileName(){
         return this.vDirectory.getFileName();

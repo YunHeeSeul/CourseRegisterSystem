@@ -3,6 +3,8 @@ package Ex.View;
 import Ex.ValueObject.VLecture;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -17,6 +19,8 @@ public class PSugangSincheongPanel extends JPanel {
     public PSugangSincheongPanel() throws IOException {
         //this.setLayout(new GridLayout(1,2,10,10));
         ActionHandler actionHandler = new ActionHandler();
+        ListSelectionHandler listSelectionHandler = new ListSelectionHandler();
+
         this.setLayout(new BoxLayout(this,BoxLayout.X_AXIS));
 
         this.pDirectoryPanel=new PDirectoryPanel();
@@ -25,18 +29,18 @@ public class PSugangSincheongPanel extends JPanel {
         this.pControlPanel1 = new PControlPanel("1",actionHandler);
         this.add(this.pControlPanel1);
 
-        JScrollPane jScrollPane1 = new JScrollPane();
-        this.pMiriDamgiPanel = new PMiriDamgiPanel();
-        jScrollPane1.setViewportView(this.pMiriDamgiPanel);
-        this.add(jScrollPane1);
+        JScrollPane jScrollPane = new JScrollPane();
+        this.pMiriDamgiPanel = new PMiriDamgiPanel(listSelectionHandler);
+        jScrollPane.setViewportView(this.pMiriDamgiPanel);
+        this.add(jScrollPane);
 
         this.pControlPanel2 = new PControlPanel("2",actionHandler);
         this.add(this.pControlPanel2);
 
-        JScrollPane jScrollPane2 = new JScrollPane();
-        this.pSincheongPanel = new PSincheongPanel();
-        jScrollPane2.setViewportView(this.pSincheongPanel);
-        this.add(jScrollPane2);
+        jScrollPane = new JScrollPane();
+        this.pSincheongPanel = new PSincheongPanel(listSelectionHandler);
+        jScrollPane.setViewportView(this.pSincheongPanel);
+        this.add(jScrollPane);
     }
 
     //버튼으로 정보 옮기기
@@ -84,5 +88,15 @@ public class PSugangSincheongPanel extends JPanel {
                     moveFromSincheongToMiridamgi();
                 }
         }
+    }
+
+    public class ListSelectionHandler implements ListSelectionListener {
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            if(!e.getValueIsAdjusting()) updateTable(e.getSource());
+        }
+    }
+
+    private void updateTable(Object object) {
     }
 }

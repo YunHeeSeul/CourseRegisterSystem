@@ -1,5 +1,6 @@
 package Ex.View;
 
+import Ex.Global.Locale;
 import Ex.Model.SLecture;
 import Ex.ValueObject.VLecture;
 
@@ -12,34 +13,37 @@ public class PLectureTable extends JTable {
     private DefaultTableModel tableModel;
     private SLecture sLecture;
     private Vector<VLecture> vLectures;
-    public PLectureTable() {
+    private String directoryName;
+    public PLectureTable(String directoryName) {
+        this.directoryName=directoryName;
+        this.sLecture=new SLecture();
+        this.vLectures=this.sLecture.getLectures(directoryName+ Locale.HEADER_FILE);
         Vector<String> header = new Vector<String>();
-        header.add("과목코드"); //column 이름
-        header.add("과목명"); //column 이름
-        header.add("담당교수"); //column 이름
-        header.add("학점"); //column 이름
-        header.add("시간"); //column 이름
+        header.add(this.vLectures.get(0).getId());
+        header.add(this.vLectures.get(0).getName());
+        header.add(this.vLectures.get(0).getProfessor());
+        header.add(this.vLectures.get(0).getCredit());
+        header.add(this.vLectures.get(0).getTime());
 
         this.tableModel = new DefaultTableModel(header, 0);//테이블모델 생성
         this.setModel(this.tableModel);//테이블모델 등록
     }
 
-    public Vector<VLecture> getVLecture(){return this.vLectures;}
-
     public void setData(String fileName) {
         this.sLecture = new SLecture(); //데이터를 가져오려면 SDirectory 필요
-        this.vLectures = this.sLecture.getLectures(fileName); //n개의 vdirectory를 받아옴
+        this.vLectures = this.sLecture.getLectures(this.directoryName+fileName); //n개의 vdirectory를 받아옴
 
         this.tableModel.setNumRows(0);
         for (VLecture vLecture : this.vLectures) {
             Vector<String> row = new Vector<String>();
-            row.add(vLecture.getId()); //파일에서 읽어온 데이터를 넣어줘야 함
-            row.add(vLecture.getName()); //파일에서 읽어온 데이터를 넣어줘야 함
-            row.add(vLecture.getProfessor()); //파일에서 읽어온 데이터를 넣어줘야 함
-            row.add(vLecture.getCredit()); //파일에서 읽어온 데이터를 넣어줘야 함
-            row.add(vLecture.getTime()); //파일에서 읽어온 데이터를 넣어줘야 함
+            //파일에서 읽어온 데이터를 넣어줘야 함
+            row.add(vLecture.getId());
+            row.add(vLecture.getName());
+            row.add(vLecture.getProfessor());
+            row.add(vLecture.getCredit());
+            row.add(vLecture.getTime());
             this.tableModel.addRow(row);
         }
-        //this.setRowSelectionInterval(0, 0); //맨 처음 것을 선택하도록
+        this.setRowSelectionInterval(0, 0); //맨 처음 것을 선택하도록
     }
 }

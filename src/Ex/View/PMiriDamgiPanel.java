@@ -1,16 +1,15 @@
 package Ex.View;
 
-import Ex.Model.SLecture;
+import Ex.Global.Locale;
 import Ex.ValueObject.VLecture;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableModel;
 import java.util.Vector;
 
 public class PMiriDamgiPanel extends PLectureTable{
-    public PMiriDamgiPanel(){
+    public PMiriDamgiPanel(PSugangSincheongPanel.ListSelectionHandler listSelectionHandler){
+        super(Locale.DIRECTORY_DEPARTMENT);
+        this.getSelectionModel().addListSelectionListener(listSelectionHandler);
         JScrollPane jScrollPane1 = new JScrollPane();
     }
 
