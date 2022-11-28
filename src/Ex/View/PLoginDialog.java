@@ -1,5 +1,7 @@
 package Ex.View;
 
+import Ex.Global.Constants;
+import Ex.Global.Locale;
 import Ex.Model.SLogin;
 import Ex.ValueObject.VAccount;
 
@@ -31,13 +33,13 @@ public class PLoginDialog extends JDialog{//JDialog를 확장했다는 것
         this.setModal(true);
         this.setBackground(Color.BLACK);
         this.setLayout(new BorderLayout(0,10));
-        this.setSize(900,900);
-        this.setLocation(178,0);
+        this.setSize(Constants.CLoginDialog.WIDTH,Constants.CLoginDialog.HEIGHT);
+        this.setLocation(Constants.CLoginDialog.LOCATION_X,Constants.CLoginDialog.LOCATION_Y);
         this.windowHandler = new WindowHandler();
         this.addWindowListener(windowHandler);
 
         this.imageLabel = new JLabel();
-        this.imageLabel.setBackground(Color.getHSBColor((222f/360),0.14f, 0.87f));
+        this.imageLabel.setBackground(Constants.CLoginDialog.LAVENDAR);
         this.imageIcon = new ImageIcon("image/title.jpg");
         this.imageLabel.setIcon(this.imageIcon);
         this.imageLabel.setOpaque(true);
@@ -49,12 +51,12 @@ public class PLoginDialog extends JDialog{//JDialog를 확장했다는 것
         this.buttonPanel = new JPanel(); //버튼을 담은 패널
 
         this.loginPanel.setLayout(new GridLayout(2,2,30,10));
-        this.loginPanel.setBackground(Color.getHSBColor((220f/360),0.65f, 0.42f));
+        this.loginPanel.setBackground(Constants.CLoginDialog.NAVY);
 
         this.innerPanel2.setLayout(new FlowLayout(FlowLayout.CENTER,500,50));
-        this.innerPanel2.setBackground(Color.getHSBColor((220f/360),0.65f, 0.42f));
+        this.innerPanel2.setBackground(Constants.CLoginDialog.NAVY);
         this.buttonPanel.setLayout(new GridLayout(1,2,50,10));
-        this.buttonPanel.setBackground(Color.getHSBColor((220f/360),0.65f, 0.42f));
+        this.buttonPanel.setBackground(Constants.CLoginDialog.NAVY);
 
         Font f1 = new Font("돋움",Font.BOLD,30);
         Font f2 = new Font("serif",Font.BOLD,15);
@@ -65,7 +67,7 @@ public class PLoginDialog extends JDialog{//JDialog를 확장했다는 것
         this.LIntro.setFont(f1);
         this.innerPanel2.add(this.LIntro);
 
-        this.LID = new JLabel("ID",JLabel.CENTER);
+        this.LID = new JLabel(Locale.LLoginDialog.ID_LABEL,JLabel.CENTER);
         this.LID.setFont(f2);
         this.LID.setForeground(Color.WHITE);
         this.LID.setSize(50,30);
@@ -76,7 +78,7 @@ public class PLoginDialog extends JDialog{//JDialog를 확장했다는 것
         this.TID.setSize(50,30);
         this.loginPanel.add(this.TID);
 
-        this.LPW = new JLabel("PW",JLabel.CENTER);
+        this.LPW = new JLabel(Locale.LLoginDialog.PW_LABEL,JLabel.CENTER);
         this.LPW.setFont(f2);
         this.LPW.setForeground(Color.WHITE);
         this.LPW.setSize(50,30);
@@ -88,16 +90,17 @@ public class PLoginDialog extends JDialog{//JDialog를 확장했다는 것
         this.loginPanel.add(this.TPW);
 
         //button 만들기
-        this.loginBt = new JButton("Login");
+        this.loginBt = new JButton(Locale.LLoginDialog.LOGIN_BUTTON);
         this.loginBt.setSize(100,50);
+        this.getRootPane().setDefaultButton(loginBt); //처음 세팅을 login 버튼에. enter치면 실행
         this.loginBt.setFont(f2);
-        this.loginBt.setBackground(Color.getHSBColor((222f/360),0.14f, 0.87f));
+        this.loginBt.setBackground(Constants.CLoginDialog.LAVENDAR);
         this.buttonPanel.add(this.loginBt);
 
-        this.signUpBt = new JButton("SignUp");
+        this.signUpBt = new JButton(Locale.LLoginDialog.SIGNUP_BUTTON);
         this.signUpBt.setSize(100,50);
         this.signUpBt.setFont(f2);
-        this.signUpBt.setBackground(Color.getHSBColor((222f/360),0.14f, 0.87f));
+        this.signUpBt.setBackground(Constants.CLoginDialog.LAVENDAR);
         this.buttonPanel.add(this.signUpBt);
 
         this.innerPanel2.add(this.loginPanel);
@@ -123,15 +126,15 @@ public class PLoginDialog extends JDialog{//JDialog를 확장했다는 것
         VAccount v = this.sLogin.read(ID,PW);//sLogin는 account 정보를 리턴 시켜 줌.
         Main main = new Main();
 
-        if (this.sLogin.login(ID, PW).equals("wrong")) {//id나 비밀번호가 틀린 경우
-            int option = JOptionPane.showConfirmDialog(null, "아이디나 비밀번호를 잘못 입력하셨습니다.\n로그인을 다시 시도하시겠습니까?", "로그인", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (this.sLogin.login(ID, PW).equals(Locale.WRONG)) {//id나 비밀번호가 틀린 경우
+            int option = JOptionPane.showConfirmDialog(null, Locale.LLoginDialog.WRONG_LOGIN_MESSAGE, Locale.LLoginDialog.WRONG_LOGIN_TITLE, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (option == JOptionPane.YES_OPTION) {//확인 버튼을 누른 경우
                 this.TID.setText("");
                 this.TPW.setText("");
                 new PLoginDialog(main.actionHandler);
                 this.setVisible(true);
             } else {
-                option = JOptionPane.showConfirmDialog(null, "수강 신청 시스템을 종료하시겠습니까?");
+                option = JOptionPane.showConfirmDialog(null, Locale.EXIT_SYSTEM_MESSAGE);
                 if (option == JOptionPane.NO_OPTION) {//확인 버튼을 누른 경우
                     this.TID.setText("");
                     this.TPW.setText("");
@@ -139,8 +142,8 @@ public class PLoginDialog extends JDialog{//JDialog를 확장했다는 것
                     this.setVisible(true);
                 } else System.exit(0);
             }
-        } else if (this.sLogin.login(ID, PW).equals("none")) {//계정이 없는 경우
-            int result = JOptionPane.showConfirmDialog(null, "존재하지 않는 계정입니다.\n계정 생성 하시겠습니까?", "로그인", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        } else if (this.sLogin.login(ID, PW).equals(Locale.NONE)) {//계정이 없는 경우
+            int result = JOptionPane.showConfirmDialog(null, Locale.LLoginDialog.NONE_LOGIN_MESSAGE, Locale.LLoginDialog.NONE_LOGIN_TITLE, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (result == JOptionPane.YES_OPTION) {//확인 버튼을 누른 경우
                 new PSignUpDialog();
                 pSignUpDialog.setVisible(true);  //다른 패널들과 달리 얘는 부모에 등록하지 않고 독립적으로 함
@@ -187,7 +190,7 @@ public class PLoginDialog extends JDialog{//JDialog를 확장했다는 것
         public void windowOpened(WindowEvent e) {}
         @Override
         public void windowClosing(WindowEvent e) {
-            int a= JOptionPane.showConfirmDialog(null, "프로그램을 종료하시겠습니까?","프로그램 종료",JOptionPane.OK_CANCEL_OPTION);
+            int a= JOptionPane.showConfirmDialog(null, Locale.EXIT_SYSTEM_MESSAGE,"프로그램 종료",JOptionPane.OK_CANCEL_OPTION);
             if(a==JOptionPane.OK_OPTION) System.exit(0);
             else if(a==JOptionPane.CANCEL_OPTION) setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
         }

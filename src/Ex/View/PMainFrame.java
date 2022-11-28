@@ -1,5 +1,6 @@
 package Ex.View;
 
+import Ex.Global.Constants;
 import Ex.ValueObject.VAccount;
 
 import javax.swing.*;
@@ -9,10 +10,8 @@ import java.awt.event.WindowListener;
 import java.io.IOException;
 
 public class PMainFrame extends JFrame {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = Constants.SERIAL_VERSION_UID;
     private WindowHandler windowHandler;
-    private PLoginDialog loginDialog;
-    private Main main;
     private PAccountPanel accountPanel;
     private PSugangSincheongPanel sugangSincheongPanel;
     private VAccount vAccount;
@@ -24,18 +23,21 @@ public class PMainFrame extends JFrame {
         public PMainFrame(VAccount vAccount) throws IOException {    //컴포넌트 생성
         //attribute
         //본인의 속성은 본인이 지정하도록 해야함 외부에서(Main) 하는 것이 아닌.
-        this.setSize(1000, 600);//창의 크기
+        this.setSize(Constants.CMainFrame.WIDTH, Constants.CMainFrame.HEIGHT);//창의 크기
         this.setBackground(Color.lightGray);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         this.windowHandler = new WindowHandler();
         this.addWindowListener(windowHandler);
 
+        this.vAccount=vAccount;
+
         //component 자식
         //그림을 그릴 수 있는 패널 생성.
-        this.setLayout(new BorderLayout(50,50));
+        this.setLayout(new BorderLayout(Constants.CMainFrame.HGAP,Constants.CMainFrame.VGAP));
 
-        this.vAccount=vAccount;
+
         this.accountPanel=new PAccountPanel(this.vAccount);
 //        String name = this.loginDialog.login();
 //        this.accountPanel = new PAccountPanel(name);
@@ -43,8 +45,7 @@ public class PMainFrame extends JFrame {
 
         this.sugangSincheongPanel = new PSugangSincheongPanel();
         this.add(sugangSincheongPanel, BorderLayout.CENTER);
-
-        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        //setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     }
 
     public void initialize() {

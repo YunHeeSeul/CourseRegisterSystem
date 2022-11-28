@@ -1,6 +1,9 @@
 package Submit.View;
 
 import javax.swing.*;
+
+import Submit.ValueObject.VAccount;
+
 import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -9,19 +12,18 @@ import java.io.IOException;
 public class PMainFrame extends JFrame {
     private static final long serialVersionUID = 1L;
     private WindowHandler windowHandler;
-    private PLoginDialog loginDialog;
-    private Main main;
     private PAccountPanel accountPanel;
     private PSugangSincheongPanel sugangSincheongPanel;
+    private VAccount vAccount;
+
+    public void setVAccount(VAccount vAccount){this.vAccount = vAccount;}
 
     //constructor
-    public PMainFrame(String name) throws IOException {    //컴포넌트 생성
+    public PMainFrame(VAccount vAccount) throws IOException {    //컴포넌트 생성
         //attribute
         //본인의 속성은 본인이 지정하도록 해야함 외부에서(Main) 하는 것이 아닌.
-        //this.setTitle("명지대학교 수강신청시스템"); //JFrame을 상속받은 것이 PMainFrame이니까 this 사용
         this.setSize(1000, 600);//창의 크기
         this.setBackground(Color.lightGray);
-        //this.setForeground(Color.WHITE);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    //창닫기 누르면 아무것도 안함
         this.windowHandler = new WindowHandler();
@@ -32,7 +34,8 @@ public class PMainFrame extends JFrame {
         this.setLayout(new BorderLayout(50,50));
 
 //        String name = this.loginDialog.login();
-        this.accountPanel = new PAccountPanel(name);
+        this.vAccount=vAccount;
+        this.accountPanel=new PAccountPanel(this.vAccount);
         this.add(this.accountPanel, BorderLayout.NORTH);
 
         this.sugangSincheongPanel = new PSugangSincheongPanel();

@@ -1,5 +1,7 @@
 package Ex.View;
 
+import Ex.Global.Constants;
+import Ex.Global.Locale;
 import Ex.ValueObject.VAccount;
 
 import javax.swing.*;
@@ -7,26 +9,24 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class PAccountPanel extends JPanel { //JPanel 확장해서 사용할 것
-    PLoginDialog pLoginDialog;
+    private static final long serialVersionUID = Constants.SERIAL_VERSION_UID;
 
     //public PAccountPanel(String name){  //name을 받아와야 함
-            public PAccountPanel(VAccount vAccount){  //name을 받아와야 함
-
-                String name = vAccount.getName();
-            JLabel lName = new JLabel(name);
+    public PAccountPanel(VAccount vAccount){  //name을 받아와야 함
+        JLabel lName = new JLabel(vAccount.getName());
         this.add(lName); //자식 등록
 
-        JLabel lGreeting = new JLabel("님 안녕하세요! ");
+        JLabel lGreeting = new JLabel(Locale.LAccountPanel.INSA_POSTFIX);
         this.add(lGreeting); //자식 등록
 
-        JLabel lLogin = new JLabel("로그인 시간은");
+        JLabel lLogin = new JLabel(Locale.LAccountPanel.LOGIN_TIME_PREFIX);
         this.add(lLogin); //자식 등록
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Locale.TIME_FORMAT);
         JLabel lTime = new JLabel(simpleDateFormat.format(new Date()));
         this.add(lTime); //자식 등록
 
-        JLabel lDescription = new JLabel("입니다!");
+        JLabel lDescription = new JLabel(Locale.LAccountPanel.IPNIDA);
         this.add(lDescription); //자식 등록
     }
 }

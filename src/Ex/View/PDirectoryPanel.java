@@ -69,6 +69,38 @@ public class PDirectoryPanel extends JPanel {
 
         this.updateTable(null, 0);
     }
+    /* 교수님 코드
+    private void updateTable(Object object) {
+		String fileName = null;
+		int[] selectedIndices;;
+		if (object == null) {
+			this.campusTable.setData("root");
+		} else if (object == this.campusTable.getSelectionModel()) {
+			selectedIndices = this.campusTable.getSelectedRows();
+			if (selectedIndices.length > 0) {
+				fileName = this.campusTable.getFileName(selectedIndices[0]);
+				this.collegeTable.setData(fileName);
+			}
+		} else if (object == this.collegeTable.getSelectionModel()) {
+			selectedIndices = this.collegeTable.getSelectedRows();
+			if (selectedIndices.length > 0) {
+				fileName = this.collegeTable.getFileName(selectedIndices[0]);
+				this.departmentTable.setData(fileName);
+			}
+		} else if (object == this.departmentTable.getSelectionModel()) {
+			selectedIndices = this.departmentTable.getSelectedRows();
+			if (selectedIndices.length > 0) {
+				fileName = this.departmentTable.getFileName(selectedIndices[0]);
+				this.lectureTable.setData(fileName);
+			}
+		} else if (object == this.lectureTable) {
+			selectedIndices = this.lectureTable.getSelectedRows();
+			if (selectedIndices.length > 0) {
+
+			}
+		}
+	}
+    */
 
     private void updateTable(Object source, int selectedRow) throws IOException {
         //데이터를 가져오는 부분
@@ -114,12 +146,20 @@ public class PDirectoryPanel extends JPanel {
         public void valueChanged(ListSelectionEvent e) { //마우스 클릭이 일어나면 valueChanged 발생.
             ListSelectionModel lsm = (ListSelectionModel) e.getSource();
             if(!e.getValueIsAdjusting()){
-                System.out.println(e.getSource().toString());
                 selectedRow = lsm.getAnchorSelectionIndex();
                 try {updateTable(e.getSource(), selectedRow);}
                 catch (IOException ex) {ex.printStackTrace();}
             }
         }
+        /*
+        @Override
+		public void valueChanged(ListSelectionEvent event) {
+			if (!event.getValueIsAdjusting()) {
+//				System.out.println(event.getSource().toString());
+				updateTable(event.getSource());
+			}
+		}
+         */
     }
 
     private class PDirectory extends JTable {
@@ -153,6 +193,7 @@ public class PDirectoryPanel extends JPanel {
                 this.tableModel.addRow(row);
             }
             //this.setRowSelectionInterval(0, 0); //맨 처음 것을 선택하도록
+            System.out.println("디렉토리 :"+this.vDirectories.toString());
             return this.vDirectories.get(0).getFileName(); //0번이 선택한 것에 해당하는 파일네임을 가져오는 것
         }
     }

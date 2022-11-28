@@ -13,19 +13,12 @@ public class SLogin {
 
     public String login(String ID, String PW) throws IOException {
         String retVal="";
-        if(this.eAccount.checkLogin(ID,PW)=="correct") {
-            System.out.println("계정 일치");
-            retVal = "correct";//eAccount에게 해당하는 id를 가져와 달라 요청
-        }else if (this.eAccount.checkLogin(ID,PW)=="null"){
-            System.out.println("계정 없음");
-            retVal="null";
-        }
-        else if (this.eAccount.checkLogin(ID,PW)=="wrong"){
-            System.out.println("계정 불일치");
-            retVal="wrong";}
+        if(this.eAccount.checkLogin(ID,PW)=="correct") retVal = "correct";//eAccount에게 해당하는 id를 가져와 달라 요청
+        else if (this.eAccount.checkLogin(ID,PW)=="none") retVal="none";
+        else if (this.eAccount.checkLogin(ID,PW)=="wrong") retVal="wrong";
         return retVal;
     }
-    public VAccount read(String ID, String PW) throws IOException {
+    public VAccount read(String ID,String PW) throws IOException {
         if(this.login(ID,PW)=="correct")  vAccount = this.eAccount.getAccount(ID, PW);
         return vAccount;
     }
@@ -33,7 +26,7 @@ public class SLogin {
         if(this.eAccount.isRegistered(ID)) return true;//등록되어있지 않은
         return false;
     }
-    public boolean signUp(String info){
+    public boolean signUp(String info) throws IOException {
         if(this.eAccount.signUp(info)) return true;
         return false;
     }
