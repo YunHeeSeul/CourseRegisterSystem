@@ -1,6 +1,10 @@
 package Submit.View;
+import Submit.Global.Constants;
+import Submit.Global.Locale;
 import Submit.Model.SDirectory;
 import Submit.ValueObject.VDirectory;
+import Submit.ValueObject.VLecture;
+
 import java.awt.*;
 import java.io.IOException;
 import java.util.Vector;
@@ -10,138 +14,138 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 public class PDirectoryPanel extends JPanel {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = Constants.SERIAL_VERSION_UID;
     private ListSelectionHandler listSelectionHandler;
     private PDirectory campusTable, collegeTable, departmentTable;
     private PLectureTable lectureTable;
-    private JScrollPane scrollPane1, scrollPane2, scrollPane3, scrollPane4;
     private JPanel upPanel, downPanel;
-    private int cnt = 0;
     public PDirectoryPanel() throws IOException {
         LayoutManager layoutManager = new BoxLayout(this, BoxLayout.Y_AXIS);
         this.setLayout(layoutManager);
 
         this.listSelectionHandler = new ListSelectionHandler();
 
-        //campus/college/department tableì„ ë‹´ì€ ìƒìœ„ íŒ¨ë„
+        //campus/college/department tableÀ» ´ãÀº »óÀ§ ÆĞ³Î
         upPanel = new JPanel();
         layoutManager = new BoxLayout(upPanel, BoxLayout.X_AXIS);
         upPanel.setLayout(layoutManager);
 
-        this.campusTable = new PDirectory();
+        this.campusTable = new PDirectory(Locale.DIRECTORY_ROOT);
         this.campusTable.getSelectionModel().addListSelectionListener(this.listSelectionHandler);
-        //        scrollPane1 = new JScrollPane(this.campusTable, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER); //scrollpane ì•ˆì— campustableì„ ë¶™ì¸ ê²ƒ
-        JScrollPane scrollPane1 = new JScrollPane();
-        scrollPane1.setViewportView(this.campusTable);
-        upPanel.add(scrollPane1);
+        //        scrollPane1 = new JScrollPane(this.campusTable, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER); //scrollpane ¾È¿¡ campustableÀ» ºÙÀÎ °Í
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setViewportView(this.campusTable);
+        upPanel.add(scrollPane);
 
-        this.collegeTable = new PDirectory();
+        this.collegeTable = new PDirectory(Locale.DIRECTORY_CAMPUS);
         this.collegeTable.getSelectionModel().addListSelectionListener(this.listSelectionHandler);
-        //        scrollPane2 = new JScrollPane(this.collegeTable, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER); //scrollpane ì•ˆì— campustableì„ ë¶™ì¸ ê²ƒ
-        JScrollPane scrollPane2 = new JScrollPane();
-        scrollPane2.setViewportView(this.collegeTable);
-        upPanel.add(scrollPane2);
+        scrollPane = new JScrollPane();
+        scrollPane.setViewportView(this.collegeTable);
+        upPanel.add(scrollPane);
 
-        this.departmentTable = new PDirectory();
+        this.departmentTable = new PDirectory(Locale.DIRECTORY_COLLEGE);
         this.departmentTable.getSelectionModel().addListSelectionListener(this.listSelectionHandler);
-        //        scrollPane3 = new JScrollPane(this.departmentTable, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER); //scrollpane ì•ˆì— campustableì„ ë¶™ì¸ ê²ƒ
-        JScrollPane scrollPane3 = new JScrollPane();
-        scrollPane3.setViewportView(this.departmentTable);
-        upPanel.add(scrollPane3);
+        scrollPane = new JScrollPane();
+        scrollPane.setViewportView(this.departmentTable);
+        upPanel.add(scrollPane);
         this.add(upPanel);
 
-        //lecture í…Œì´ë¸”ì„ ë‹´ì€ í•˜ìœ„ íŒ¨ë„
+        //lecture Å×ÀÌºíÀ» ´ãÀº ÇÏÀ§ ÆĞ³Î
         downPanel = new JPanel();
         layoutManager = new BoxLayout(downPanel, BoxLayout.Y_AXIS);
         downPanel.setLayout(layoutManager);
 
-        this.lectureTable = new PLectureTable();
+        this.lectureTable = new PLectureTable(Locale.DIRECTORY_DEPARTMENT);
         this.lectureTable.getSelectionModel().addListSelectionListener(this.listSelectionHandler);
-//            scrollPane4 = new JScrollPane(this.lectureTable, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER); //scrollpane ì•ˆì— campustableì„ ë¶™ì¸ ê²ƒ
-        JScrollPane scrollPane4 = new JScrollPane();
-        scrollPane4.setViewportView(this.lectureTable);
-        downPanel.add(scrollPane4);
+        scrollPane = new JScrollPane();
+        scrollPane.setViewportView(this.lectureTable);
+        downPanel.add(scrollPane);
 
         this.add(downPanel);
 
-        this.updateTable(null, 0);
+        this.updateTable(null);
     }
 
-    private void updateTable(Object source, int selectedRow) throws IOException {
-        //ë°ì´í„°ë¥¼ ê°€ì ¸ì˜¤ëŠ” ë¶€ë¶„
+    private void updateTable(Object object) throws IOException {
         String fileName = null;
-
-        if(source == null){
-            fileName = "root";
-            fileName = this.campusTable.setData(fileName);
-            fileName = this.collegeTable.setData(fileName);
-            fileName = this.departmentTable.setData(fileName);
-            this.lectureTable.setData(fileName);
-        } else if(source == this.campusTable.getSelectionModel()){
-            fileName=this.campusTable.getVDirectory().get(selectedRow).getFileName();
-            System.out.println("campusTable index : "+selectedRow);
-            fileName = this.collegeTable.setData(fileName);
-            fileName = this.departmentTable.setData(fileName);
-            this.lectureTable.setData(fileName);
-        } else if(source == this.collegeTable.getSelectionModel()){
-            fileName=this.collegeTable.getVDirectory().get(selectedRow).getFileName();
-            System.out.println("collegeTable index : "+selectedRow);
-            fileName = this.departmentTable.setData(fileName);
-            this.lectureTable.setData(fileName);
-        } else if(source == this.departmentTable.getSelectionModel()){
-            fileName=this.departmentTable.getVDirectory().get(selectedRow).getFileName();
-            System.out.println("departmentTable index : "+selectedRow);
-            this.lectureTable.setData(fileName);
-        }
-        else if(source == this.lectureTable.getSelectionModel()){
+        int[] selectedRows;
+        if (object == null) {
+            this.campusTable.setData(Locale.SETDATA_ROOT);
+        } else if (object.equals(this.campusTable.getSelectionModel())) {
+            selectedRows = this.campusTable.getSelectedRows(); //¼±ÅÃµÈ Çà ´Ù Áı¾î³Ö±â
+            if (selectedRows.length > 0) { //¼±ÅÃµÈ ÇàÀÌ ÀÖÀ¸¸é
+                fileName = this.campusTable.getFileName(selectedRows[0]); //°¡Àå ¸ÕÀú ¼±ÅÃµÈ Çà¿¡ °ü·ÃµÈ ÆÄÀÏÀÌ¸§ °¡Á®¿À±â
+                this.collegeTable.setData(fileName);
+            }
+        } else if (object.equals(this.collegeTable.getSelectionModel())) {
+            selectedRows = this.collegeTable.getSelectedRows();
+            if (selectedRows.length > 0) {
+                fileName = this.collegeTable.getFileName(selectedRows[0]);
+                this.departmentTable.setData(fileName);
+            }
+        } else if (object.equals(this.departmentTable.getSelectionModel())) {
+            selectedRows = this.departmentTable.getSelectedRows();
+            if (selectedRows.length > 0) {
+                fileName = this.departmentTable.getFileName(selectedRows[0]);
+                this.lectureTable.setData(fileName);
+            }
+        } else if (object.equals(this.lectureTable)) {
+            selectedRows = this.lectureTable.getSelectedRows();
+            if (selectedRows.length > 0) {}
         }
     }
+
+    public Vector<VLecture> getSelectedLectures() {
+        return null;
+    }
+
+    public void addLectures(Vector<VLecture> vLectures) {
+    }
+
     private class ListSelectionHandler implements ListSelectionListener {
         @Override
-        public void valueChanged(ListSelectionEvent e) { //ë§ˆìš°ìŠ¤ í´ë¦­ì´ ì¼ì–´ë‚˜ë©´ valueChanged ë°œìƒ.
-            ListSelectionModel lsm = (ListSelectionModel) e.getSource();
-            if(!e.getValueIsAdjusting()){
-                System.out.println(e.getSource().toString());
-                int selectedRow = lsm.getLeadSelectionIndex();
-//                int selectedRow = e.getLastIndex();
-                try {updateTable(e.getSource(), selectedRow);}
+        public void valueChanged(ListSelectionEvent e) { //¸¶¿ì½º Å¬¸¯ÀÌ ÀÏ¾î³ª¸é valueChanged ¹ß»ı.
+            if(!e.getValueIsAdjusting()){ //¼±ÅÃÀÌ ³¡³ª¸é
+                try {updateTable(e.getSource());}
                 catch (IOException ex) {ex.printStackTrace();}
             }
         }
     }
 
     private class PDirectory extends JTable {
-        private static final long serialVersionUID = 1L;
+        private static final long serialVersionUID = Constants.SERIAL_VERSION_UID;
         private DefaultTableModel tableModel;
         private SDirectory sDirectory;
         private Vector<VDirectory> vDirectories;
+        private String directoryName;
 
-        public PDirectory() {
+        public PDirectory(String directoryName) throws IOException {
+            this.directoryName=directoryName;
+            this.sDirectory = new SDirectory();
+            this.vDirectories = this.sDirectory.getDirectories(this.directoryName+Locale.HEADER_FILE);
+
             Vector<String> header = new Vector<String>();
-            String[] s = {"ìº í¼ìŠ¤", "ëŒ€í•™", "ê³¼ëª©"};
-            header.add(s[cnt]); //column ì´ë¦„
-            cnt++;
-            this.tableModel = new DefaultTableModel(header, 0);//í…Œì´ë¸”ëª¨ë¸ ìƒì„±
-            this.setModel(this.tableModel);//í…Œì´ë¸”ëª¨ë¸ ë“±ë¡
+            header.add(this.vDirectories.get(0).getName());
+            this.tableModel = new DefaultTableModel(header, 0);//Å×ÀÌºí¸ğµ¨ »ı¼º
+            this.setModel(this.tableModel);//Å×ÀÌºí¸ğµ¨ µî·Ï
         }
-
-        public Vector<VDirectory> getVDirectory() { return this.vDirectories;}
-
         @Override
         public boolean isCellEditable(int row, int col){return false;}
 
-        public String setData(String fileName) throws IOException {
-            this.sDirectory = new SDirectory(); //ë°ì´í„°ë¥¼ ê°€ì ¸ì˜¤ë ¤ë©´ SDirectory í•„ìš”
-            this.vDirectories = this.sDirectory.getDirectories(fileName); //nê°œì˜ vdirectoryë¥¼ ë°›ì•„ì˜´
+        public String getFileName(int index){return Locale.SLASH+this.vDirectories.get(index).getFileName();}
+        public void setData(String fileName) throws IOException {
+            this.vDirectories = this.sDirectory.getDirectories(this.directoryName + fileName); //n°³ÀÇ vdirectory¸¦ ¹Ş¾Æ¿È
 
             this.tableModel.setNumRows(0);
             for (VDirectory vDirectory : this.vDirectories) {
                 Vector<String> row = new Vector<String>();
-                row.add(vDirectory.getName()); //íŒŒì¼ì—ì„œ ì½ì–´ì˜¨ ë°ì´í„°ë¥¼ ë„£ì–´ì¤˜ì•¼ í•¨
+                row.add(vDirectory.getName()); //ÆÄÀÏ¿¡¼­ ÀĞ¾î¿Â µ¥ÀÌÅÍ¸¦ ³Ö¾îÁà¾ß ÇÔ
+                System.out.println("directory Name : "+vDirectory.getName());
                 this.tableModel.addRow(row);
+
             }
-            //this.setRowSelectionInterval(0, 0); //ë§¨ ì²˜ìŒ ê²ƒì„ ì„ íƒí•˜ë„ë¡
-            return this.vDirectories.get(0).getFileName(); //0ë²ˆì´ ì„ íƒí•œ ê²ƒì— í•´ë‹¹í•˜ëŠ” íŒŒì¼ë„¤ì„ì„ ê°€ì ¸ì˜¤ëŠ” ê²ƒ
+            System.out.println(this.tableModel);
+            this.setRowSelectionInterval(0, 0); //¸Ç Ã³À½ °ÍÀ» ¼±ÅÃÇÏµµ·Ï
         }
     }
 }

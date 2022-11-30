@@ -50,27 +50,6 @@ public class VAccount implements Serializable {
     public String getName() {return name;}
     public void setName(String name) {this.name = name;}
 
-    public String getPhoneNum() {return phoneNum;}
-    public void setPhoneNum(String phoneNum) {this.phoneNum = phoneNum;}
-
-    public String getEMail() {return eMail;}
-    public void setEMail(String eMail) {this.eMail = eMail;}
-
-    public String getCampus() {return campus;}
-    public void setCampus(String campus) {this.campus = campus;}
-
-    public String getCollege() {return college;}
-    public void setCollege(String college) {this.college = college;}
-
-    public String getDepartment() {return department;}
-    public void setDepartment(String department) {this.department = department;}
-
-    public String getGrade() {return grade;}
-    public void setGrade(String grade) {this.grade = grade;}
-
-    public String getSex() { return sex;}
-    public void setSex(String sex) {this.sex = sex;}
-
     public String printStudentRecord() {
         String returnString = "학생 ID : " + this.ID + "  |  학생 PW : " + this.PW + "  |  학생 이름 : " +this.name + "  |  번호 : " + this.phoneNum+ "  |  메일 : " + this.eMail+ "  |  캠퍼스 : " + this.campus+"  |  학부 : " + this.college+ "  |  전공 : " + this.department+ "  |  학년 : " + this.grade+ "  |  성별 : " + this.sex;
         return returnString+"\n";

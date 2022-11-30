@@ -1,5 +1,7 @@
 package Submit.View;
 
+import Submit.Global.Constants;
+import Submit.Global.Locale;
 import Submit.Model.SLogin;
 import Submit.ValueObject.VAccount;
 
@@ -10,8 +12,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.IOException;
 
-public class PLoginDialog extends JDialog{//JDialogë¥¼ í™•ì¥í–ˆë‹¤ëŠ” ê²ƒ
-
+public class PLoginDialog extends JDialog{//JDialog¸¦ È®ÀåÇß´Ù´Â °Í
     private static final long serialVersionUID = 1L;
     //components
     private WindowHandler windowHandler;
@@ -25,78 +26,79 @@ public class PLoginDialog extends JDialog{//JDialogë¥¼ í™•ì¥í–ˆë‹¤ëŠ” ê²ƒ
     private ImageIcon imageIcon;
     public Main main = new Main();
 
-    public PLoginDialog(Main.ActionHandler actionHandler) throws IOException{//JDialogë¥¼ ìƒì†ë°›ìŒ. í™•ì¥í•œ ê²ƒì„. ê·¸ë¦¬ê³  í•„ìš”í•œ ê¸°ëŠ¥ ì¶”ê°€í•œ ê²ƒ
-//        super(parent);//ì›ë˜ JDialogì˜ constructorë¥¼ ë¶ˆëŸ¬ì£¼ëŠ” ê²ƒ
+    public PLoginDialog(Main.ActionHandler actionHandler) throws IOException{//JDialog¸¦ »ó¼Ó¹ŞÀ½. È®ÀåÇÑ °ÍÀÓ. ±×¸®°í ÇÊ¿äÇÑ ±â´É Ãß°¡ÇÑ °Í
+//        super(parent);//¿ø·¡ JDialogÀÇ constructor¸¦ ºÒ·¯ÁÖ´Â °Í
         this.setModal(true);
         this.setBackground(Color.BLACK);
-        this.setLayout(new BorderLayout(0,10));
-        this.setSize(900,900);
-        this.setLocation(178,0);
+        this.setLayout(new BorderLayout(Constants.LAYOUT_HGAP,Constants.LAYOUT_WGAP));
+        this.setSize(Constants.WIDTH,Constants.HEIGHT);
+        this.setLocation(Constants.LOCATION_X,Constants.LOCATION_Y);
         this.windowHandler = new WindowHandler();
         this.addWindowListener(windowHandler);
 
         this.imageLabel = new JLabel();
-        this.imageLabel.setBackground(Color.getHSBColor((222f/360),0.14f, 0.87f));
-        this.imageIcon = new ImageIcon("image/title.jpg");
+        this.imageLabel.setBackground(Constants.LAVENDAR);
+        this.imageIcon = new ImageIcon(Locale.LLoginDialog.IMAGEICON);
         this.imageLabel.setIcon(this.imageIcon);
         this.imageLabel.setOpaque(true);
-        this.imageLabel.setHorizontalAlignment(JLabel.CENTER);   //ì´ë¯¸ì§€ ì¤‘ì•™ ì •ë ¬
+        this.imageLabel.setHorizontalAlignment(JLabel.CENTER);   //ÀÌ¹ÌÁö Áß¾Ó Á¤·Ä
         this.add(imageLabel,BorderLayout.NORTH);
 
-        this.loginPanel = new JPanel(); //login, password, ë¼ë²¨ê³¼ ì…ë ¥ì°½ì„ ë‹´ì€ íŒ¨ë„
-        this.innerPanel2 = new JPanel(); //Introë¼ë²¨ê³¼ loginPanelì„ ë‹´ì€ íŒ¨ë„
-        this.buttonPanel = new JPanel(); //ë²„íŠ¼ì„ ë‹´ì€ íŒ¨ë„
+        this.loginPanel = new JPanel(); //login, password, ¶óº§°ú ÀÔ·ÂÃ¢À» ´ãÀº ÆĞ³Î
+        this.innerPanel2 = new JPanel(); //Intro¶óº§°ú loginPanelÀ» ´ãÀº ÆĞ³Î
+        this.buttonPanel = new JPanel(); //¹öÆ°À» ´ãÀº ÆĞ³Î
 
-        this.loginPanel.setLayout(new GridLayout(2,2,30,10));
-        this.loginPanel.setBackground(Color.getHSBColor((220f/360),0.65f, 0.42f));
+        this.loginPanel.setLayout(new GridLayout(Constants.CLoginDialog.LOGIN_ROW,Constants.CLoginDialog.LOGIN_COLUMN,Constants.CLoginDialog.LOGIN_HGAP,Constants.CLoginDialog.LOGIN_VGAP));
+        this.loginPanel.setBackground(Constants.NAVY);
 
-        this.innerPanel2.setLayout(new FlowLayout(FlowLayout.CENTER,500,50));
-        this.innerPanel2.setBackground(Color.getHSBColor((220f/360),0.65f, 0.42f));
-        this.buttonPanel.setLayout(new GridLayout(1,2,50,10));
-        this.buttonPanel.setBackground(Color.getHSBColor((220f/360),0.65f, 0.42f));
+        this.innerPanel2.setLayout(new FlowLayout(FlowLayout.CENTER,Constants.CLoginDialog.INNER_HGAP,Constants.CLoginDialog.INNER_VGAP));
+        this.innerPanel2.setBackground(Constants.NAVY);
+        this.buttonPanel.setLayout(new GridLayout(Constants.CLoginDialog.BUTTON_ROW,Constants.CLoginDialog.BUTTON_COLUMN,Constants.CLoginDialog.BUTTON_HGAP,Constants.CLoginDialog.BUTTON_VGAP));
+        this.buttonPanel.setBackground(Constants.NAVY);
 
-        Font f1 = new Font("ë‹ì›€",Font.BOLD,30);
-        Font f2 = new Font("serif",Font.BOLD,15);
+        Font f1 = new Font(Constants.FONT1_NAME,Font.BOLD,Constants.FONT1_SIZE);
+        Font f2 = new Font(Constants.FONT2_NAME,Font.BOLD,Constants.FONT2_SIZE);
 
-        this.LIntro = new JLabel("ëª…ì§€ëŒ€í•™êµ ìˆ˜ê°•ì‹ ì²­ì‹œìŠ¤í…œ",JLabel.CENTER);
+        this.LIntro = new JLabel(Constants.CLoginDialog.INTRO_LABEL,JLabel.CENTER);
         this.LIntro.setHorizontalAlignment(SwingConstants.CENTER);
         this.LIntro.setForeground(Color.WHITE);
         this.LIntro.setFont(f1);
         this.innerPanel2.add(this.LIntro);
 
-        this.LID = new JLabel("ID",JLabel.CENTER);
+        this.LID = new JLabel(Locale.LLoginDialog.ID_LABEL,JLabel.CENTER);
         this.LID.setFont(f2);
         this.LID.setForeground(Color.WHITE);
-        this.LID.setSize(50,30);
+        this.LID.setSize(Constants.LABEL_WIDTH,Constants.LABEL_HEIGHT);
         this.loginPanel.add(this.LID);
 
-        this.TID = new JTextField(10);
+        this.TID = new JTextField(Constants.LABEL_COLUMNS);
         this.TID.setFont(f2);
-        this.TID.setSize(50,30);
+        this.TID.setSize(Constants.LABEL_WIDTH,Constants.LABEL_HEIGHT);
         this.loginPanel.add(this.TID);
 
-        this.LPW = new JLabel("PW",JLabel.CENTER);
+        this.LPW = new JLabel(Locale.LLoginDialog.PW_LABEL,JLabel.CENTER);
         this.LPW.setFont(f2);
         this.LPW.setForeground(Color.WHITE);
-        this.LPW.setSize(50,30);
+        this.LPW.setSize(Constants.LABEL_WIDTH,Constants.LABEL_HEIGHT);
         this.loginPanel.add(this.LPW);
 
-        //ì…ë ¥ ë‚´ìš©ì´ í‘œì‹œë˜ì§€ ì•ŠìŒ
-        this.TPW = new JPasswordField(10);
-        this.TPW.setSize(50,30);
+        //ÀÔ·Â ³»¿ëÀÌ Ç¥½ÃµÇÁö ¾ÊÀ½
+        this.TPW = new JPasswordField(Constants.LABEL_COLUMNS);
+        this.TPW.setSize(Constants.LABEL_WIDTH,Constants.LABEL_HEIGHT);
         this.loginPanel.add(this.TPW);
 
-        //button ë§Œë“¤ê¸°
-        this.loginBt = new JButton("Login");
-        this.loginBt.setSize(100,50);
+        //button ¸¸µé±â
+        this.loginBt = new JButton(Locale.LOGIN_BUTTON);
+        this.loginBt.setSize(Constants.BUTTON_WIDTH,Constants.BUTTON_HEIGHT);
+        this.getRootPane().setDefaultButton(loginBt); //Ã³À½ ¼¼ÆÃÀ» login ¹öÆ°¿¡. enterÄ¡¸é ½ÇÇà
         this.loginBt.setFont(f2);
-        this.loginBt.setBackground(Color.getHSBColor((222f/360),0.14f, 0.87f));
+        this.loginBt.setBackground(Constants.LAVENDAR);
         this.buttonPanel.add(this.loginBt);
 
-        this.signUpBt = new JButton("SignUp");
-        this.signUpBt.setSize(100,50);
+        this.signUpBt = new JButton(Locale.SIGNUP_BUTTON);
+        this.signUpBt.setSize(Constants.BUTTON_WIDTH,Constants.BUTTON_HEIGHT);
         this.signUpBt.setFont(f2);
-        this.signUpBt.setBackground(Color.getHSBColor((222f/360),0.14f, 0.87f));
+        this.signUpBt.setBackground(Constants.LAVENDAR);
         this.buttonPanel.add(this.signUpBt);
 
         this.innerPanel2.add(this.loginPanel);
@@ -104,7 +106,8 @@ public class PLoginDialog extends JDialog{//JDialogë¥¼ í™•ì¥í–ˆë‹¤ëŠ” ê²ƒ
         this.add(innerPanel2,BorderLayout.CENTER);
         this.add(this.innerPanel2);
 
-        //buttonì— ê¸°ëŠ¥ ì¶”ê°€
+
+        //button¿¡ ±â´É Ãß°¡
         this.loginBt.addActionListener(actionHandler);
         this.signUpBt.addActionListener(actionHandler);
 
@@ -113,43 +116,43 @@ public class PLoginDialog extends JDialog{//JDialogë¥¼ í™•ì¥í–ˆë‹¤ëŠ” ê²ƒ
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
     }
 
-    public VAccount login() throws IOException { //idê°€ ìˆëŠ”ì§€ ì—†ëŠ”ì§€ ì»¨íŠ¸ë¡¤ëŸ¬í•œí…Œ ì²´í¬í•´ë´ì•¼ í•¨.
+    public VAccount login() throws IOException { //id°¡ ÀÖ´ÂÁö ¾ø´ÂÁö ÄÁÆ®·Ñ·¯ÇÑÅ× Ã¼Å©ÇØºÁ¾ß ÇÔ.
         String ID = TID.getText();
         String PW = new String((TPW.getPassword()));
 
-        VAccount v = this.sLogin.read(ID,PW);//sLoginëŠ” account ì •ë³´ë¥¼ ë¦¬í„´ ì‹œì¼œ ì¤Œ.
+        VAccount v = this.sLogin.read(ID,PW);//sLogin´Â account Á¤º¸¸¦ ¸®ÅÏ ½ÃÄÑ ÁÜ.
 
-        if (this.sLogin.login(ID, PW).equals("wrong")) {//idë‚˜ ë¹„ë°€ë²ˆí˜¸ê°€ í‹€ë¦° ê²½ìš°
-            int option = JOptionPane.showConfirmDialog(null, "ì•„ì´ë””ë‚˜ ë¹„ë°€ë²ˆí˜¸ë¥¼ ì˜ëª» ì…ë ¥í•˜ì…¨ìŠµë‹ˆë‹¤.\në¡œê·¸ì¸ì„ ë‹¤ì‹œ ì‹œë„í•˜ì‹œê² ìŠµë‹ˆê¹Œ?", "ë¡œê·¸ì¸", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-            if (option == JOptionPane.YES_OPTION) {//í™•ì¸ ë²„íŠ¼ì„ ëˆ„ë¥¸ ê²½ìš°
-                this.TID.setText("");
-                this.TPW.setText("");
+        if (this.sLogin.login(ID, PW).equals(Locale.WRONG)) {//id³ª ºñ¹Ğ¹øÈ£°¡ Æ²¸° °æ¿ì
+            int option = JOptionPane.showConfirmDialog(null, Locale.LLoginDialog.WRONG_LOGIN_MESSAGE, Locale.LLoginDialog.WRONG_LOGIN_TITLE, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (option == JOptionPane.YES_OPTION) {//È®ÀÎ ¹öÆ°À» ´©¸¥ °æ¿ì
+                this.TID.setText(Locale.BLANK);
+                this.TPW.setText(Locale.BLANK);
                 this.dispose();
                 main.initialize();
             } else {
-                option = JOptionPane.showConfirmDialog(null, "ìˆ˜ê°• ì‹ ì²­ ì‹œìŠ¤í…œì„ ì¢…ë£Œí•˜ì‹œê² ìŠµë‹ˆê¹Œ?");
-                if (option == JOptionPane.NO_OPTION) {//í™•ì¸ ë²„íŠ¼ì„ ëˆ„ë¥¸ ê²½ìš°
-                    this.TID.setText("");
-                    this.TPW.setText("");
+                option = JOptionPane.showConfirmDialog(null, Locale.EXIT_SYSTEM_MESSAGE);
+                if (option == JOptionPane.NO_OPTION) {//È®ÀÎ ¹öÆ°À» ´©¸¥ °æ¿ì
+                    this.TID.setText(Locale.BLANK);
+                    this.TPW.setText(Locale.BLANK);
                     this.dispose();
                     main.initialize();
                 } else System.exit(0);
             }
-        } else if (this.sLogin.login(ID, PW).equals("none")) {//ê³„ì •ì´ ì—†ëŠ” ê²½ìš°
-            int result = JOptionPane.showConfirmDialog(null, "ì¡´ì¬í•˜ì§€ ì•ŠëŠ” ê³„ì •ì…ë‹ˆë‹¤.\nê³„ì • ìƒì„± í•˜ì‹œê² ìŠµë‹ˆê¹Œ?", "ë¡œê·¸ì¸", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-            if (result == JOptionPane.YES_OPTION) {//í™•ì¸ ë²„íŠ¼ì„ ëˆ„ë¥¸ ê²½ìš°
+        } else if (this.sLogin.login(ID, PW).equals(Locale.NONE)) {//°èÁ¤ÀÌ ¾ø´Â °æ¿ì
+            int result = JOptionPane.showConfirmDialog(null, Locale.LLoginDialog.NONE_LOGIN_MESSAGE, Locale.LLoginDialog.NONE_LOGIN_TITLE, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (result == JOptionPane.YES_OPTION) {//È®ÀÎ ¹öÆ°À» ´©¸¥ °æ¿ì
                 this.dispose();
                 new PSignUpDialog();
-                pSignUpDialog.setVisible(true);  //ë‹¤ë¥¸ íŒ¨ë„ë“¤ê³¼ ë‹¬ë¦¬ ì–˜ëŠ” ë¶€ëª¨ì— ë“±ë¡í•˜ì§€ ì•Šê³  ë…ë¦½ì ìœ¼ë¡œ í•¨
+                pSignUpDialog.setVisible(true);  //´Ù¸¥ ÆĞ³Îµé°ú ´Ş¸® ¾ê´Â ºÎ¸ğ¿¡ µî·ÏÇÏÁö ¾Ê°í µ¶¸³ÀûÀ¸·Î ÇÔ
             } else {
-                JOptionPane.showMessageDialog(null, "ë¡œê·¸ì¸ í™”ë©´ìœ¼ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤.");
-                this.TID.setText("");
-                this.TPW.setText("");
+                JOptionPane.showMessageDialog(null, Locale.LLoginDialog.BACK_TO_LOGIN);
+                this.TID.setText(Locale.BLANK);
+                this.TPW.setText(Locale.BLANK);
                 this.dispose();
                 main.initialize();
             }
-        } else if (this.sLogin.login(ID, PW).equals("correct")) { //ë¡œê·¸ì¸ì— ì„±ê³µí•œ ê²½ìš°
-            JOptionPane.showMessageDialog(null, v.getName() + "ë‹˜ ë¡œê·¸ì¸ì— ì„±ê³µí•˜ì˜€ìŠµë‹ˆë‹¤.", "ë¡œê·¸ì¸ ì„±ê³µ", JOptionPane.PLAIN_MESSAGE); //,"ë¡œê·¸ì¸ ì„±ê³µ",JOptionPane.OK_OPTION
+        } else if (this.sLogin.login(ID, PW).equals(Locale.CORRECT)) { //·Î±×ÀÎ¿¡ ¼º°øÇÑ °æ¿ì
+            JOptionPane.showMessageDialog(null, v.getName() + Locale.LLoginDialog.CORRECT_LOGIN_MESSAGE, Locale.LLoginDialog.CORRECT_LOGIN_TITLE, JOptionPane.PLAIN_MESSAGE);
             this.dispose();
         }return v;
     }
@@ -159,7 +162,7 @@ public class PLoginDialog extends JDialog{//JDialogë¥¼ í™•ì¥í–ˆë‹¤ëŠ” ê²ƒ
         public void windowOpened(WindowEvent e) {}
         @Override
         public void windowClosing(WindowEvent e) {
-            int a= JOptionPane.showConfirmDialog(null, "í”„ë¡œê·¸ë¨ì„ ì¢…ë£Œí•˜ì‹œê² ìŠµë‹ˆê¹Œ?","í”„ë¡œê·¸ë¨ ì¢…ë£Œ",JOptionPane.OK_CANCEL_OPTION);
+            int a= JOptionPane.showConfirmDialog(null, Locale.EXIT_SYSTEM_MESSAGE,Locale.EXIT_TITLE,JOptionPane.OK_CANCEL_OPTION);
             if(a==JOptionPane.OK_OPTION) System.exit(0);
             else if(a==JOptionPane.CANCEL_OPTION) setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
         }

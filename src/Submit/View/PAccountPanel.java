@@ -1,33 +1,32 @@
 package Submit.View;
 import javax.swing.*;
 
+import Submit.Global.Locale;
+import Submit.Global.Constants;
 import Submit.ValueObject.VAccount;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class PAccountPanel extends JPanel { //JPanel 확장해서 사용할 것
+    private static final long serialVersionUID = Constants.SERIAL_VERSION_UID;
 
-    private static final long serialVersionUID = 1L;
-    PLoginDialog pLoginDialog;
-
+    //public PAccountPanel(String name){  //name을 받아와야 함
     public PAccountPanel(VAccount vAccount){  //name을 받아와야 함
-        //이 안에 자식으로 레이블들 쭉 넣을 건데 그 레이블들은 로그인 다이얼로그에서 올 것
-        String name = vAccount.getName();
-        JLabel lName = new JLabel(name);
+        JLabel lName = new JLabel(vAccount.getName());
         this.add(lName); //자식 등록
 
-        JLabel lGreeting = new JLabel("님 안녕하세요! ");
+        JLabel lGreeting = new JLabel(Locale.LAccountPanel.INSA_POSTFIX);
         this.add(lGreeting); //자식 등록
 
-        JLabel lLogin = new JLabel("로그인 시간은");
+        JLabel lLogin = new JLabel(Locale.LAccountPanel.LOGIN_TIME_PREFIX);
         this.add(lLogin); //자식 등록
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Locale.TIME_FORMAT);
         JLabel lTime = new JLabel(simpleDateFormat.format(new Date()));
         this.add(lTime); //자식 등록
 
-        JLabel lDescription = new JLabel("입니다!");
+        JLabel lDescription = new JLabel(Locale.LAccountPanel.IPNIDA);
         this.add(lDescription); //자식 등록
     }
 }

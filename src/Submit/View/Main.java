@@ -1,7 +1,6 @@
 package Submit.View;
 
-import Submit.View.PMainFrame;
-
+import Submit.Global.Locale;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -10,8 +9,6 @@ import Submit.ValueObject.VAccount;
 
 public class Main {
     public PLoginDialog loginDialog;
-    public ActionHandler actionHandler;
-
     //1단계 초기화
     public Main(){}
     //2단계 초기화
@@ -27,11 +24,11 @@ public class Main {
         private PSignUpDialog pSignUpDialog;
         @Override
         public void actionPerformed(ActionEvent e) {//로그인 버튼 액션 설정하는 메소드
-            if(e.getActionCommand().equals("Login")){   //로그인 버튼 눌렀을 때
+            if(e.getActionCommand().equals(Locale.LOGIN_BUTTON)){   //로그인 버튼 눌렀을 때
                 try {runLogin();}
                 catch (IOException ex) {throw new RuntimeException(ex);}
             }
-            else if(e.getActionCommand().equals("SignUp")){// 회원가입 버튼 눌렀을 때
+            else if(e.getActionCommand().equals(Locale.SIGNUP_BUTTON)){// 회원가입 버튼 눌렀을 때
                 try {pSignUpDialog = new PSignUpDialog(); }
                 catch (IOException e1) {e1.printStackTrace();}
                 loginDialog.dispose();
@@ -43,12 +40,8 @@ public class Main {
     ///pf
     public void runLogin() throws IOException {
         VAccount vAccount = this.loginDialog.login();
-        // this.loginDialog.dispose();
-
-//        if(vAccount!=null) { //정상적으로 값을 받아오면
         PMainFrame mainFrame = new PMainFrame(vAccount); //메인프레임에 바로 account 줌
         mainFrame.initialize();;
-        // }
     }
 
     public void finish(){}
