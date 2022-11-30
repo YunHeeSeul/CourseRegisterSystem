@@ -12,6 +12,5 @@ public class SLecture {
     }
     public Vector<VLecture> getLectures(String fileName){
         return this.eLecture.getDirectories(fileName);
-    }
-}
+    }}
 

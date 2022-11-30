@@ -15,7 +15,6 @@ import java.awt.event.WindowListener;
 import java.io.IOException;
 
 public class PLoginDialog extends JDialog{//JDialog를 확장했다는 것
-
     private static final long serialVersionUID = 1L;
     //components
     private WindowHandler windowHandler;
@@ -27,6 +26,7 @@ public class PLoginDialog extends JDialog{//JDialog를 확장했다는 것
     private JButton loginBt, signUpBt;
     private JPanel loginPanel, innerPanel2, buttonPanel;
     private ImageIcon imageIcon;
+    public Main main = new Main();
 
     public PLoginDialog(Main.ActionHandler actionHandler) throws IOException{//JDialog를 상속받음. 확장한 것임. 그리고 필요한 기능 추가한 것
 //        super(parent);//원래 JDialog의 constructor를 불러주는 것
@@ -123,38 +123,38 @@ public class PLoginDialog extends JDialog{//JDialog를 확장했다는 것
         String PW = new String((TPW.getPassword()));
 
         VAccount v = this.sLogin.read(ID,PW);//sLogin는 account 정보를 리턴 시켜 줌.
-        Main main = new Main();
 
         if (this.sLogin.login(ID, PW).equals(Locale.WRONG)) {//id나 비밀번호가 틀린 경우
             int option = JOptionPane.showConfirmDialog(null, Locale.LLoginDialog.WRONG_LOGIN_MESSAGE, Locale.LLoginDialog.WRONG_LOGIN_TITLE, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (option == JOptionPane.YES_OPTION) {//확인 버튼을 누른 경우
                 this.TID.setText(Locale.BLANK);
                 this.TPW.setText(Locale.BLANK);
-                new PLoginDialog(main.actionHandler);
-                this.setVisible(true);
+                this.dispose();
+                main.initialize();
             } else {
                 option = JOptionPane.showConfirmDialog(null, Locale.EXIT_SYSTEM_MESSAGE);
                 if (option == JOptionPane.NO_OPTION) {//확인 버튼을 누른 경우
                     this.TID.setText(Locale.BLANK);
                     this.TPW.setText(Locale.BLANK);
-                    new PLoginDialog(main.actionHandler);
-                    this.setVisible(true);
+                    this.dispose();
+                    main.initialize();
                 } else System.exit(0);
             }
         } else if (this.sLogin.login(ID, PW).equals(Locale.NONE)) {//계정이 없는 경우
             int result = JOptionPane.showConfirmDialog(null, Locale.LLoginDialog.NONE_LOGIN_MESSAGE, Locale.LLoginDialog.NONE_LOGIN_TITLE, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (result == JOptionPane.YES_OPTION) {//확인 버튼을 누른 경우
+                this.dispose();
                 new PSignUpDialog();
                 pSignUpDialog.setVisible(true);  //다른 패널들과 달리 얘는 부모에 등록하지 않고 독립적으로 함
             } else {
                 JOptionPane.showMessageDialog(null, Locale.LLoginDialog.BACK_TO_LOGIN);
                 this.TID.setText(Locale.BLANK);
                 this.TPW.setText(Locale.BLANK);
-                new PLoginDialog(main.actionHandler);
-                this.setVisible(true);
+                this.dispose();
+                main.initialize();
             }
         } else if (this.sLogin.login(ID, PW).equals(Locale.CORRECT)) { //로그인에 성공한 경우
-                JOptionPane.showMessageDialog(null, v.getName() + Locale.LLoginDialog.CORRECT_LOGIN_MESSAGE, Locale.LLoginDialog.CORRECT_LOGIN_TITLE, JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null, v.getName() + Locale.LLoginDialog.CORRECT_LOGIN_MESSAGE, Locale.LLoginDialog.CORRECT_LOGIN_TITLE, JOptionPane.PLAIN_MESSAGE);
             this.dispose();
         }return v;
     }

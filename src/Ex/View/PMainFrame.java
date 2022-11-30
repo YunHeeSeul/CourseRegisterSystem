@@ -21,7 +21,7 @@ public class PMainFrame extends JFrame {
 
     //constructor
     //public PMainFrame(String name) throws IOException {    //컴포넌트 생성
-        public PMainFrame(VAccount vAccount) throws IOException {    //컴포넌트 생성
+    public PMainFrame(VAccount vAccount) throws IOException {    //컴포넌트 생성
         //attribute
         //본인의 속성은 본인이 지정하도록 해야함 외부에서(Main) 하는 것이 아닌.
         this.setSize(Constants.CMainFrame.WIDTH, Constants.CMainFrame.HEIGHT);//창의 크기

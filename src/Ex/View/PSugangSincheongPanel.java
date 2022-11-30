@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.util.Vector;
 
 public class PSugangSincheongPanel extends JPanel {
-
     private PDirectoryPanel pDirectoryPanel;
     private PControlPanel pControlPanel1, pControlPanel2;
     private PMiriDamgiPanel pMiriDamgiPanel;
@@ -73,20 +72,20 @@ public class PSugangSincheongPanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-                if(e.getActionCommand().compareTo("1>>")==0){
-                    //lecturePanel에서 miriDamgiPanel로
-                    moveFromLectureToMiridamgi();
-                }else if(e.getActionCommand().compareTo("1<<")==0){
-                    //lecturePanel에서 miriDamgiPanel로
-                    moveFromMiridamgiToLecture();
-                }
-                if(e.getActionCommand().compareTo("2>>")==0){
-                    //lecturePanel에서 miriDamgiPanel로
-                    moveFromMiridamgiToSincheong();
-                }else if(e.getActionCommand().compareTo("2<<")==0){
-                    //lecturePanel에서 miriDamgiPanel로
-                    moveFromSincheongToMiridamgi();
-                }
+            if(e.getActionCommand().compareTo("1>>")==0){
+                //lecturePanel에서 miriDamgiPanel로
+                moveFromLectureToMiridamgi();
+            }else if(e.getActionCommand().compareTo("1<<")==0){
+                //lecturePanel에서 miriDamgiPanel로
+                moveFromMiridamgiToLecture();
+            }
+            if(e.getActionCommand().compareTo("2>>")==0){
+                //lecturePanel에서 miriDamgiPanel로
+                moveFromMiridamgiToSincheong();
+            }else if(e.getActionCommand().compareTo("2<<")==0){
+                //lecturePanel에서 miriDamgiPanel로
+                moveFromSincheongToMiridamgi();
+            }
         }
     }
 

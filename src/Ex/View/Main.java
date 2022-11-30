@@ -43,7 +43,7 @@ public class Main {
     ///pf
     public void runLogin() throws IOException {
         VAccount vAccount = this.loginDialog.login();
-       // this.loginDialog.dispose();
+        // this.loginDialog.dispose();
 
         PMainFrame mainFrame = new PMainFrame(vAccount); //메인프레임에 바로 account 줌
         mainFrame.initialize();;

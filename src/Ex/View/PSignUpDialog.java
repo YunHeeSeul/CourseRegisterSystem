@@ -207,16 +207,18 @@ public class PSignUpDialog extends JDialog{//JDialog를 확장했다는 것
         if (LStatus.getText().equals(Locale.LSignUpPanel.CAN)) {
             if (this.sLogin.signUp(info)) {
                 JOptionPane.showMessageDialog(null, Locale.LSignUpPanel.SUCCESS);
-                this.dispose();
-                this.main.initialize();
+                disposeSignup();
+                main.initialize();
             } else {
                 JOptionPane.showMessageDialog(null, Locale.LSignUpPanel.FAIL);
+                disposeSignup();
                 new PSignUpDialog();
-                this.setVisible(true);
+                this.initialize();
             }
         } else {
             JOptionPane.showMessageDialog(null, Locale.LSignUpPanel.CANNOT+"\n"+Locale.LSignUpPanel.BACK_TO_LOGIN);
-            this.main.initialize();
+            disposeSignup();
+            main.initialize();
         }
     }
 
@@ -234,10 +236,9 @@ public class PSignUpDialog extends JDialog{//JDialog를 확장했다는 것
                 try {signUp();}
                 catch (IOException e1) {e1.printStackTrace();}
             } else if (e.getActionCommand().equals(Constants.CSignUPPanel.CHECKBT)) checkID();
-             else if (e.getActionCommand().equals(Constants.CSignUPPanel.CANCELBT)) {
-                try {main.initialize();}
+            else if (e.getActionCommand().equals(Constants.CSignUPPanel.CANCELBT)) {
+                try {disposeSignup(); main.initialize();}
                 catch (IOException e1) {e1.printStackTrace();}
-                disposeSignup();
             }
         }
     }
@@ -249,18 +250,15 @@ public class PSignUpDialog extends JDialog{//JDialog를 확장했다는 것
     }
 
     public class WindowHandler implements WindowListener{
-        private Main main = new Main();
-        private PLoginDialog pLoginDialog;
+
         @Override
         public void windowOpened(WindowEvent e) {}
         @Override
         public void windowClosing(WindowEvent e) {
             int a= JOptionPane.showConfirmDialog(null, Locale.LSignUpPanel.EXIT_MESSAGE,Locale.LSignUpPanel.EXIT_TITLE,JOptionPane.OK_CANCEL_OPTION);
             if(a==JOptionPane.OK_OPTION) { JOptionPane.showMessageDialog(null, Locale.LSignUpPanel.BACK_TO_LOGIN) ;dispose();
-                try {pLoginDialog = new PLoginDialog(main.actionHandler);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
+                try {disposeSignup(); main.initialize();
+                } catch (IOException ex) {ex.printStackTrace();}
             }
             else if(a==JOptionPane.CANCEL_OPTION) setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
         }

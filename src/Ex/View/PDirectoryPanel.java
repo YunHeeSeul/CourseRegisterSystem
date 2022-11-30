@@ -19,7 +19,6 @@ public class PDirectoryPanel extends JPanel {
     private PDirectory campusTable, collegeTable, departmentTable;
     private PLectureTable lectureTable;
     private JPanel upPanel, downPanel;
-    private int cnt = 0;
     public PDirectoryPanel() throws IOException {
         LayoutManager layoutManager = new BoxLayout(this, BoxLayout.Y_AXIS);
         this.setLayout(layoutManager);
@@ -28,39 +27,39 @@ public class PDirectoryPanel extends JPanel {
 
         //campus/college/department table을 담은 상위 패널
         upPanel = new JPanel();
-            layoutManager = new BoxLayout(upPanel, BoxLayout.X_AXIS);
-            upPanel.setLayout(layoutManager);
+        layoutManager = new BoxLayout(upPanel, BoxLayout.X_AXIS);
+        upPanel.setLayout(layoutManager);
 
-            this.campusTable = new PDirectory(Locale.DIRECTORY_ROOT);
-            this.campusTable.getSelectionModel().addListSelectionListener(this.listSelectionHandler);
-    //        scrollPane1 = new JScrollPane(this.campusTable, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER); //scrollpane 안에 campustable을 붙인 것
-            JScrollPane scrollPane = new JScrollPane();
-            scrollPane.setViewportView(this.campusTable);
-            upPanel.add(scrollPane);
+        this.campusTable = new PDirectory(Locale.DIRECTORY_ROOT);
+        this.campusTable.getSelectionModel().addListSelectionListener(this.listSelectionHandler);
+        //        scrollPane1 = new JScrollPane(this.campusTable, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER); //scrollpane 안에 campustable을 붙인 것
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setViewportView(this.campusTable);
+        upPanel.add(scrollPane);
 
-            this.collegeTable = new PDirectory(Locale.DIRECTORY_CAMPUS);
-            this.collegeTable.getSelectionModel().addListSelectionListener(this.listSelectionHandler);
-            scrollPane = new JScrollPane();
-            scrollPane.setViewportView(this.collegeTable);
-            upPanel.add(scrollPane);
+        this.collegeTable = new PDirectory(Locale.DIRECTORY_CAMPUS);
+        this.collegeTable.getSelectionModel().addListSelectionListener(this.listSelectionHandler);
+        scrollPane = new JScrollPane();
+        scrollPane.setViewportView(this.collegeTable);
+        upPanel.add(scrollPane);
 
-            this.departmentTable = new PDirectory(Locale.DIRECTORY_COLLEGE);
-            this.departmentTable.getSelectionModel().addListSelectionListener(this.listSelectionHandler);
-            scrollPane = new JScrollPane();
-            scrollPane.setViewportView(this.departmentTable);
-            upPanel.add(scrollPane);
+        this.departmentTable = new PDirectory(Locale.DIRECTORY_COLLEGE);
+        this.departmentTable.getSelectionModel().addListSelectionListener(this.listSelectionHandler);
+        scrollPane = new JScrollPane();
+        scrollPane.setViewportView(this.departmentTable);
+        upPanel.add(scrollPane);
         this.add(upPanel);
 
         //lecture 테이블을 담은 하위 패널
         downPanel = new JPanel();
-            layoutManager = new BoxLayout(downPanel, BoxLayout.Y_AXIS);
-            downPanel.setLayout(layoutManager);
+        layoutManager = new BoxLayout(downPanel, BoxLayout.Y_AXIS);
+        downPanel.setLayout(layoutManager);
 
-            this.lectureTable = new PLectureTable(Locale.DIRECTORY_DEPARTMENT);
-            this.lectureTable.getSelectionModel().addListSelectionListener(this.listSelectionHandler);
-            scrollPane = new JScrollPane();
-            scrollPane.setViewportView(this.lectureTable);
-            downPanel.add(scrollPane);
+        this.lectureTable = new PLectureTable(Locale.DIRECTORY_DEPARTMENT);
+        this.lectureTable.getSelectionModel().addListSelectionListener(this.listSelectionHandler);
+        scrollPane = new JScrollPane();
+        scrollPane.setViewportView(this.lectureTable);
+        downPanel.add(scrollPane);
 
         this.add(downPanel);
 
@@ -68,33 +67,33 @@ public class PDirectoryPanel extends JPanel {
     }
 
     private void updateTable(Object object) throws IOException {
-		String fileName = null;
-		int[] selectedRows;;
-		if (object == null) {
-			this.campusTable.setData(Locale.DIRECTORY_ROOT);
-		} else if (object.equals(this.campusTable.getSelectionModel())) {
+        String fileName = null;
+        int[] selectedRows;
+        if (object == null) {
+            this.campusTable.setData(Locale.SETDATA_ROOT);
+        } else if (object.equals(this.campusTable.getSelectionModel())) {
             selectedRows = this.campusTable.getSelectedRows(); //선택된 행 다 집어넣기
-			if (selectedRows.length > 0) { //선택된 행이 있으면
-				fileName = this.campusTable.getFileName(selectedRows[0]); //가장 먼저 선택된 행에 관련된 파일이름 가져오기
-				this.collegeTable.setData(fileName);
-			}
-		} else if (object.equals(this.collegeTable.getSelectionModel())) {
-			selectedRows = this.collegeTable.getSelectedRows();
-			if (selectedRows.length > 0) {
-				fileName = this.collegeTable.getFileName(selectedRows[0]);
-				this.departmentTable.setData(fileName);
-			}
-		} else if (object.equals(this.departmentTable.getSelectionModel())) {
+            if (selectedRows.length > 0) { //선택된 행이 있으면
+                fileName = this.campusTable.getFileName(selectedRows[0]); //가장 먼저 선택된 행에 관련된 파일이름 가져오기
+                this.collegeTable.setData(fileName);
+            }
+        } else if (object.equals(this.collegeTable.getSelectionModel())) {
+            selectedRows = this.collegeTable.getSelectedRows();
+            if (selectedRows.length > 0) {
+                fileName = this.collegeTable.getFileName(selectedRows[0]);
+                this.departmentTable.setData(fileName);
+            }
+        } else if (object.equals(this.departmentTable.getSelectionModel())) {
             selectedRows = this.departmentTable.getSelectedRows();
-			if (selectedRows.length > 0) {
-				fileName = this.departmentTable.getFileName(selectedRows[0]);
-				this.lectureTable.setData(fileName);
-			}
-		} else if (object.equals(this.lectureTable)) {
+            if (selectedRows.length > 0) {
+                fileName = this.departmentTable.getFileName(selectedRows[0]);
+                this.lectureTable.setData(fileName);
+            }
+        } else if (object.equals(this.lectureTable)) {
             selectedRows = this.lectureTable.getSelectedRows();
-			if (selectedRows.length > 0) {}
-		}
-	}
+            if (selectedRows.length > 0) {}
+        }
+    }
 
     public Vector<VLecture> getSelectedLectures() {
         return null;
