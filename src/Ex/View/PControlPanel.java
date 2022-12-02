@@ -18,4 +18,7 @@ public class PControlPanel extends JPanel {
         this.leftButton.setActionCommand(panelID+this.leftButton.getText());
         this.add(leftButton);
     }
+    public Object getRightButton() {return this.rightButton;}
+    public Object getLeftButton() {return this.leftButton;}
+
 }

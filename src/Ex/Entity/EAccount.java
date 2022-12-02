@@ -1,8 +1,7 @@
 package Ex.Entity;
 
-import Ex.Global.Locale;
 import Ex.ValueObject.VAccount;
-
+import Ex.Global.Locale;
 import java.io.*;
 import java.util.ArrayList;
 
@@ -19,14 +18,14 @@ public class EAccount {
         accountFile.close();
     }
 
-    public boolean isRegistered(String ID){  //ì´ë¯¸ ë“±ë¡ë˜ì–´ ìˆëŠ” í•™ìƒì¸ì§€ í™•ì¸
+    public boolean isRegistered(String ID){  //ÀÌ¹Ì µî·ÏµÇ¾î ÀÖ´Â ÇĞ»ıÀÎÁö È®ÀÎ
         for(int i=0; i<this.accountList.size();i++){
             VAccount v = this.accountList.get(i);
-            if(ID!=Locale.BLANK)  if (v.checkID(ID)) return false; //ì´ë¯¸ ë“±ë¡
-        } return true;  //ë“±ë¡ë˜ì§€ ì•Šì€ í•™ìƒ
+            if(ID!=Locale.BLANK)  if (v.checkID(ID)) return false; //ÀÌ¹Ì µî·Ï
+        } return true;  //µî·ÏµÇÁö ¾ÊÀº ÇĞ»ı
     }
 
-    public String checkLogin(String ID, String PW){//ì…ë ¥ ë°›ì€ IDì™€ PWì˜ íŒŒì¼ ì¡´ì¬ ì—¬ë¶€ & IDì™€ PW ì¼ì¹˜ í™•ì¸
+    public String checkLogin(String ID, String PW){//ÀÔ·Â ¹ŞÀº ID¿Í PWÀÇ ÆÄÀÏ Á¸Àç ¿©ºÎ & ID¿Í PW ÀÏÄ¡ È®ÀÎ
         String retVal=Locale.BLANK;
         if(this.isRegistered(ID)) retVal = Locale.NONE;
         else {
@@ -42,8 +41,8 @@ public class EAccount {
         return false;
     }
 
-    public VAccount getAccount(String ID, String PW){    //valueì˜¤ë¸Œì íŠ¸ë¥¼ ë¦¬í„´í•´ì¤¬ìœ¼ë©´ ì¢‹ê² ìŒ
-        if(checkLogin(ID,PW)==Locale.CORRECT) { //VAccountë¥¼ ë‹´ì•„ì¤˜ì•¼í•¨
+    public VAccount getAccount(String ID, String PW){    //value¿ÀºêÁ§Æ®¸¦ ¸®ÅÏÇØÁáÀ¸¸é ÁÁ°ÚÀ½
+        if(checkLogin(ID,PW)==Locale.CORRECT) { //VAccount¸¦ ´ã¾ÆÁà¾ßÇÔ
             for (int i = 0; i < this.accountList.size(); i++) {
                 VAccount v = this.accountList.get(i);
                 if (v.getID().equals(ID)) return v;

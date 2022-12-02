@@ -13,7 +13,7 @@ public class ELecture {
             BufferedReader bf = new BufferedReader(new FileReader(Locale.PATH+fileName));
             vLectures = new Vector<>();
 
-            while(bf.ready()){//fileì´ ëë‚  ë•Œê¹Œì§€ ì½ì–´ë¼
+            while(bf.ready()){//fileÀÌ ³¡³¯ ¶§±îÁö ÀĞ¾î¶ó
                 String fileInfo = bf.readLine();
                 if(!fileInfo.equals(Locale.BLANK)) this.vLectures.add(new VLecture(fileInfo));
             }
