@@ -1,6 +1,5 @@
 package Submit.ValueObject;
 
-import java.util.Scanner;
 import java.util.StringTokenizer;
 
 public class VLecture {
@@ -16,6 +15,16 @@ public class VLecture {
     public String getCredit() {return credit;}
     public String getTime() {return time;}
 
+//    public void read(Scanner scanner) {
+//        if(scanner.hasNext()) {
+//            this.id = scanner.next();
+//            this.name = scanner.next();
+//            this.professor = scanner.next();
+//            this.credit = scanner.next();
+//            this.time = scanner.next();
+//        }
+//    }
+
     public VLecture(String fileInfo){
         StringTokenizer st = new StringTokenizer(fileInfo);
         this.id = st.nextToken();
@@ -26,17 +35,4 @@ public class VLecture {
             this.time = st.nextToken();
         }
     }
-
-    /*
-
-    public void read(Scanner scanner) {
-        if(scanner.hasNext()) {
-            this.id = scanner.next();
-            this.name = scanner.next();
-            this.professor = scanner.next();
-            this.credit = scanner.next();
-            this.time = scanner.next();
-        }
-    }
-     */
 }

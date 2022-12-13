@@ -19,7 +19,8 @@ public class VDirectory implements Serializable{
         this.name = scanner.next();
         this.fileName = scanner.next();
     }
-//    public String matchFile(String name) {
-//        return this.fileName;
-//    }
+    public String getString(){
+        String retVal = this.id + " " + this.name + " " + this.fileName;
+        return retVal + "\n";
+    }
 }

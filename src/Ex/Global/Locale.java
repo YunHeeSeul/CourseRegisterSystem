@@ -2,8 +2,8 @@ package Ex.Global;
 
 public class Locale {
     public final static String TIME_FORMAT = "yyyy-MM-dd hh:mm";
-    public final static String OK_LABEL = "È®ÀÎ";
-    public final static String CANEL_LABEL = "Ãë¼Ò";
+    public final static String OK_LABEL = "í™•ì¸";
+    public final static String CANEL_LABEL = "ì·¨ì†Œ";
     public final static String BLANK = "";
     public final static String LOGIN_BUTTON = "Login";
     public final static String SIGNUP_BUTTON = "SignUP";
@@ -19,15 +19,15 @@ public class Locale {
     public final static String HEADER_FILE = "header";
     public final static String SLASH = "/";
     public final static String SETDATA_ROOT = "root";
-    
-    public final static String EXIT_SYSTEM_MESSAGE = "¼ö°­ ½ÅÃ» ½Ã½ºÅÛÀ» Á¾·áÇÏ½Ã°Ú½À´Ï±î?";
-    public final static String EXIT_TITLE = "ÇÁ·Î±×·¥ Á¾·á";
+
+    public final static String EXIT_SYSTEM_MESSAGE = "ìˆ˜ê°• ì‹ ì²­ ì‹œìŠ¤í…œì„ ì¢…ë£Œí•˜ì‹œê² ìŠµë‹ˆê¹Œ?";
+    public final static String EXIT_TITLE = "í”„ë¡œê·¸ëž¨ ì¢…ë£Œ";
 
     //PAccountPanel
     public final static class LAccountPanel{
-        public final static String INSA_POSTFIX = "´Ô ¾È³çÇÏ¼¼¿ä! ";//°ªÀ» ÇÑ ¹ø ÇÒ´çÇÏ°í ³ª¸é ¹Ù²îÁö ¾Ê´Â ´Ù´Â °Í : final
-        public final static String LOGIN_TIME_PREFIX = "·Î±×ÀÎ ½Ã°£Àº ";
-        public final static String IPNIDA = "ÀÔ´Ï´Ù. ";
+        public final static String INSA_POSTFIX = "ë‹˜ ì•ˆë…•í•˜ì„¸ìš”! ";//ê°’ì„ í•œ ë²ˆ í• ë‹¹í•˜ê³  ë‚˜ë©´ ë°”ë€Œì§€ ì•ŠëŠ” ë‹¤ëŠ” ê²ƒ : final
+        public final static String LOGIN_TIME_PREFIX = "ë¡œê·¸ì¸ ì‹œê°„ì€ ";
+        public final static String IPNIDA = "ìž…ë‹ˆë‹¤. ";
     }
 
 
@@ -37,33 +37,43 @@ public class Locale {
         public final static String ID_LABEL = "ID";
         public final static String PW_LABEL = "PW";
 
-        public final static String WRONG_LOGIN_MESSAGE = "¾ÆÀÌµð³ª ºñ¹Ð¹øÈ£¸¦ Àß¸ø ÀÔ·ÂÇÏ¼Ì½À´Ï´Ù.\n·Î±×ÀÎÀ» ´Ù½Ã ½ÃµµÇÏ½Ã°Ú½À´Ï±î?";
-        public final static String WRONG_LOGIN_TITLE = "·Î±×ÀÎ ½ÇÆÐ";
+        public final static String WRONG_LOGIN_MESSAGE = "ì•„ì´ë””ë‚˜ ë¹„ë°€ë²ˆí˜¸ë¥¼ ìž˜ëª» ìž…ë ¥í•˜ì…¨ìŠµë‹ˆë‹¤.\në¡œê·¸ì¸ì„ ë‹¤ì‹œ ì‹œë„í•˜ì‹œê² ìŠµë‹ˆê¹Œ?";
+        public final static String WRONG_LOGIN_TITLE = "ë¡œê·¸ì¸ ì‹¤íŒ¨";
 
-        public final static String NONE_LOGIN_MESSAGE = "Á¸ÀçÇÏÁö ¾Ê´Â °èÁ¤ÀÔ´Ï´Ù.\n°èÁ¤ »ý¼º ÇÏ½Ã°Ú½À´Ï±î?";
-        public final static String NONE_LOGIN_TITLE = "·Î±×ÀÎ";
+        public final static String NONE_LOGIN_MESSAGE = "ì¡´ìž¬í•˜ì§€ ì•ŠëŠ” ê³„ì •ìž…ë‹ˆë‹¤.\nê³„ì • ìƒì„± í•˜ì‹œê² ìŠµë‹ˆê¹Œ?";
+        public final static String NONE_LOGIN_TITLE = "ë¡œê·¸ì¸";
 
-        public final static String CORRECT_LOGIN_MESSAGE = "´Ô ·Î±×ÀÎ¿¡ ¼º°øÇÏ¿´½À´Ï´Ù.";
-        public final static String CORRECT_LOGIN_TITLE = "·Î±×ÀÎ ¼º°ø";
+        public final static String CORRECT_LOGIN_MESSAGE = "ë‹˜ ë¡œê·¸ì¸ì— ì„±ê³µí•˜ì˜€ìŠµë‹ˆë‹¤.";
+        public final static String CORRECT_LOGIN_TITLE = "ë¡œê·¸ì¸ ì„±ê³µ";
 
-        public final static String BACK_TO_LOGIN = "·Î±×ÀÎ È­¸éÀ¸·Î µ¹¾Æ°©´Ï´Ù.";
+        public final static String BACK_TO_LOGIN = "ë¡œê·¸ì¸ í™”ë©´ìœ¼ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤.";
     }
 
     public final static class LSignUpPanel{
-        //Á¾·á
-        public final static String EXIT_MESSAGE = "°èÁ¤ »ý¼ºÀ» Á¾·áÇÏ½Ã°Ú½À´Ï±î?";
-        public final static String EXIT_TITLE = "°èÁ¤ »ý¼º Á¾·á";
-        public final static String BACK_TO_LOGIN = "·Î±×ÀÎ È­¸éÀ¸·Î µ¹¾Æ°©´Ï´Ù.";
+        //ì¢…ë£Œ
+        public final static String EXIT_MESSAGE = "ê³„ì • ìƒì„±ì„ ì¢…ë£Œí•˜ì‹œê² ìŠµë‹ˆê¹Œ?";
+        public final static String EXIT_TITLE = "ê³„ì • ìƒì„± ì¢…ë£Œ";
+        public final static String BACK_TO_LOGIN = "ë¡œê·¸ì¸ í™”ë©´ìœ¼ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤.";
 
-        //°èÁ¤ »ý¼º
-        public final static String CAN = "°èÁ¤ »ý¼ºÀÌ °¡´ÉÇÕ´Ï´Ù.";
-        public final static String CANNOT = "ÀÌ¹Ì Á¸ÀçÇÏ´Â °èÁ¤ÀÔ´Ï´Ù.";
-        public final static String SUCCESS = "°èÁ¤ »ý¼º¿¡ ¼º°øÇÏ¼Ì½À´Ï´Ù.";
-        public final static String FAIL = "°èÁ¤ »ý¼º¿¡ ½ÇÆÐÇÏ¼Ì½À´Ï´Ù.";
+        //ê³„ì • ìƒì„±
+        public final static String CAN = "ê³„ì • ìƒì„±ì´ ê°€ëŠ¥í•©ë‹ˆë‹¤.";
+        public final static String CANNOT = "ì´ë¯¸ ì¡´ìž¬í•˜ëŠ” ê³„ì •ìž…ë‹ˆë‹¤.";
+        public final static String SUCCESS = "ê³„ì • ìƒì„±ì— ì„±ê³µí•˜ì…¨ìŠµë‹ˆë‹¤.";
+        public final static String FAIL = "ê³„ì • ìƒì„±ì— ì‹¤íŒ¨í•˜ì…¨ìŠµë‹ˆë‹¤.";
 
     }
     public final static class LControlPanel{
         public final static String RIGHT_BUTTON = ">>";
         public final static String LEFT_BUTTON = "<<";
+    }
+
+    public final static class LResultPanel{
+        public static final String LECTURENO = "ê°•ì¢Œë²ˆí˜¸";
+        public static final String LECTURENAME = "ê°•ì¢Œëª…";
+    }
+
+    public final static class LSugangsincheongPanel{
+        public static final String MIRIDAMGI = "Miri";
+        public static final String SINCHEONG = "Sincheong";
     }
 }

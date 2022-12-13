@@ -22,4 +22,12 @@ public class ELecture {
         }
         return vLectures;
     }
+
+    public void save (String fileName, Vector<VLecture> vLectures) throws IOException {
+        BufferedWriter bw = new BufferedWriter(new FileWriter(Locale.PATH+fileName));
+        for(VLecture vLecture : vLectures){
+            bw.write(vLecture.getString());
+            bw.newLine();
+        }bw.close();
+    }
 }

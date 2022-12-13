@@ -1,17 +1,18 @@
 package Submit.View;
+
 import Submit.Global.Constants;
 import Submit.Global.Locale;
 import Submit.Model.SDirectory;
 import Submit.ValueObject.VDirectory;
 import Submit.ValueObject.VLecture;
 
-import java.awt.*;
-import java.io.IOException;
-import java.util.Vector;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.io.IOException;
+import java.util.Vector;
 
 public class PDirectoryPanel extends JPanel {
     private static final long serialVersionUID = Constants.SERIAL_VERSION_UID;
@@ -25,14 +26,14 @@ public class PDirectoryPanel extends JPanel {
 
         this.listSelectionHandler = new ListSelectionHandler();
 
-        //campus/college/department tableÀ» ´ãÀº »óÀ§ ÆĞ³Î
+        //campus/college/department tableì„ ë‹´ì€ ìƒìœ„ íŒ¨ë„
         upPanel = new JPanel();
         layoutManager = new BoxLayout(upPanel, BoxLayout.X_AXIS);
         upPanel.setLayout(layoutManager);
 
         this.campusTable = new PDirectory(Locale.DIRECTORY_ROOT);
         this.campusTable.getSelectionModel().addListSelectionListener(this.listSelectionHandler);
-        //        scrollPane1 = new JScrollPane(this.campusTable, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER); //scrollpane ¾È¿¡ campustableÀ» ºÙÀÎ °Í
+        //        scrollPane1 = new JScrollPane(this.campusTable, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER); //scrollpane ì•ˆì— campustableì„ ë¶™ì¸ ê²ƒ
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(this.campusTable);
         upPanel.add(scrollPane);
@@ -50,7 +51,7 @@ public class PDirectoryPanel extends JPanel {
         upPanel.add(scrollPane);
         this.add(upPanel);
 
-        //lecture Å×ÀÌºíÀ» ´ãÀº ÇÏÀ§ ÆĞ³Î
+        //lecture í…Œì´ë¸”ì„ ë‹´ì€ í•˜ìœ„ íŒ¨ë„
         downPanel = new JPanel();
         layoutManager = new BoxLayout(downPanel, BoxLayout.Y_AXIS);
         downPanel.setLayout(layoutManager);
@@ -72,9 +73,9 @@ public class PDirectoryPanel extends JPanel {
         if (object == null) {
             this.campusTable.setData(Locale.SETDATA_ROOT);
         } else if (object.equals(this.campusTable.getSelectionModel())) {
-            selectedRows = this.campusTable.getSelectedRows(); //¼±ÅÃµÈ Çà ´Ù Áı¾î³Ö±â
-            if (selectedRows.length > 0) { //¼±ÅÃµÈ ÇàÀÌ ÀÖÀ¸¸é
-                fileName = this.campusTable.getFileName(selectedRows[0]); //°¡Àå ¸ÕÀú ¼±ÅÃµÈ Çà¿¡ °ü·ÃµÈ ÆÄÀÏÀÌ¸§ °¡Á®¿À±â
+            selectedRows = this.campusTable.getSelectedRows(); //ì„ íƒëœ í–‰ ë‹¤ ì§‘ì–´ë„£ê¸°
+            if (selectedRows.length > 0) { //ì„ íƒëœ í–‰ì´ ìˆìœ¼ë©´
+                fileName = this.campusTable.getFileName(selectedRows[0]); //ê°€ì¥ ë¨¼ì € ì„ íƒëœ í–‰ì— ê´€ë ¨ëœ íŒŒì¼ì´ë¦„ ê°€ì ¸ì˜¤ê¸°
                 this.collegeTable.setData(fileName);
             }
         } else if (object.equals(this.collegeTable.getSelectionModel())) {
@@ -87,7 +88,9 @@ public class PDirectoryPanel extends JPanel {
             selectedRows = this.departmentTable.getSelectedRows();
             if (selectedRows.length > 0) {
                 fileName = this.departmentTable.getFileName(selectedRows[0]);
-                this.lectureTable.setData(fileName);
+
+                Vector<VLecture> vLectures = this.lectureTable.queryData(fileName);
+                this.lectureTable.setData(vLectures);
             }
         } else if (object.equals(this.lectureTable)) {
             selectedRows = this.lectureTable.getSelectedRows();
@@ -96,7 +99,7 @@ public class PDirectoryPanel extends JPanel {
     }
 
     public Vector<VLecture> getSelectedLectures() {
-        return null;
+        return this.lectureTable.getSelectedLectures();
     }
 
     public void addLectures(Vector<VLecture> vLectures) {
@@ -104,8 +107,8 @@ public class PDirectoryPanel extends JPanel {
 
     private class ListSelectionHandler implements ListSelectionListener {
         @Override
-        public void valueChanged(ListSelectionEvent e) { //¸¶¿ì½º Å¬¸¯ÀÌ ÀÏ¾î³ª¸é valueChanged ¹ß»ı.
-            if(!e.getValueIsAdjusting()){ //¼±ÅÃÀÌ ³¡³ª¸é
+        public void valueChanged(ListSelectionEvent e) { //ë§ˆìš°ìŠ¤ í´ë¦­ì´ ì¼ì–´ë‚˜ë©´ valueChanged ë°œìƒ.
+            if(!e.getValueIsAdjusting()){ //ì„ íƒì´ ëë‚˜ë©´
                 try {updateTable(e.getSource());}
                 catch (IOException ex) {ex.printStackTrace();}
             }
@@ -122,30 +125,29 @@ public class PDirectoryPanel extends JPanel {
         public PDirectory(String directoryName) throws IOException {
             this.directoryName=directoryName;
             this.sDirectory = new SDirectory();
-            this.vDirectories = this.sDirectory.getDirectories(this.directoryName+Locale.HEADER_FILE);
+            this.vDirectories = this.sDirectory.getDirectories(this.directoryName+ Locale.HEADER_FILE);
 
             Vector<String> header = new Vector<String>();
             header.add(this.vDirectories.get(0).getName());
-            this.tableModel = new DefaultTableModel(header, 0);//Å×ÀÌºí¸ğµ¨ »ı¼º
-            this.setModel(this.tableModel);//Å×ÀÌºí¸ğµ¨ µî·Ï
+            this.tableModel = new DefaultTableModel(header, 0);//í…Œì´ë¸”ëª¨ë¸ ìƒì„±
+            this.setModel(this.tableModel);//í…Œì´ë¸”ëª¨ë¸ ë“±ë¡
         }
         @Override
         public boolean isCellEditable(int row, int col){return false;}
 
         public String getFileName(int index){return Locale.SLASH+this.vDirectories.get(index).getFileName();}
-        public void setData(String fileName) throws IOException {
-            this.vDirectories = this.sDirectory.getDirectories(this.directoryName + fileName); //n°³ÀÇ vdirectory¸¦ ¹Ş¾Æ¿È
+        public String setData(String fileName) throws IOException {
+            this.vDirectories = this.sDirectory.getDirectories(this.directoryName + fileName); //nê°œì˜ vdirectoryë¥¼ ë°›ì•„ì˜´
 
             this.tableModel.setNumRows(0);
             for (VDirectory vDirectory : this.vDirectories) {
                 Vector<String> row = new Vector<String>();
-                row.add(vDirectory.getName()); //ÆÄÀÏ¿¡¼­ ÀĞ¾î¿Â µ¥ÀÌÅÍ¸¦ ³Ö¾îÁà¾ß ÇÔ
-                System.out.println("directory Name : "+vDirectory.getName());
+                row.add(vDirectory.getName()); //íŒŒì¼ì—ì„œ ì½ì–´ì˜¨ ë°ì´í„°ë¥¼ ë„£ì–´ì¤˜ì•¼ í•¨
                 this.tableModel.addRow(row);
-
             }
-            System.out.println(this.tableModel);
-            this.setRowSelectionInterval(0, 0); //¸Ç Ã³À½ °ÍÀ» ¼±ÅÃÇÏµµ·Ï
+            //event
+            this.setRowSelectionInterval(0, 0); //ë§¨ ì²˜ìŒ ê²ƒì„ ì„ íƒí•˜ë„ë¡
+            return vDirectories.get(0).getFileName();
         }
     }
 }

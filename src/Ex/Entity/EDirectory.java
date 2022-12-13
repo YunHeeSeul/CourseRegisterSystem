@@ -2,6 +2,7 @@ package Ex.Entity;
 
 import Ex.Global.Locale;
 import Ex.ValueObject.VDirectory;
+import Ex.ValueObject.VLecture;
 
 import java.io.*;
 import java.util.Scanner;
@@ -25,6 +26,14 @@ public class EDirectory {
             }scanner.close();
         } catch (FileNotFoundException e) {e.printStackTrace();        }
         return vDirectories;
+    }
+
+    public void save (String fileName, Vector<VDirectory> vDirectories) throws IOException {
+        BufferedWriter bw = new BufferedWriter(new FileWriter(Locale.PATH+fileName));
+        for(VDirectory vDirectory : vDirectories){
+            bw.write(vDirectory.getString());
+            bw.newLine();
+        }bw.close();
     }
 //
 //    public String match(String name) {

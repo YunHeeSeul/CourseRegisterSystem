@@ -19,6 +19,7 @@ public class PDirectoryPanel extends JPanel {
     private PDirectory campusTable, collegeTable, departmentTable;
     private PLectureTable lectureTable;
     private JPanel upPanel, downPanel;
+    private PLectureSelection pLectureSelection;
     public PDirectoryPanel() throws IOException {
         LayoutManager layoutManager = new BoxLayout(this, BoxLayout.Y_AXIS);
         this.setLayout(layoutManager);
@@ -87,6 +88,7 @@ public class PDirectoryPanel extends JPanel {
             selectedRows = this.departmentTable.getSelectedRows();
             if (selectedRows.length > 0) {
                 fileName = this.departmentTable.getFileName(selectedRows[0]);
+                this.lectureTable.setFileName(fileName);
                 this.lectureTable.setData(fileName);
             }
         } else if (object.equals(this.lectureTable)) {
@@ -99,8 +101,13 @@ public class PDirectoryPanel extends JPanel {
         return null;
     }
 
-    public void addLectures(Vector<VLecture> vLectures) {
-    }
+//    public void addLectures(Vector<VLecture> vLectures) {
+//        this.pLectureSelection.update();
+//    }
+//
+//    public Vector<VLecture> removeSelectedLectures(){
+//        return this.pLectureSelection.removeSelectedLectures();
+//    }
 
     private class ListSelectionHandler implements ListSelectionListener {
         @Override

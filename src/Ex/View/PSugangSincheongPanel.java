@@ -1,5 +1,7 @@
 package Ex.View;
 
+import Ex.Global.Locale;
+import Ex.ValueObject.VAccount;
 import Ex.ValueObject.VLecture;
 
 import javax.swing.*;
@@ -13,8 +15,11 @@ import java.util.Vector;
 public class PSugangSincheongPanel extends JPanel {
     private PDirectoryPanel pDirectoryPanel;
     private PControlPanel pControlPanel1, pControlPanel2;
-    private PMiriDamgiPanel pMiriDamgiPanel;
-    private PSincheongPanel pSincheongPanel;
+    private PResultPanel pMiriDamgiPanel;
+    private PResultPanel pSincheongPanel;
+    private VAccount vAccount;
+//    private PMiriDamgiPanel pMiriDamgiPanel;
+//    private PSincheongPanel pSincheongPanel;
     public PSugangSincheongPanel() throws IOException {
         //this.setLayout(new GridLayout(1,2,10,10));
         ActionHandler actionHandler = new ActionHandler();
@@ -28,18 +33,22 @@ public class PSugangSincheongPanel extends JPanel {
         this.pControlPanel1 = new PControlPanel("1",actionHandler);
         this.add(this.pControlPanel1);
 
-        JScrollPane jScrollPane = new JScrollPane();
-        this.pMiriDamgiPanel = new PMiriDamgiPanel(listSelectionHandler);
-        jScrollPane.setViewportView(this.pMiriDamgiPanel);
-        this.add(jScrollPane);
+//        JScrollPane jScrollPane = new JScrollPane();
+//        this.pMiriDamgiPanel = new PMiriDamgiPanel(listSelectionHandler);
+//        jScrollPane.setViewportView(this.pMiriDamgiPanel);
+//        this.add(jScrollPane);
+        this.pMiriDamgiPanel = new PResultPanel();
+        this.add(pMiriDamgiPanel);
 
         this.pControlPanel2 = new PControlPanel("2",actionHandler);
         this.add(this.pControlPanel2);
 
-        jScrollPane = new JScrollPane();
-        this.pSincheongPanel = new PSincheongPanel(listSelectionHandler);
-        jScrollPane.setViewportView(this.pSincheongPanel);
-        this.add(jScrollPane);
+//        jScrollPane = new JScrollPane();
+//        this.pSincheongPanel = new PSincheongPanel(listSelectionHandler);
+//        jScrollPane.setViewportView(this.pSincheongPanel);
+//        this.add(jScrollPane);
+        this.pSincheongPanel = new PResultPanel();
+        this.add(pSincheongPanel);
     }
 
     //버튼으로 정보 옮기기
@@ -49,21 +58,21 @@ public class PSugangSincheongPanel extends JPanel {
         System.out.println("1. moveFromLectureToMiridamgi");
     }
     private void moveFromMiridamgiToLecture() {
-        Vector<VLecture> vLectures = this.pMiriDamgiPanel.getSelectedLectures();
-        this.pDirectoryPanel.addLectures(vLectures);
+//        Vector<VLecture> vLectures = this.pMiriDamgiPanel.getSelectedLectures();
+//        this.pDirectoryPanel.addLectures(vLectures);
         System.out.println("2. moveFromMiridamgiToLecture");
 
     }
     private void moveFromMiridamgiToSincheong() {
-        Vector<VLecture> vLectures = this.pMiriDamgiPanel.getSelectedLectures();
-        this.pSincheongPanel.addLectures(vLectures);
-        System.out.println("3. moveFromMiridamgiToSincheong");
+//        Vector<VLecture> vLectures = this.pMiriDamgiPanel.getSelectedLectures();
+//        this.pSincheongPanel.addLectures(vLectures);
+//        System.out.println("3. moveFromMiridamgiToSincheong");
 
     }
     private void moveFromSincheongToMiridamgi() {
         //multi selection이 가능해서 벡터로 받아오는 것
-        Vector<VLecture> vLectures = this.pSincheongPanel.getSelectedLectures();
-        this.pMiriDamgiPanel.addLectures(vLectures);
+//        Vector<VLecture> vLectures = this.pSincheongPanel.getSelectedLectures();
+//        this.pMiriDamgiPanel.addLectures(vLectures);
         System.out.println("4. moveFromSincheongToMiridamgi");
 
     }
@@ -96,6 +105,15 @@ public class PSugangSincheongPanel extends JPanel {
         }
     }
 
+    public void initialize(VAccount vAccount){
+        this.vAccount=vAccount;
+        this.pMiriDamgiPanel.initialize(this.vAccount.getID()+ Locale.LSugangsincheongPanel.MIRIDAMGI);
+        this.pSincheongPanel.initialize(this.vAccount.getID()+ Locale.LSugangsincheongPanel.SINCHEONG);
+//        this.pControlPanel1.initialize();
+//        this.pControlPanel2.initialize();
+//        this.p
+    }
     private void updateTable(Object object) {
+        //this.pS
     }
 }

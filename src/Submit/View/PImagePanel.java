@@ -16,6 +16,6 @@ public class PImagePanel extends JPanel {//JPanel 상속 받기
     }
 
     public void paintComponent(Graphics g){//백그라운드 이미지를 그리기 위해서는 painComponent 메소드로 오버라이트 해주면 됨
-        g.drawImage(img, Constants.CImagePanel.X_POINT,Constants.CImagePanel.Y_POINT,null);//Graphics를 이용해서 drawImage를 하면 위치하는 곳에서 0,0 좌표부터 그려주라는 의미
+        g.drawImage(img, Constants.CImagePanel.X_POINT, Constants.CImagePanel.Y_POINT,null);//Graphics를 이용해서 drawImage를 하면 위치하는 곳에서 0,0 좌표부터 그려주라는 의미
     }
 }

@@ -1,14 +1,16 @@
 package Submit.View;
 
 import Submit.Global.Locale;
+import Submit.ValueObject.VAccount;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-import Submit.ValueObject.VAccount;
-
 public class Main {
     public PLoginDialog loginDialog;
+    public ActionHandler actionHandler;
+
     //1단계 초기화
     public Main(){}
     //2단계 초기화
@@ -40,6 +42,8 @@ public class Main {
     ///pf
     public void runLogin() throws IOException {
         VAccount vAccount = this.loginDialog.login();
+        // this.loginDialog.dispose();
+
         PMainFrame mainFrame = new PMainFrame(vAccount); //메인프레임에 바로 account 줌
         mainFrame.initialize();;
     }

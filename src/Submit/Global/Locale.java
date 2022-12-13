@@ -19,7 +19,7 @@ public class Locale {
     public final static String HEADER_FILE = "header";
     public final static String SLASH = "/";
     public final static String SETDATA_ROOT = "root";
-
+    
     public final static String EXIT_SYSTEM_MESSAGE = "수강 신청 시스템을 종료하시겠습니까?";
     public final static String EXIT_TITLE = "프로그램 종료";
 

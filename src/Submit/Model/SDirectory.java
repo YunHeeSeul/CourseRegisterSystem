@@ -9,12 +9,16 @@ public class SDirectory {
     private EDirectory eDirectory;
     private VDirectory vDirectory;
 
-    public SDirectory(){
+    public SDirectory() {
         this.eDirectory = new EDirectory();
         this.vDirectory = new VDirectory();
     }
-    public Vector<VDirectory> getDirectories(String fileName) throws IOException{return this.eDirectory.getDirectories(fileName);}
 
-    public String getFileName(){
+    public Vector<VDirectory> getDirectories(String fileName) throws IOException {
+        return this.eDirectory.getDirectories(fileName);
+    }
+
+    public String getFileName() {
         return this.vDirectory.getFileName();
-    }}
+    }
+}

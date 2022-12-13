@@ -53,7 +53,7 @@ public class EAccount {
     public boolean saveSignUp(ArrayList<VAccount> accountList) throws IOException {
         BufferedWriter bw = new BufferedWriter(new FileWriter(Locale.FILENAME));
         for(VAccount v : this.accountList){
-            bw.write(v.toString());
+            bw.write(v.getString());
             bw.newLine();
         }
         bw.close();

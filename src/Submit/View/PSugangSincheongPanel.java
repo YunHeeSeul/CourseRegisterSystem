@@ -1,23 +1,21 @@
 package Submit.View;
 
-
+import Submit.Global.Locale;
 import Submit.ValueObject.VLecture;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Vector;
 
 public class PSugangSincheongPanel extends JPanel {
-
     private PDirectoryPanel pDirectoryPanel;
     private PControlPanel pControlPanel1, pControlPanel2;
-    private PMiriDamgiPanel pMiriDamgiPanel;
-    private PSincheongPanel pSincheongPanel;
+    private PLectureTable pMiriDamgiPanel;
+    private PLectureTable pSincheongPanel;
     public PSugangSincheongPanel() throws IOException {
         //this.setLayout(new GridLayout(1,2,10,10));
         ActionHandler actionHandler = new ActionHandler();
@@ -32,7 +30,7 @@ public class PSugangSincheongPanel extends JPanel {
         this.add(this.pControlPanel1);
 
         JScrollPane jScrollPane = new JScrollPane();
-        this.pMiriDamgiPanel = new PMiriDamgiPanel(listSelectionHandler);
+        this.pMiriDamgiPanel = new PLectureTable(Locale.DIRECTORY_DEPARTMENT);
         jScrollPane.setViewportView(this.pMiriDamgiPanel);
         this.add(jScrollPane);
 
@@ -40,7 +38,7 @@ public class PSugangSincheongPanel extends JPanel {
         this.add(this.pControlPanel2);
 
         jScrollPane = new JScrollPane();
-        this.pSincheongPanel = new PSincheongPanel(listSelectionHandler);
+        this.pSincheongPanel = new PLectureTable(Locale.DIRECTORY_DEPARTMENT);
         jScrollPane.setViewportView(this.pSincheongPanel);
         this.add(jScrollPane);
     }
@@ -48,7 +46,8 @@ public class PSugangSincheongPanel extends JPanel {
     //버튼으로 정보 옮기기
     private void moveFromLectureToMiridamgi() {
         Vector<VLecture> vLectures = this.pDirectoryPanel.getSelectedLectures();
-        this.pMiriDamgiPanel.addLectures(vLectures);
+//        this.pMiriDamgiPanel.addLectures(vLectures);
+        this.pMiriDamgiPanel.setData(vLectures);
         System.out.println("1. moveFromLectureToMiridamgi");
     }
     private void moveFromMiridamgiToLecture() {
@@ -59,19 +58,21 @@ public class PSugangSincheongPanel extends JPanel {
     }
     private void moveFromMiridamgiToSincheong() {
         Vector<VLecture> vLectures = this.pMiriDamgiPanel.getSelectedLectures();
-        this.pSincheongPanel.addLectures(vLectures);
+//        this.pSincheongPanel.addLectures(vLectures);
+        this.pSincheongPanel.setData(vLectures);
         System.out.println("3. moveFromMiridamgiToSincheong");
 
     }
     private void moveFromSincheongToMiridamgi() {
         //multi selection이 가능해서 벡터로 받아오는 것
         Vector<VLecture> vLectures = this.pSincheongPanel.getSelectedLectures();
-        this.pMiriDamgiPanel.addLectures(vLectures);
+//        this.pMiriDamgiPanel.addLectures(vLectures);
+        this.pMiriDamgiPanel.setData(vLectures);
         System.out.println("4. moveFromSincheongToMiridamgi");
 
     }
 
-    public class ActionHandler implements ActionListener {
+    public class ActionHandler implements ActionListener{
 
         @Override
         public void actionPerformed(ActionEvent e) {

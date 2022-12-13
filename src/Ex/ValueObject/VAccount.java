@@ -56,7 +56,7 @@ public class VAccount implements Serializable {
         return returnString+"\n";
     }
 
-    public String toString() {
+    public String getString() {
         String returnString = this.ID + "  " + this.PW + "  " +this.name + "  " + this.phoneNum+ "  " + this.eMail+ "  " + this.campus + "  "+this.college+ "  " + this.department+ "  " + this.grade+ "  " + this.sex;
         return returnString+"\n";
     }

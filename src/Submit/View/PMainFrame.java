@@ -1,11 +1,10 @@
 package Submit.View;
 
-import javax.swing.*;
-
 import Submit.Global.Constants;
 import Submit.Global.Locale;
 import Submit.ValueObject.VAccount;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -37,7 +36,7 @@ public class PMainFrame extends JFrame {
 
         //component 자식
         //그림을 그릴 수 있는 패널 생성.
-        this.setLayout(new BorderLayout(Constants.CMainFrame.HGAP,Constants.CMainFrame.VGAP));
+        this.setLayout(new BorderLayout(Constants.CMainFrame.HGAP, Constants.CMainFrame.VGAP));
 
 
         this.accountPanel=new PAccountPanel(this.vAccount);
@@ -56,7 +55,7 @@ public class PMainFrame extends JFrame {
         public void windowOpened(WindowEvent e) {}
         @Override
         public void windowClosing(WindowEvent e) {
-            int a= JOptionPane.showConfirmDialog(null, Locale.EXIT_SYSTEM_MESSAGE,Locale.EXIT_TITLE,JOptionPane.OK_CANCEL_OPTION);
+            int a= JOptionPane.showConfirmDialog(null, Locale.EXIT_SYSTEM_MESSAGE, Locale.EXIT_TITLE,JOptionPane.OK_CANCEL_OPTION);
             if(a==JOptionPane.OK_OPTION) setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             else if(a==JOptionPane.CANCEL_OPTION) setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         }

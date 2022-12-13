@@ -1,7 +1,8 @@
 package Submit.View;
 
-import javax.swing.*;
 import Submit.Global.Locale;
+
+import javax.swing.*;
 
 public class PControlPanel extends JPanel {
     private JButton rightButton, leftButton;
@@ -17,4 +18,7 @@ public class PControlPanel extends JPanel {
         this.leftButton.setActionCommand(panelID+this.leftButton.getText());
         this.add(leftButton);
     }
+    public Object getRightButton() {return this.rightButton;}
+    public Object getLeftButton() {return this.leftButton;}
+
 }

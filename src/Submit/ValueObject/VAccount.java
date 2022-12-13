@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.StringTokenizer;
 
 public class VAccount implements Serializable {
-
     private static final long serialVersionUID = 1L;
     private String ID;
     private String PW;

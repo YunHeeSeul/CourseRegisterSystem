@@ -36,4 +36,9 @@ public class VLecture {
             this.time = st.nextToken();
         }
     }
+
+    public String getString(){
+        String retVal = this.id + " " + this.name + " " + this.professor + " " + this.credit + " " + this.time;
+        return retVal + "\n";
+    }
 }
